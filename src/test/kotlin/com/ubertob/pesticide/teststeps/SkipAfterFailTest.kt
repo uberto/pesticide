@@ -1,5 +1,6 @@
 package com.ubertob.pesticide.teststeps
 
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory
@@ -14,7 +15,11 @@ class SkipAfterFailTest {
         (0..100).map {
             dynamicTest(
                 "Test $it"
-            ) { expectThat(it + it).isEqualTo(2 * it) }
+            ) {
+                Assumptions.assumeTrue(it % 3 == 0)
+
+                expectThat(it + it).isEqualTo(2 * it)
+            }
         }
 
 }
