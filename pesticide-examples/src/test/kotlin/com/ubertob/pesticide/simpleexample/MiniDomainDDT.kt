@@ -3,6 +3,7 @@ package com.ubertob.pesticide.simpleexample
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import kotlin.reflect.KProperty
 
 class MiniDomainDDT {
 
@@ -22,8 +23,34 @@ class MiniDomainDDT {
             expectThat(name).isEqualTo("Fred")
         }
 
+    }
+
+
+    fun <T> verify(f: T, block: T.(String) -> Unit) = block(f, "kiss")
+
+
+    // construct actors
+    val ann by ActorRef(::User)
+
+
+    @Test
+    fun `ann does something`() {
+        expectThat(ann.name).isEqualTo("Ann")
 
     }
 
-    fun <T> verify(f: T, block: T.(String) -> Unit) = block(f, "kiss")
 }
+
+class ActorRef(val actorConstructor: (String) -> Actor) {
+    operator fun getValue(miniDomainDDT: MiniDomainDDT, property: KProperty<*>): Actor =
+        actorConstructor(property.name)
+
+
+}
+
+interface Actor {
+    val name: String
+}
+
+
+data class User(override val name: String) : Actor
