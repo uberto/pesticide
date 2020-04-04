@@ -1,2 +1,4 @@
 rootProject.name = 'pesticide'
+include 'pesticide-core'
+include 'pesticide-examples'
 
