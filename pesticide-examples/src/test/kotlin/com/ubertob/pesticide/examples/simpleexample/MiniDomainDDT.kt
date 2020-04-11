@@ -1,4 +1,4 @@
-package com.ubertob.pesticide.simpleexample
+package com.ubertob.pesticide.examples.simpleexample
 
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -43,7 +43,7 @@ class MiniDomainDDT {
 
 class ActorRef(val actorConstructor: (String) -> Actor) {
     operator fun getValue(miniDomainDDT: MiniDomainDDT, property: KProperty<*>): Actor =
-        actorConstructor(property.name)
+        actorConstructor(property.name.capitalize())
 
 
 }

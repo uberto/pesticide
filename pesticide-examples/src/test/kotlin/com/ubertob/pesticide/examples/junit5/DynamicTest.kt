@@ -1,4 +1,4 @@
-package com.ubertob.pesticide.junit5
+package com.ubertob.pesticide.examples.junit5
 
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.DynamicTest

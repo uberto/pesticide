@@ -1,4 +1,4 @@
-package com.ubertob.pesticide.minutest
+package com.ubertob.pesticide.examples.minutest
 
 import dev.minutest.junit.JUnit5Minutests
 import dev.minutest.rootContext
