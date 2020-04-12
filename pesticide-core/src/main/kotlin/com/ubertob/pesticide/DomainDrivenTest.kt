@@ -100,15 +100,15 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
             )
         }
 
-    val onEmptyStage = DdtStep<D>("empty stage") { it }
+    val withoutSetting = DdtStep<D>("empty stage") { it }
 
-    fun <D : DomainUnderTest<*>> D.onStage(
+    fun <D : DomainUnderTest<*>> D.setting(
         block: D.() -> D
     ): DdtStep<D> =
         DdtStep("Preparing", block)
 
 
-    infix fun <D : DomainUnderTest<*>> DdtStep<D>.actorsPlay(steps: ScenarioSteps<D>): Scenario<D> =
+    infix fun <D : DomainUnderTest<*>> DdtStep<D>.atRise(steps: ScenarioSteps<D>): Scenario<D> =
         Scenario(
             "scenario",
             ScenarioSteps(listOf(this) + steps.steps, steps.WipData)

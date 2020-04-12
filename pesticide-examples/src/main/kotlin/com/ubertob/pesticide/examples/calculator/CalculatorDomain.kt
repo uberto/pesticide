@@ -6,22 +6,22 @@ import strikt.assertions.isEqualTo
 import java.util.concurrent.atomic.AtomicInteger
 
 
-fun allDomains() = setOf(
-    InMemoryExampleDomain(),
-    FakeHttpExampleDomain()
+fun allProtocols() = setOf(
+    `InMemoryCalcu latorDomain`(),
+    FakeHttpCalculatorDomain()
 ).asSequence()
 
-interface ExampleDomainUnderTest :
+interface CalculatorDomain :
     DomainUnderTest<DdtProtocol> {
     fun addNumber(num: Int)
 
     fun getTotal(): Int
-    fun startWithNumber(num: Int): ExampleDomainUnderTest
+    fun startWithNumber(num: Int): CalculatorDomain
 }
 
 
-class InMemoryExampleDomain :
-    ExampleDomainUnderTest {
+class `InMemoryCalcu latorDomain` :
+    CalculatorDomain {
 
     var tot = 0
 
@@ -31,7 +31,7 @@ class InMemoryExampleDomain :
 
     override fun getTotal(): Int = tot
 
-    override fun startWithNumber(num: Int): ExampleDomainUnderTest {
+    override fun startWithNumber(num: Int): CalculatorDomain {
         tot = num
         return this
     }
@@ -43,8 +43,8 @@ class InMemoryExampleDomain :
 }
 
 
-class FakeHttpExampleDomain :
-    ExampleDomainUnderTest {
+class FakeHttpCalculatorDomain :
+    CalculatorDomain {
 
     val tot = AtomicInteger(0)
 
@@ -53,7 +53,7 @@ class FakeHttpExampleDomain :
     }
 
     override fun getTotal(): Int = tot.get()
-    override fun startWithNumber(num: Int): ExampleDomainUnderTest {
+    override fun startWithNumber(num: Int): CalculatorDomain {
         tot.set(num)
         return this
     }
@@ -64,7 +64,7 @@ class FakeHttpExampleDomain :
 
 }
 
-data class Scolar(override val name: String) : DdtActor<ExampleDomainUnderTest> {
+data class Student(override val name: String) : DdtActor<CalculatorDomain> {
     fun `tells a number`(num: Int) = executeStep("Scolar tell $num to system") { addNumber(num) }
     fun `verifies the total`(expected: Int) = executeStep("Scolar verify the total is $expected") {
         expectThat(getTotal()).isEqualTo(expected)
