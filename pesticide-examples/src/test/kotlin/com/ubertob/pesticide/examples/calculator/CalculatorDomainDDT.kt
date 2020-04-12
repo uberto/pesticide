@@ -18,7 +18,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
     internal fun `sum three numbers`() = ddtScenario {
         setting {
             startWithNumber(128)
-        } atRise steps(
+        } atRise play(
             bart.`tells a number`(64),
             bart.`tells a number`(31),
             bart.`tells a number`(33),
@@ -32,7 +32,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
 
         setting {
             startWithNumber(100)
-        } atRise steps(
+        } atRise play(
             bart.`tells a number`(rndNum),
             bart.`verifies the total`(99)
         ).wip(of(2100, 1, 1))
@@ -46,7 +46,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
 
         setting {
             startWithNumber(128)
-        } atRise steps(
+        } atRise play(
             bart.`tells a number`(n1),
             bart.`tells a number`(n2),
             bart.`tells a number`(n3),
@@ -61,7 +61,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
     internal fun `without setting`() = ddtScenario {
         val rndNum = Random.nextInt()
 
-        withoutSetting atRise steps(
+        withoutSetting atRise play(
             bart.`tells a number`(rndNum),
             bart.`verifies the total`(rndNum)
         )

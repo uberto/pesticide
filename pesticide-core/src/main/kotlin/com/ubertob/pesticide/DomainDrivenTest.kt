@@ -32,7 +32,7 @@ typealias DDT = TestFactory
 
 abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>) {
 
-    fun steps(vararg stepsArray: DdtStep<D>): ScenarioSteps<D> =
+    fun play(vararg stepsArray: DdtStep<D>): ScenarioSteps<D> =
         ScenarioSteps(stepsArray.toList())
 
     fun Feature<D>.WIP(
