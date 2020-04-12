@@ -22,15 +22,15 @@ class DynamicTest {
             }
         }
 
-
-    @TestFactory
-    fun `multiple steps test failing`(): Collection<DynamicTest> =
-        (0..10).map {
-            dynamicTest(
-                "Test $it"
-            ) {
-                expectThat(it % 2).isEqualTo(0)
-            }
-        }
+//
+//    @TestFactory
+//    fun `multiple steps test failing`(): Collection<DynamicTest> =
+//        (0..10).map {
+//            dynamicTest(
+//                "Test $it"
+//            ) {
+//                expectThat(it % 2).isEqualTo(0)
+//            }
+//        }
 
 }

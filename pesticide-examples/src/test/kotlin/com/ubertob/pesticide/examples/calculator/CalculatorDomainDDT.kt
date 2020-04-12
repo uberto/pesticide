@@ -6,6 +6,7 @@ import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.examples.calculator.CalculatorDomain
 import com.ubertob.pesticide.examples.calculator.Student
 import com.ubertob.pesticide.examples.calculator.allProtocols
+import java.time.LocalDate
 import kotlin.random.Random
 
 
@@ -34,7 +35,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
         } atRise play(
             bart.`tells a number`(rndNum),
             bart.`verifies the total`(99)
-        ).wip(of(2100, 1, 1))
+        ).wip(LocalDate.of(2100, 1, 1), "Waiting for new century")
     }
 
     @DDT

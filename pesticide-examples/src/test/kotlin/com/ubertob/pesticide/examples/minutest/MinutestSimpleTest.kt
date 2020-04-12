@@ -18,10 +18,10 @@ class MyFirstMinutests : JUnit5Minutests {
             expectThat(2 * 2).isEqualTo(4)
         }
 
-
-        test("failing") {
-            expectThat(2).isEqualTo(4)
-        }
+//
+//        test("failing") {
+//            expectThat(2).isEqualTo(4)
+//        }
 
 
     }
