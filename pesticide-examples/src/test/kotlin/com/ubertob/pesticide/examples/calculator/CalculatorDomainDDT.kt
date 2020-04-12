@@ -15,7 +15,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
     val bart by ActorDelegate(::Student)
 
     @DDT
-    internal fun `sum three numbers`() = ddtScenario {
+    fun `sum three numbers`() = ddtScenario {
         setting {
             startWithNumber(128)
         } atRise play(
@@ -27,7 +27,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
     }
 
     @DDT
-    internal fun `with fixture and Work In Progress`() = ddtScenario {
+    fun `with fixture and Work In Progress`() = ddtScenario {
         val rndNum = Random.nextInt()
 
         setting {
@@ -39,7 +39,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
     }
 
     @DDT
-    internal fun `with fixture`() = ddtScenario {
+    fun `with fixture`() = ddtScenario {
         val n1 = 64
         val n2 = 31
         val n3 = 33
@@ -55,10 +55,8 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
     }
 
 
-
-
     @DDT
-    internal fun `without setting`() = ddtScenario {
+    fun `without setting`() = ddtScenario {
         val rndNum = Random.nextInt()
 
         withoutSetting atRise play(
