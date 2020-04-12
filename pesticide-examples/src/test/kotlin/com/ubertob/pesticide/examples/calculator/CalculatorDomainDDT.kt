@@ -6,7 +6,7 @@ import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.examples.calculator.CalculatorDomain
 import com.ubertob.pesticide.examples.calculator.Student
 import com.ubertob.pesticide.examples.calculator.allProtocols
-import java.time.LocalDate
+import java.time.LocalDate.of
 import kotlin.random.Random
 
 
@@ -26,6 +26,17 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
         )
     }
 
+    @DDT
+    internal fun `with fixture and Work In Progress`() = ddtScenario {
+        val rndNum = Random.nextInt()
+
+        setting {
+            startWithNumber(100)
+        } atRise steps(
+            bart.`tells a number`(rndNum),
+            bart.`verifies the total`(99)
+        ).wip(of(2100, 1, 1))
+    }
 
     @DDT
     internal fun `with fixture`() = ddtScenario {
@@ -43,17 +54,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
         )
     }
 
-    @DDT
-    internal fun `with fixture and Work In Progress`() = ddtScenario {
-        val rndNum = Random.nextInt()
 
-        setting {
-            startWithNumber(100)
-        } atRise steps(
-            bart.`tells a number`(rndNum),
-            bart.`verifies the total`(99)
-        ).wip(LocalDate.of(2100, 1, 1))
-    }
 
 
     @DDT
