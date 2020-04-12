@@ -64,7 +64,7 @@ class FakeHttpExampleDomain :
 
 }
 
-class Scolar : DdtActor<ExampleDomainUnderTest> {
+data class Scolar(override val name: String) : DdtActor<ExampleDomainUnderTest> {
     fun `tells a number`(num: Int) = executeStep("Scolar tell $num to system") { addNumber(num) }
     fun `verifies the total`(expected: Int) = executeStep("Scolar verify the total is $expected") {
         expectThat(getTotal()).isEqualTo(expected)

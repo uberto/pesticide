@@ -1,5 +1,6 @@
 package com.ubertob.pesticide.examples.simpleexample.com.ubertob.pesticide.simpleexample
 
+import com.ubertob.pesticide.ActorDelegate
 import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.examples.calculator.ExampleDomainUnderTest
@@ -13,7 +14,7 @@ class ExampleDomainDDT : DomainDrivenTest<ExampleDomainUnderTest>(
     allDomains()
 ) {
 
-    val bart = Scolar()
+    val bart by ActorDelegate(::Scolar)
 
     @DDT
     internal fun `style GWT`() = ddtScenario {
@@ -68,4 +69,5 @@ class ExampleDomainDDT : DomainDrivenTest<ExampleDomainUnderTest>(
     }
 
 }
+
 

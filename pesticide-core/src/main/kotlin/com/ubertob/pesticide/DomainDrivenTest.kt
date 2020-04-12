@@ -9,7 +9,9 @@ import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.fail
 import java.time.LocalDate
 import java.util.stream.Stream
+import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
 
 /**
@@ -118,3 +120,9 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
 
 }
 
+class ActorDelegate<D : DomainUnderTest<*>, A : DdtActor<D>>(val actorConstructor: (String) -> A) :
+    ReadOnlyProperty<DomainDrivenTest<D>, A> {
+    override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
+        actorConstructor(property.name.capitalize())
+
+}
