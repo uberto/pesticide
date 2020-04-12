@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 
 fun allProtocols() = setOf(
-    `InMemoryCalcu latorDomain`(),
+    InMemoryCalculatorDomain(),
     FakeHttpCalculatorDomain()
 ).asSequence()
 
@@ -20,7 +20,7 @@ interface CalculatorDomain :
 }
 
 
-class `InMemoryCalcu latorDomain` :
+class InMemoryCalculatorDomain :
     CalculatorDomain {
 
     var tot = 0
@@ -38,7 +38,7 @@ class `InMemoryCalcu latorDomain` :
 
     override val protocol = InMemoryHubs
 
-    override fun isStarted() = true
+    override fun isReady() = true
 
 }
 
@@ -60,7 +60,7 @@ class FakeHttpCalculatorDomain :
 
     override val protocol = PureHttp("fake")
 
-    override fun isStarted() = true
+    override fun isReady() = true
 
 }
 

@@ -14,19 +14,6 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 
-/**
- *
- * extend this class and write tests in this way:
- *
- *    @DDT
- *    fun myTest() =
- *        ddtFeature {
- *            set up stuff
- *            [WIP().]scenario(...[steps])
- *        }
- *
- */
-
 typealias DDT = TestFactory
 
 
@@ -35,22 +22,12 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
     fun play(vararg stepsArray: DdtStep<D>): ScenarioSteps<D> =
         ScenarioSteps(stepsArray.toList())
 
-    fun Feature<D>.WIP(
-        dueDate: LocalDate,
-        reason: String = "Work In Progress",
-        except: Set<KClass<out DdtProtocol>> = emptySet()
-    ): Feature<D> =
-        this.copy(wipData = WipData(dueDate, except, reason))
-
     fun ScenarioSteps<D>.wip(
         dueDate: LocalDate,
         reason: String = "Work In Progress",
         except: Set<KClass<out DdtProtocol>> = emptySet()
     ): ScenarioSteps<D> =
         this.copy(WipData = WipData(dueDate, except, reason))
-
-    fun Feature<D>.scenario(vararg steps: DdtStep<D>) =
-        Scenario("scenario", ScenarioSteps(steps.toList(), wipData)).runAsSingle()
 
     val timeoutInMillis = 1000
 
@@ -60,7 +37,7 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
         rootContext {
             domains.forEach { domain ->
                 context("running ${domain.description()}") {
-                    assertTrue(domain.isStarted(), "Protocol ${domain.protocol.desc} has started")
+                    assertTrue(domain.isReady(), "Protocol ${domain.protocol.desc} ready")
 
                     trapUnexpectedExceptions {
                         block(domain)
@@ -69,26 +46,6 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
                 }
             }
         }.toTestFactory()
-
-// probably not needed
-//
-//    fun <F:Any> ddtScenarioWithFixture(
-//        myFixture: F,
-//        block: D.(F) -> Scenario<D>
-//    ): Stream<out DynamicNode> =
-//        rootContext {
-//            domains.forEach { domain ->
-//                context("running ${domain.description()}") {
-//
-//                    expectThat(domain.isStarted()).describedAs("Protocol ${domain.protocol.desc} has started").isTrue()
-//
-//                    trapUnexpectedExceptions {
-//                        block(domain, myFixture)
-//                            .steps.runTests(this, domain)
-//                    }
-//                }
-//            }
-//        }.toTestFactory()
 
     private fun trapUnexpectedExceptions(block: () -> Unit) =
         try {
@@ -114,9 +71,7 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
             ScenarioSteps(listOf(this) + steps.steps, steps.WipData)
         )
 
-
     fun DomainUnderTest<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
-
 
 }
 

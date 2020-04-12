@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assumptions
 
 data class ScenarioSteps<D : DomainUnderTest<*>>(val steps: List<DdtStep<D>>, val WipData: WipData? = null) {
 
-    var alreadyFailed = false //hackish but it works
+    var alreadyFailed = false //dirty but it works
 
     fun runTests(testContextBuilder: TestContextBuilder<*, *>, domainUnderTest: D) =
         steps.map { step ->
