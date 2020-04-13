@@ -11,15 +11,14 @@ compileTestKotlin {
 
 dependencies {
     implementation project(":pesticide-core")
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "dev.minutest:minutest:1.11.0"
-    implementation "io.strikt:strikt-core:0.25.0"
 
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.6.1"
+    implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    implementation "dev.minutest:minutest:$minutestVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 
+    implementation "io.strikt:strikt-core:$striktVersion"
 }
 
 tasks {

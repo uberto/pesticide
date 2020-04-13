@@ -17,6 +17,12 @@ allprojects {
     }
 
 
+
+
+}
+
+
+subprojects {
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
     }
@@ -24,4 +30,10 @@ allprojects {
         kotlinOptions.jvmTarget = "1.8"
     }
 
+    ext{
+        junitVersion = "5.6.1"
+        minutestVersion = "1.11.0"
+        junitLauncherVersion = "1.6.1"
+        striktVersion = "0.25.0"
+    }
 }
