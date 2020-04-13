@@ -1,7 +1,7 @@
 package com.ubertob.pesticide
 
 
-data class DdtStep<D : DomainUnderTest<*>>(val description: String, val runnable: (D) -> D)
+data class DdtStep<D : DomainUnderTest<*>>(val description: String, val action: (D) -> D)
 
 interface DdtActor<D : DomainUnderTest<*>> {
 

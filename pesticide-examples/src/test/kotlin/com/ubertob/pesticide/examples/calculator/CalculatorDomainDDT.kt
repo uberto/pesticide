@@ -16,6 +16,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
 
     @DDT
     fun `sum three numbers`() = ddtScenario {
+
         setting {
             startWithNumber(128)
         } atRise play(
@@ -36,6 +37,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
             bart.`tells a number`(rndNum),
             bart.`verifies the total`(99)
         ).wip(LocalDate.of(2100, 1, 1), "Waiting for new century")
+
     }
 
     @DDT

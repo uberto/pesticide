@@ -1,6 +1,5 @@
 package com.ubertob.pesticide
 
-import anura.ddts.Scenario
 import dev.minutest.junit.toTestFactory
 import dev.minutest.rootContext
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -16,20 +15,22 @@ import kotlin.reflect.KProperty
 
 typealias DDT = TestFactory
 
+data class Setting<D : DomainUnderTest<*>>(val setUp: DdtStep<D>)
 
 abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>) {
 
-    fun play(vararg stepsArray: DdtStep<D>): ScenarioSteps<D> =
-        ScenarioSteps(stepsArray.toList())
+    fun play(vararg stepsArray: DdtStep<D>): Scenario<D> =
+        Scenario(stepsArray.toList())
 
-    fun ScenarioSteps<D>.wip(
+    fun Scenario<D>.wip(
         dueDate: LocalDate,
         reason: String = "Work In Progress",
         except: Set<KClass<out DdtProtocol>> = emptySet()
-    ): ScenarioSteps<D> =
-        this.copy(WipData = WipData(dueDate, except, reason))
+    ): Scenario<D> =
+        this.copy(wipData = WipData(dueDate, except, reason))
 
     val timeoutInMillis = 1000
+
 
     fun ddtScenario(
         block: D.() -> Scenario<D>
@@ -40,8 +41,7 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
                     assertTrue(domain.isReady(), "Protocol ${domain.protocol.desc} ready")
 
                     trapUnexpectedExceptions {
-                        block(domain)
-                            .steps.runTests(this, domain)
+                        block(domain).runTests(this, domain)
                     }
                 }
             }
@@ -57,19 +57,16 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
             )
         }
 
-    val withoutSetting = DdtStep<D>("empty stage") { it }
+    val D.withoutSetting: Setting<D>
+        get() = Setting(DdtStep("empty stage") { it })
 
     fun <D : DomainUnderTest<*>> D.setting(
         block: D.() -> D
-    ): DdtStep<D> =
-        DdtStep("Preparing", block)
+    ): Setting<D> = Setting(DdtStep("Preparing", block))
 
 
-    infix fun <D : DomainUnderTest<*>> DdtStep<D>.atRise(steps: ScenarioSteps<D>): Scenario<D> =
-        Scenario(
-            "scenario",
-            ScenarioSteps(listOf(this) + steps.steps, steps.WipData)
-        )
+    infix fun Setting<D>.atRise(steps: Scenario<D>): Scenario<D> =
+        Scenario(listOf(this.setUp) + steps.steps, steps.wipData)
 
     fun DomainUnderTest<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
 
