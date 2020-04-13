@@ -45,9 +45,9 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: List<DdtStep<D>>, val wip
         domain: D,
         name: String,
         testBlock: () -> Unit
-    ): NodeBuilder<out Any?> =
+    ): NodeBuilder<*> =
         test(name, if (wipData == null || wipData.shouldWorkFor(domain.protocol))
-            { f -> testBlock() }
+            { _ -> testBlock() }
         else
             wip(wipData.dueDate, testBlock)
         )
