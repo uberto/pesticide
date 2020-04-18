@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import java.net.URI
 import java.util.stream.Stream
 
 class DynamicTest {
@@ -59,6 +60,20 @@ class DynamicTest {
 //        if (num % 7 == 0)
 //            fail("7777")
     }
+
+
+    @TestFactory
+    fun `source url`(): Stream<out DynamicNode> =
+        (1..10).map {
+            dynamicTest(
+                "Test this $it",
+                URI.create("file:///home/ubertobarbini/idea.sh?line=$it")
+//URI.create("classpath:/test.txt?line=$it")  //despite doc classpath is not seem to work, maybe IntelliJ issue?
+//URI.create("classpath:/com/ubertob/pesticide/examples/junit5/DynamicTest.kt?line=$it")
+            ) {
+                expectThat(10).isEqualTo(10)
+            }
+        }.stream()
 
 
 }

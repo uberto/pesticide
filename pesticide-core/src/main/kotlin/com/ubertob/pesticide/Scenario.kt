@@ -18,7 +18,7 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
         domainUnderTest: D,
         step: DdtStep<D>
     ): DynamicNode =
-        dynamicTest(decorateTestName(domainUnderTest, step)) {
+        dynamicTest(decorateTestName(domainUnderTest, step), step.testSourceURI()) {
             execute(domainUnderTest, step)
         }
 
@@ -40,7 +40,7 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
 
 
     private fun decorateTestName(domainUnderTest: D, step: DdtStep<D>) =
-        "${domainUnderTest.protocol.desc} - ${step.description}"
+        "${domainUnderTest.protocol.desc} - ${step.description} ${step.testSourceURI()}"
 
 
     private fun checkWIP(wipData: WipData?, domain: D, testBlock: (D) -> D): D =

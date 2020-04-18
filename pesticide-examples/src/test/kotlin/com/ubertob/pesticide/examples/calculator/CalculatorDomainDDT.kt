@@ -1,11 +1,8 @@
-package com.ubertob.pesticide.examples.simpleexample.com.ubertob.pesticide.simpleexample
+package com.ubertob.pesticide.examples.calculator
 
 import com.ubertob.pesticide.ActorDelegate
 import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
-import com.ubertob.pesticide.examples.calculator.CalculatorDomain
-import com.ubertob.pesticide.examples.calculator.Student
-import com.ubertob.pesticide.examples.calculator.allProtocols
 import java.time.LocalDate
 import kotlin.random.Random
 
