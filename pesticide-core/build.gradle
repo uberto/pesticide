@@ -8,7 +8,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    implementation "dev.minutest:minutest:$minutestVersion"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }

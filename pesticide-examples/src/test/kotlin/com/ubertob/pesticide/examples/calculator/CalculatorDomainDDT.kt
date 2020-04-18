@@ -52,6 +52,7 @@ class CalculatorDomainDDT : DomainDrivenTest<CalculatorDomain>(allProtocols()) {
             bart.`tells a number`(n1),
             bart.`tells a number`(n2),
             bart.`tells a number`(n3),
+
             bart.`verifies the total`(256)
         )
     }

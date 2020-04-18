@@ -1,31 +1,32 @@
 package com.ubertob.pesticide
 
-import dev.minutest.NodeBuilder
-import dev.minutest.TestContextBuilder
 import org.junit.jupiter.api.Assumptions
+import org.junit.jupiter.api.DynamicNode
+import org.junit.jupiter.api.DynamicTest.dynamicTest
 
-data class Scenario<D : DomainUnderTest<*>>(val steps: List<DdtStep<D>>, val wipData: WipData? = null) {
 
-    var alreadyFailed = false //dirty but it works
+data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val wipData: WipData? = null) {
 
-    fun runTests(testContextBuilder: TestContextBuilder<*, *>, domainUnderTest: D) =
-        steps.forEach { step ->
+    var alreadyFailed = false //TODO replace it with a proper fold
 
-            try {
-                tryStep(testContextBuilder, domainUnderTest, step)
-            } catch (t: Throwable) {
-                println("got it!! $t")
-
-            }
+    fun createTests(domainUnderTest: D): Sequence<DynamicNode> =
+        steps.asSequence().map { step ->
+            createTest(domainUnderTest, step)
         }
 
-    private fun tryStep(
-        testContextBuilder: TestContextBuilder<*, *>,
+    private fun createTest(
         domainUnderTest: D,
         step: DdtStep<D>
-    ): NodeBuilder<out Any?> =
-//        testContextBuilder.context(decorateTestName(domainUnderTest, step)) {
-        testContextBuilder.wipTest(domainUnderTest, decorateTestName(domainUnderTest, step)) {
+    ): DynamicNode =
+        dynamicTest(decorateTestName(domainUnderTest, step)) {
+            execute(domainUnderTest, step)
+        }
+
+    private fun execute(
+        domainUnderTest: D,
+        step: DdtStep<D>
+    ): D =
+        checkWIP(wipData, domainUnderTest, {
             Assumptions.assumeFalse(alreadyFailed, "Skipped because of previous failures")
 
             try {
@@ -35,21 +36,18 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: List<DdtStep<D>>, val wip
                 throw t
             }
 
-        }
+        })
+
 
     private fun decorateTestName(domainUnderTest: D, step: DdtStep<D>) =
         "${domainUnderTest.protocol.desc} - ${step.description}"
 
 
-    private fun TestContextBuilder<*, *>.wipTest(
-        domain: D,
-        name: String,
-        testBlock: () -> Unit
-    ): NodeBuilder<*> =
-        test(name, if (wipData == null || wipData.shouldWorkFor(domain.protocol))
-            { _ -> testBlock() }
+    private fun checkWIP(wipData: WipData?, domain: D, testBlock: (D) -> D): D =
+        if (wipData == null || wipData.shouldWorkFor(domain.protocol))
+            testBlock(domain)
         else
-            wip(wipData.dueDate, testBlock)
-        )
+            executeInWIP(wipData.dueDate, testBlock)(domain)
+
 
 }

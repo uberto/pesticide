@@ -1,6 +1,5 @@
 package com.ubertob.pesticide
 
-import dev.minutest.TestDescriptor
 import org.junit.jupiter.api.fail
 import org.opentest4j.TestAbortedException
 import java.time.LocalDate
@@ -9,22 +8,24 @@ data class TestAbortedExceptionWIP(override val message: String, val throwable: 
     TestAbortedException(message, throwable)
 
 
-fun <F> wip(
+fun <D : DomainUnderTest<*>> executeInWIP(
     due: LocalDate,
-    f: () -> Unit
-): F.(testDescriptor: TestDescriptor) -> Unit = {
+    testBlock: (D) -> D
+): (D) -> D = { domain ->
     if (due < LocalDate.now()) {
         fail("Due date expired $due")
     } else {
         try {
-            f()
+            testBlock(domain)
+        } catch (aborted: TestAbortedExceptionWIP) {
+            throw aborted //nothing to do here
         } catch (t: Throwable) {
-            //all ok
+            //all the rest
             throw TestAbortedExceptionWIP(
                 "Test failed but this is ok until $due",
                 t
             )
         }
         throw TestAbortedExceptionWIP("Test succeded but you have to remove the WIP marker!")
-    }
+    } //TODO this should be raised at Scenario level, not single step. If a test succeed before WIP shouldn't hide a failing one.
 }

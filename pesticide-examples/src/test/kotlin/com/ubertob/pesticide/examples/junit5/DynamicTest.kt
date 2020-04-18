@@ -1,12 +1,13 @@
 package com.ubertob.pesticide.examples.junit5
 
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.DynamicContainer.dynamicContainer
+import org.junit.jupiter.api.DynamicNode
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.DynamicTest.dynamicTest
+import org.junit.jupiter.api.TestFactory
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import java.net.URI
 import java.util.stream.Stream
 
 class DynamicTest {
@@ -39,7 +40,8 @@ class DynamicTest {
     @TestFactory
     fun `dynamic nodes`(): Stream<out DynamicNode> =
         (0..5).map {
-            dynamicContainer("container $it", URI("/pippo"),
+            dynamicContainer(
+                "container $it",
                 (1..10).map {
 
                     dynamicTest(
@@ -54,8 +56,8 @@ class DynamicTest {
     private fun trivialExpectation(num: Int) {
         expectThat(num + num).isEqualTo(2 * num)
 
-        if (num % 7 == 0)
-            fail("7777")
+//        if (num % 7 == 0)
+//            fail("7777")
     }
 
 
