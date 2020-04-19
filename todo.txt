@@ -1,3 +1,16 @@
+Version and publish on maven central
+
+Add Apache licence
+
+More examples (including Java)
+
+Finish readme
+
+Add JavaDoc
+
+---
+tech debt:
+
 browse stack trace in a safer way for the default StepName
 browse stack trace in a safer way for the TestUri
 pass the domain from a test to another

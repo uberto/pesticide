@@ -1,5 +1,5 @@
 # Pesticide
-A Library To Write Domain-Driven Tests
+A Library To Write Domain-Driven Tests, written in Kotlin on top of Junit5.
 
 ## What are DDT?
 Unit-Tests are very useful but they work on a small scale, we can test only a few objects or functions in this way.
