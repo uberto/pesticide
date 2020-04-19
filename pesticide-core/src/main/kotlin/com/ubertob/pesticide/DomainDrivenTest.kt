@@ -1,11 +1,7 @@
 package com.ubertob.pesticide
 
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.DynamicContainer
-import org.junit.jupiter.api.DynamicContainer.dynamicContainer
 import org.junit.jupiter.api.DynamicNode
 import org.junit.jupiter.api.TestFactory
-import org.junit.jupiter.api.fail
 import java.time.LocalDate
 import java.util.stream.Stream
 import kotlin.properties.ReadOnlyProperty
@@ -34,43 +30,23 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
 
 
     fun ddtScenario(
-        block: D.() -> Scenario<D>
+        scenarioBuilder: () -> Scenario<D>
     ): Stream<out DynamicNode> =
-        domains.map(dynamicContainerBuilder(block)).asStream()
+        domains.map {
+            scenarioBuilder()(it)
+        }.asStream()
 
-    private fun dynamicContainerBuilder(
-        block: D.() -> Scenario<D>
-    ): (D) -> DynamicContainer = { domain ->
-        assertTrue(domain.isReady(), "Protocol ${domain.protocol.desc} ready")
 
-        val tests = trapUnexpectedExceptions {
-            block(domain).createTests(domain)
-        }
-        dynamicContainer("running ${domain.description()}", tests.asStream())
-    }
-
-    private fun <T : Any> trapUnexpectedExceptions(block: () -> T): T =
-        try {
-            block()
-        } catch (t: Throwable) {
-            fail(
-                "Unexpected Exception while initializing the tests. Have you forgotten to use executeStep in your steps? ",
-                t
-            )
-        }
-
-    val D.withoutSetting: Setting<D>
+    val withoutSetting: Setting<D>
         get() = Setting(DdtStep("empty stage") { it })
 
-    fun <D : DomainUnderTest<*>> D.setting(
+    fun setting(
         block: D.() -> D
     ): Setting<D> = Setting(DdtStep("Preparing", block))
 
 
     infix fun Setting<D>.atRise(steps: Scenario<D>): Scenario<D> =
         Scenario(listOf(this.setUp) + steps.steps, steps.wipData) //add source URL
-
-    fun DomainUnderTest<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
 
 }
 
