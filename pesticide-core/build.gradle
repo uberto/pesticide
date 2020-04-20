@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
+    id 'com.bmuschko.nexus' version '2.3.1'
 }
 
 
@@ -19,4 +20,48 @@ tasks {
             events "skipped", "failed", "passed"
         }
     }
+}
+
+
+
+archivesBaseName = 'pesticide-core'
+
+modifyPom {
+    project {
+        name 'pesticide'
+        description 'A Library To Write Domain-Driven Tests'
+        url 'https://github.com/uberto/pesticide'
+        inceptionYear '2020'
+        scm {
+            url 'https://github.com/uberto/pesticide'
+            connection 'https://github.com/uberto/pesticide.git'
+            developerConnection 'git@github.com:uberto/pesticide.git'
+        }
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+        developers {
+            developer {
+                id 'UbertoBarbini'
+                name 'Uberto Barbini'
+                email 'uberto.gama@gmail.com'
+            }
+        }
+    }
+}
+
+extraArchive {
+    sources = true
+    tests = false
+    javadoc = true
+}
+
+nexus {
+    sign = true
+    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
 }
