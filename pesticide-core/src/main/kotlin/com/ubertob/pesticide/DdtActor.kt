@@ -33,12 +33,14 @@ interface DdtActor<D : DomainUnderTest<*>> {
 
     val name: String
 
+    @JvmDefault
     fun generateStep(block: D.() -> Unit): DdtStep<D> =
         generateStep(getCurrentMethodName(), block)
 
     private fun getCurrentMethodName() =
         Thread.currentThread().stackTrace[3].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
 
+    @JvmDefault
     fun generateStep(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
         DdtStep(stepDesc) { it.also(block) }
 

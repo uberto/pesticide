@@ -2,19 +2,22 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
+//compileKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
+//compileTestKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
 
 dependencies {
     implementation project(":pesticide-core")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    implementation "dev.minutest:minutest:$minutestVersion"
+    implementation 'org.assertj:assertj-core:3.15.0'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testImplementation "dev.minutest:minutest:$minutestVersion"
+
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 

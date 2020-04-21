@@ -1,3 +1,4 @@
 ./gradlew uploadArchives -p pesticide-core
 
-#atm you need to update the version manually and close the repository from sonatype site
+
+#ftm you need to update the version manually and for non snapshop to close the repository from sonatype site
