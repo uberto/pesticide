@@ -3,12 +3,14 @@ package com.ubertob.pesticide.examples.stack;
 import com.ubertob.pesticide.DomainDrivenTest;
 import org.junit.jupiter.api.TestFactory;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+
 
 public class StackDDT extends DomainDrivenTest<StackDomain> {
     public StackDDT() {
         super(StackDomain.allProtocols());
     }
-
 
     StackUser sabine = new StackUser("Sabine");
 
@@ -37,6 +39,23 @@ public class StackDDT extends DomainDrivenTest<StackDomain> {
                         sabine.popANumber(5),
                         sabine.popANumber(4),
                         sabine.verifyStackSizeIs(0)
+                )
+        ));
+    }
+
+
+    @TestFactory
+    public void testWorkInProgress() {
+        ddtScenario(() -> atRise(
+                setting(d -> {
+                    d.pushNumber(5);
+                    return d;
+                }),
+                wip(
+                        play(
+                                sabine.popANumber(4)
+                        ), LocalDate.of(2100, 01, 01),
+                        "Impossible Stack", new HashSet<>()
                 )
         ));
     }
