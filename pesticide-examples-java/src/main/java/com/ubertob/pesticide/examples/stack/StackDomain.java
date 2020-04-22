@@ -5,6 +5,7 @@ import com.ubertob.pesticide.DdtProtocol;
 import com.ubertob.pesticide.DomainUnderTest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 interface StackDomain extends DomainUnderTest<DdtProtocol> {
     void pushNumber(int num);
@@ -14,6 +15,9 @@ interface StackDomain extends DomainUnderTest<DdtProtocol> {
     int size();
 
     static Iterable<StackDomain> allProtocols() {
-        return new ArrayList<>();
+        List<StackDomain> domains = new ArrayList<>();
+        domains.add(new StackDomainFakeHttp());
+        domains.add(new StackDomainInMemory());
+        return domains;
     }
 }

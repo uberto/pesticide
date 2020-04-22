@@ -1,4 +1,5 @@
 rootProject.name = 'pesticide'
 include 'pesticide-core'
 include 'pesticide-examples'
+include 'pesticide-examples-java'
 
