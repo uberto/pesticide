@@ -2,6 +2,7 @@ package com.ubertob.pesticide
 
 import java.io.File
 import java.net.URI
+import java.util.function.Consumer
 
 
 data class DdtStep<D : DomainUnderTest<*>>(val description: String, val action: (D) -> D) {
@@ -43,5 +44,14 @@ interface DdtActor<D : DomainUnderTest<*>> {
     @JvmDefault
     fun generateStep(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
         DdtStep(stepDesc) { it.also(block) }
+
+
+    @JvmDefault
+    fun generateStep(stepDesc: String, block: Consumer<D>): DdtStep<D> =
+        generateStep(stepDesc, block::accept)
+
+    @JvmDefault
+    fun generateStep(block: Consumer<D>): DdtStep<D> =
+        generateStep(block::accept)
 
 }

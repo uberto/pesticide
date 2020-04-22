@@ -2,7 +2,6 @@ package com.ubertob.pesticide.examples.stack;
 
 import com.ubertob.pesticide.DdtActor;
 import com.ubertob.pesticide.DdtStep;
-import kotlin.Unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +24,6 @@ public class StackUser implements DdtActor<StackDomain> {
             domain.pushNumber(x);
 
             assertThat(domain.size()).isEqualTo(size + 1);
-            return Unit.INSTANCE;
         });
     }
 
@@ -34,7 +32,14 @@ public class StackUser implements DdtActor<StackDomain> {
                     int x = domain.popNumber();
 
                     assertThat(x).isEqualTo(expected);
-                    return Unit.INSTANCE;
+                }
+        );
+    }
+
+    DdtStep<StackDomain> verifyStackSizeIs(int expected) {
+        return generateStep(
+                domain -> {
+                    assertThat(domain.size()).isEqualTo(expected);
                 }
         );
     }

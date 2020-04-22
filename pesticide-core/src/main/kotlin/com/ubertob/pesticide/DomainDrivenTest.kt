@@ -7,14 +7,13 @@ import java.util.stream.Stream
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-import kotlin.streams.asStream
 
 
 typealias DDT = TestFactory
 
 data class Setting<D : DomainUnderTest<*>>(val setUp: DdtStep<D>)
 
-abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>) {
+abstract class DomainDrivenTest<D : DomainUnderTest<*>>(private val domains: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D>): Scenario<D> =
         Scenario(stepsArray.toList())
@@ -34,11 +33,11 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(val domains: Sequence<D>
     ): Stream<out DynamicNode> =
         domains.map {
             scenarioBuilder()(it)
-        }.asStream()
+        }.toList().stream()
 
 
-    val withoutSetting: Setting<D>
-        get() = Setting(DdtStep("empty stage") { it })
+    @JvmField
+    val withoutSetting: Setting<D> = Setting(DdtStep("empty stage") { it })
 
     fun setting(
         block: D.() -> D

@@ -6,10 +6,10 @@ import strikt.assertions.isEqualTo
 import java.util.concurrent.atomic.AtomicInteger
 
 
-fun allProtocols() = setOf(
+fun allCalculatorProtocols() = setOf(
     InMemoryCalculatorDomain(),
     FakeHttpCalculatorDomain()
-).asSequence()
+)
 
 interface CalculatorDomain :
     DomainUnderTest<DdtProtocol> {
