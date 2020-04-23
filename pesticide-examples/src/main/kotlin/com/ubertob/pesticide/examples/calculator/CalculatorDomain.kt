@@ -6,7 +6,7 @@ import strikt.assertions.isEqualTo
 import java.util.concurrent.atomic.AtomicInteger
 
 
-fun allCalculatorProtocols() = setOf(
+fun allCalculatorAbstractions() = setOf(
     InMemoryCalculatorDomain(),
     FakeHttpCalculatorDomain()
 )
