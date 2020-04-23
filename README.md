@@ -8,8 +8,14 @@ We also need a way to test our full application end-to-end in order to be sure t
 
 Nat Pryce invented the Domain-Driven style of tests when he got tired of tests written in a way "click here and then click there".
 
+[see](https://www.youtube.com/watch?v=Fk4rCn4YLLU)
+
+They also are influenced by Serenity and the Screenplay pattern by Anthony Marcano.
+
+[see] (https://www.infoq.com/articles/Beyond-Page-Objects-Test-Automation-Serenity-Screenplay/)
+
 They have been named from the concern that tests should concentrate on the business domain and he named this style DDT also as a pun since they are quite efficient in killing bugs (like the pesticide).
-We also aim to use the same terms both in our tests and in the conversation with the business people. In this way, we can facilitate the communication between people working on the software and the business domain experts. This practice is sometimes called the ubiquitous language. For more information see [https://martinfowler.com/bliki/UbiquitousLanguage.html]
+We also aim to use the same terms both in our tests and in the conversation with the business people. In this way, we can facilitate the communication between people working on the software and the business domain experts. This practice is sometimes called the ubiquitous language, [see](https://martinfowler.com/bliki/UbiquitousLanguage.html)
 
 The goal is to describe our stories as interactions between actors (mostly human beings)  and as an abstraction of our system. Using different system implementations we can reach these benefits:
 
@@ -21,6 +27,6 @@ The goal is to describe our stories as interactions between actors (mostly human
 - Make sure there is no infrastructure in the business layer
 
 ## How does Pesticide work?
-See examples in the pesticide-example projects
+See some Kotlin examples in the pesticide-example project and some Java examples in the pesticide-example-java project.
 
 TBC
