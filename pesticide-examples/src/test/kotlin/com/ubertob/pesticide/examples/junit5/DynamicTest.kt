@@ -16,7 +16,7 @@ class DynamicTest {
 
     @TestFactory
     fun `multiple steps test with skip`(): Collection<DynamicTest> =
-        (0..100).map {
+        (0..10).map {
             dynamicTest(
                 "Test $it"
             ) {
@@ -64,7 +64,7 @@ class DynamicTest {
 
     @TestFactory
     fun `source url`(): Stream<out DynamicNode> =
-        (1..10).map {
+        (1..3).map {
             dynamicTest(
                 "Test this $it",
                 URI.create("file:///home/ubertobarbini/idea.sh?line=$it")

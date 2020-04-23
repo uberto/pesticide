@@ -1,6 +1,6 @@
 package com.ubertob.pesticide
 
-import org.junit.jupiter.api.DynamicNode
+import org.junit.jupiter.api.DynamicContainer
 import org.junit.jupiter.api.TestFactory
 import java.time.LocalDate
 import java.util.stream.Stream
@@ -30,7 +30,7 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(private val domains: Ite
 
     fun ddtScenario(
         scenarioBuilder: () -> Scenario<D>
-    ): Stream<out DynamicNode> =
+    ): Stream<DynamicContainer> =
         domains.map {
             scenarioBuilder()(it)
         }.toList().stream()

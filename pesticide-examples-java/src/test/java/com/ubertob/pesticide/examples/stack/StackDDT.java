@@ -1,13 +1,16 @@
 package com.ubertob.pesticide.examples.stack;
 
 import com.ubertob.pesticide.DomainDrivenTest;
+import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.TestFactory;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.stream.Stream;
 
 
 public class StackDDT extends DomainDrivenTest<StackDomain> {
+
     public StackDDT() {
         super(StackDomain.allProtocols());
     }
@@ -15,8 +18,8 @@ public class StackDDT extends DomainDrivenTest<StackDomain> {
     StackUser sabine = new StackUser("Sabine");
 
     @TestFactory
-    public void push3Numbers() {
-        ddtScenario(() -> atRise(
+    public Stream<DynamicContainer> push3Numbers() {
+        return ddtScenario(() -> atRise(
                 withoutSetting,
                 play(
                         sabine.pushANumber(4),
@@ -28,8 +31,8 @@ public class StackDDT extends DomainDrivenTest<StackDomain> {
     }
 
     @TestFactory
-    public void pushAndPull() {
-        ddtScenario(() -> atRise(
+    public Stream<DynamicContainer> pushAndPull() {
+        return ddtScenario(() -> atRise(
                 withoutSetting,
                 play(
                         sabine.pushANumber(4),
@@ -45,8 +48,8 @@ public class StackDDT extends DomainDrivenTest<StackDomain> {
 
 
     @TestFactory
-    public void testWorkInProgress() {
-        ddtScenario(() -> atRise(
+    public Stream<DynamicContainer> testWorkInProgress() {
+        return ddtScenario(() -> atRise(
                 setting(d -> {
                     d.pushNumber(5);
                     return d;
