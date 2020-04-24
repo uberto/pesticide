@@ -6,9 +6,8 @@ plugins {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    api "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    api "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 tasks {

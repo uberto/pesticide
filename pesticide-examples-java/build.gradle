@@ -8,9 +8,7 @@ dependencies {
     implementation 'org.assertj:assertj-core:3.15.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 }
 
