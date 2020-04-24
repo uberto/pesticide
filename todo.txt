@@ -1,8 +1,4 @@
-Version and publish on maven central
-
-Add Apache licence
-
-More examples (including Java)
+A complex example with http4k
 
 Finish readme
 
