@@ -28,7 +28,6 @@ subprojects {
         striktVersion = "0.25.0"
     }
 
-
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
     }
@@ -36,12 +35,4 @@ subprojects {
         kotlinOptions.jvmTarget = "1.8"
     }
 
-
-    //Support @JvmDefault
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-        kotlinOptions {
-            freeCompilerArgs = ['-Xjvm-default=enable'] //enable or compatibility
-            jvmTarget = "1.8"
-        }
-    }
 }

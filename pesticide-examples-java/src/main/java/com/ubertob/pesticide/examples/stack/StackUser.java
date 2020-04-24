@@ -5,7 +5,7 @@ import com.ubertob.pesticide.DdtStep;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StackUser implements DdtActor<StackDomain> {
+public class StackUser extends DdtActor<StackDomain> {
 
     private final String name;
 

@@ -6,7 +6,6 @@ dependencies {
     implementation project(":pesticide-core")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    testImplementation "dev.minutest:minutest:$minutestVersion"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
