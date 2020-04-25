@@ -1,0 +1,42 @@
+package com.ubertob.pesticide.examples.fables
+
+import com.ubertob.pesticide.DdtActor
+import com.ubertob.pesticide.DdtStep
+
+data class LittleGirl(override val name: String) : DdtActor<FablesDomain>() {
+    fun `get basket with goods`(value: Int): DdtStep<FablesDomain> {
+        return TODO("not implemented")
+    }
+
+    fun `go into the forest`(): DdtStep<FablesDomain> {
+        return TODO("not implemented")
+    }
+
+    fun `tell the GrandMa location to`(wolf: Wolf): DdtStep<FablesDomain> {
+        return TODO("not implemented")
+    }
+
+    fun `bring goods to GrandMa`(): DdtStep<FablesDomain> {
+        TODO("not implemented")
+    }
+
+    fun `jump out belly of`(wolf: Wolf): DdtStep<FablesDomain> {
+        TODO("not implemented")
+    }
+
+}
+
+data class Wolf(override val name: String) : DdtActor<FablesDomain>() {
+    fun goesAndEatGrandMa(): DdtStep<FablesDomain> {
+        return TODO("not implemented")
+    }
+
+    fun `talk to and eat`(littleRedRidingHood: LittleGirl): DdtStep<FablesDomain> {
+        TODO("not implemented")
+    }
+
+    fun `get killed by hunter`(): DdtStep<FablesDomain> {
+        TODO("not implemented")
+    }
+
+}
