@@ -50,7 +50,7 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(private val domains: Ite
 }
 
 
-class ActorDelegate<D : DomainUnderTest<*>, A : DdtActor<D>>(val actorConstructor: (String) -> A) :
+class NamedActor<D : DomainUnderTest<*>, A : DdtActor<D>>(val actorConstructor: (String) -> A) :
     ReadOnlyProperty<DomainDrivenTest<D>, A> {
     override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
         actorConstructor(property.name.capitalize())

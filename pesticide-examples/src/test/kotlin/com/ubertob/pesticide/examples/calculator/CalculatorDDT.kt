@@ -1,15 +1,15 @@
 package com.ubertob.pesticide.examples.calculator
 
-import com.ubertob.pesticide.ActorDelegate
 import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
+import com.ubertob.pesticide.NamedActor
 import java.time.LocalDate
 import kotlin.random.Random
 
 
 class CalculatorDDT : DomainDrivenTest<CalculatorDomain>(allCalculatorAbstractions()) {
 
-    val bart by ActorDelegate(::Student)
+    val bart by NamedActor(::Student)
 
     @DDT
     fun `sum three numbers`() = ddtScenario {

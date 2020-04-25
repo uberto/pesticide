@@ -1,4 +1,10 @@
-A complex example with http4k
+PetShop example with http4k
+
+PetShop example in Java
+
+An example with different protocols
+
+An example using Html UI
 
 Finish readme
 
