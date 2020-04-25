@@ -1,24 +1,23 @@
 package com.ubertob.pesticide
 
 /*
-type class inspired approach...
+type class inspired approach, to be validated...
 
-data class CQDomainApi<D: DomainUnderTest<*>>(
+
+data class CQDomainApi<D : DomainUnderTest<*>>(
     val execCommand: (DomainCommand<D>) -> D,
     val execQuery: (DomainQuery<D, *>) -> D
 ) {
 
-  fun D.perform(action: DomainAction<D>) =
-      when(action){
-          is DomainQuery<D, *> -> execQuery(action)
-          is DomainCommand<D> -> execCommand(action)
-          else -> this //ignore the rest
-      }
+    fun D.perform(action: DomainAction<D>): D =
+        when (action) {
+            is DomainQuery<D, *> -> execQuery(action)
+            is DomainCommand<D> -> execCommand(action)
+            else -> this //ignore the rest
+        }
 
-   fun DomainAction<D>.bind(anotherAction: action: DomainAction<D>): DomainAction<D> = TODO()
-
+    fun D.fold(actions: Iterable<DomainAction<D>>): D = TODO()
 }
-
 */
 
 
