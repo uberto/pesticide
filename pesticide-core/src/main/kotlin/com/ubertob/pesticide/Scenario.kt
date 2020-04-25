@@ -2,7 +2,9 @@ package com.ubertob.pesticide
 
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.DynamicTest.dynamicTest
+import org.opentest4j.TestAbortedException
 import java.time.LocalDate
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.streams.asStream
 
 
@@ -23,19 +25,21 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
         return DynamicContainer.dynamicContainer("$inWip${domain.description()}", tests.asStream())
     }
 
+    fun createTests(domain: D): Sequence<DynamicNode> {
+        val currentDomain = AtomicReference(domain)
 
-    fun createTests(domain: D): Sequence<DynamicNode> =
-        steps.asSequence().map { step ->
-            createTest(domain, step)
-        }
+        return steps.map { step ->
+            createTest(step, currentDomain)
+        }.asSequence()
+    }
 
     private fun createTest(
-        domainUnderTest: D,
-        step: DdtStep<D>
-    ): DynamicNode =
-        dynamicTest(decorateTestName(domainUnderTest, step), step.testSourceURI()) {
-            execute(domainUnderTest, step)  //TODO do a fold so that domain will come from the previous test
-        }
+        step: DdtStep<D>,
+        currentDomain: AtomicReference<D>
+    ): DynamicTest = dynamicTest(decorateTestName(currentDomain.get(), step), step.testSourceURI()) {
+        currentDomain.set(execute(currentDomain.get(), step))
+    }
+
 
     private fun execute(
         domainUnderTest: D,
@@ -81,4 +85,32 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
         }
 
     fun DomainUnderTest<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
+
+
+    private fun <D : DomainUnderTest<*>> executeInWIP(
+        due: LocalDate,
+        testBlock: (D) -> D
+    ): (D) -> D = { domain ->
+        if (due < LocalDate.now()) {
+            fail("Due date expired $due")
+        } else {
+            try {
+                testBlock(domain)
+            } catch (aborted: TestAbortedExceptionWIP) {
+                throw aborted //nothing to do here
+            } catch (t: Throwable) {
+                //all the rest
+                throw TestAbortedExceptionWIP(
+                    "Test failed but this is ok until $due",
+                    t
+                )
+            }
+            throw TestAbortedExceptionWIP("Test succeded but you have to remove the WIP marker!")
+        }
+    }
+
+    data class TestAbortedExceptionWIP(override val message: String, val throwable: Throwable? = null) :
+        TestAbortedException(message, throwable)
+
 }
+
