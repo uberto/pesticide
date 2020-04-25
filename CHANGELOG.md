@@ -3,6 +3,9 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v0.9.6
+- pass the domain from one step to the next
+
 ### v0.9.5
 - added junit5 as api dependency
 

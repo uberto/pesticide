@@ -40,7 +40,6 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
         currentDomain.set(execute(currentDomain.get(), step))
     }
 
-
     private fun execute(
         domainUnderTest: D,
         step: DdtStep<D>
