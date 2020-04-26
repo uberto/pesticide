@@ -1,14 +1,22 @@
+Finish Fables example working
+
+PetShop example using Commands and Query handler
+
 PetShop example with http4k
 
-PetShop example in Java
+PetShop similar example in Java
+
+Add configuration details and startup instructions to readme
+
+Add details about all the examples in readme
+
+Write blog post on how to create DDTs and what are the responsabilities of each part
+
+Add JavaDoc
 
 An example with different protocols
 
 An example using Html UI
-
-Finish readme
-
-Add JavaDoc
 
 ---
 tech debt:

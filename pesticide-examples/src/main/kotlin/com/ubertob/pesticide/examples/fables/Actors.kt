@@ -33,7 +33,7 @@ data class Human(override val name: String) : DdtActor<FablesDomain>() {
     }
 
     fun `cannot receive the goods`(): DdtStep<FablesDomain> {
-
+        return TODO("not implemented")
     }
 
 }
