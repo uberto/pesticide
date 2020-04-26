@@ -17,7 +17,7 @@ class FablesDDT : DomainDrivenTest<FablesDomain>(
 
     @DDT
     fun `little red riding hood goes into the forest`() = ddtScenario {
-
+//should we use 3rd person or imperative?
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
@@ -25,12 +25,44 @@ class FablesDDT : DomainDrivenTest<FablesDomain>(
             littleRedRidingHood.`go into the forest`(),
             littleRedRidingHood.`tell the GrandMa location to`(bigBadWolf),
             bigBadWolf.`meet and eat`(grandMa),
-            littleRedRidingHood.`goes to GrandMa's house`(),
+            littleRedRidingHood.`go to GrandMa's house`(),
             bigBadWolf.`meet and eat`(littleRedRidingHood),
             bigBadWolf.`get killed by hunter`(),
             littleRedRidingHood.`jump out belly of`(bigBadWolf),
             grandMa.`jump out belly of`(bigBadWolf),
-            littleRedRidingHood.`delivey goods to`(grandMa, 100)
+            grandMa.`receive the goods worth`(100)
+        ).wip(LocalDate.of(2020, 5, 30))
+    }
+
+    @DDT
+    fun `smart girl scenario`() = ddtScenario {
+
+        setting {
+            aGrandMaLivingAloneIntoTheForest()
+        } atRise play(
+            littleRedRidingHood.`get basket with goods`(50),
+            littleRedRidingHood.`go into the forest`(),
+            //skip revealing the location to the wolf
+            bigBadWolf.`cannot meet and eat`(grandMa),
+            grandMa.`receive the goods worth`(50)
+        ).wip(LocalDate.of(2020, 5, 30))
+    }
+
+    @DDT
+    fun `wolf wins scenario`() = ddtScenario {
+        setting {
+            aGrandMaLivingAloneIntoTheForest()
+        } atRise play(
+            littleRedRidingHood.`get basket with goods`(100),
+            littleRedRidingHood.`go into the forest`(),
+            littleRedRidingHood.`tell the GrandMa location to`(bigBadWolf),
+            bigBadWolf.`meet and eat`(grandMa),
+            littleRedRidingHood.`go to GrandMa's house`(),
+            bigBadWolf.`meet and eat`(littleRedRidingHood),
+            //hunter forgot to kill the wolf
+            littleRedRidingHood.`cannot jump out belly of`(bigBadWolf),
+            grandMa.`cannot jump out belly of`(bigBadWolf),
+            grandMa.`cannot receive the goods`()
         ).wip(LocalDate.of(2020, 5, 30))
     }
 }

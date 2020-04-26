@@ -16,7 +16,7 @@ data class Human(override val name: String) : DdtActor<FablesDomain>() {
         return TODO("not implemented")
     }
 
-    fun `goes to GrandMa's house`(): DdtStep<FablesDomain> {
+    fun `go to GrandMa's house`(): DdtStep<FablesDomain> {
         TODO("not implemented")
     }
 
@@ -24,8 +24,16 @@ data class Human(override val name: String) : DdtActor<FablesDomain>() {
         TODO("not implemented")
     }
 
-    fun `delivey goods to`(human: Human, expectedValue: Int): DdtStep<FablesDomain> {
+    fun `receive the goods worth`(expectedValue: Int): DdtStep<FablesDomain> {
         return TODO("not implemented")
+    }
+
+    fun `cannot jump out belly of`(wolf: Wolf): DdtStep<FablesDomain> {
+        return TODO("not implemented")
+    }
+
+    fun `cannot receive the goods`(): DdtStep<FablesDomain> {
+
     }
 
 }
@@ -37,6 +45,10 @@ data class Wolf(override val name: String) : DdtActor<FablesDomain>() {
 
     fun `get killed by hunter`(): DdtStep<FablesDomain> {
         TODO("not implemented")
+    }
+
+    fun `cannot meet and eat`(human: Human): DdtStep<FablesDomain> {
+        return TODO("not implemented")
     }
 
 }
