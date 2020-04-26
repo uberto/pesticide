@@ -9,7 +9,7 @@ class FablesDomain : DomainUnderTest<DdtProtocol> {
 
     override fun isReady(): Boolean = true
 
-    fun aGrandMaLivingAlone(): FablesDomain {
+    fun aGrandMaLivingAloneIntoTheForest(): FablesDomain {
         return this
     }
 
