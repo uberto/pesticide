@@ -6,9 +6,11 @@ dependencies {
     implementation project(":pesticide-core")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
-
+    //DomainUnderTest and Actors are in src/main, not in test...
+    implementation "com.codeborne:selenide:4.14.2"
     implementation "io.strikt:strikt-core:$striktVersion"
+
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 }
 
 tasks {
@@ -17,5 +19,10 @@ tasks {
         testLogging {
             events "skipped", "failed", "passed"
         }
+        //show println in test console
+        testLogging.showStandardStreams = true
+
+        // start tests every time, even when code not changed
+        outputs.upToDateWhen { false }
     }
 }
