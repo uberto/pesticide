@@ -78,7 +78,7 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
             block()
         } catch (t: Throwable) {
             fail(
-                "Unexpected Exception while initializing the tests. Have you forgotten to use generateStep in your actors? ",
+                "Unexpected Exception while creating the tests. Have you forgotten to use generateStep in your actors? ",
                 t
             )
         }
