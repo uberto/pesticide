@@ -17,7 +17,7 @@ class FablesDDT : DomainDrivenTest<FablesDomain>(
 
     @DDT
     fun `little red riding hood goes into the forest`() = ddtScenario {
-//should we use 3rd person or imperative?
+//should we use 3rd person, imperative or "can xy" style?
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
