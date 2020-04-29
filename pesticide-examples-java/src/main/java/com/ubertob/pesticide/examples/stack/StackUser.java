@@ -19,7 +19,7 @@ public class StackUser extends DdtActor<StackDomain> {
     }
 
     DdtStep<StackDomain> pushANumber(int x) {
-        return generateStep(domain -> {
+        return step("push " + x + " into stack", domain -> {
             int size = domain.size();
             domain.pushNumber(x);
 
@@ -28,7 +28,7 @@ public class StackUser extends DdtActor<StackDomain> {
     }
 
     DdtStep<StackDomain> popANumber(int expected) {
-        return generateStep(domain -> {
+        return step("pop from stack and expect " + expected, domain -> {
                     int x = domain.popNumber();
 
                     assertThat(x).isEqualTo(expected);
@@ -37,7 +37,7 @@ public class StackUser extends DdtActor<StackDomain> {
     }
 
     DdtStep<StackDomain> verifyStackSizeIs(int expected) {
-        return generateStep(
+        return step("verify stack size is " + expected,
                 domain -> {
                     assertThat(domain.size()).isEqualTo(expected);
                 }

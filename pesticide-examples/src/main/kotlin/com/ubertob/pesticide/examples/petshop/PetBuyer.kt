@@ -8,8 +8,8 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>() {
-    fun `check the price of`(petName: String, expectedPrice: Int): DdtStep<PetShopDomainWrapper> =
-        generateStep("check that the price of $petName is $expectedPrice") {
+    fun `check that the price of $ is $`(petName: String, expectedPrice: Int): DdtStep<PetShopDomainWrapper> =
+        generateStepName(petName, expectedPrice) {
             AskPrice(petName) { price ->
                 expectThat(expectedPrice).isEqualTo(price)
             }.doIt()
@@ -17,8 +17,8 @@ data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>(
         }
 
 
-    fun `buy a`(petName: String): DdtStep<PetShopDomainWrapper> =
-        generateStep("buy a $petName") {
+    fun `buy a $`(petName: String): DdtStep<PetShopDomainWrapper> =
+        generateStepName(petName) {
             BuyPet(petName).doIt()
         }
 

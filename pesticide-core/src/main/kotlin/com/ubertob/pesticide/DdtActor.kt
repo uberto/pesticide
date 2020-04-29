@@ -34,20 +34,27 @@ abstract class DdtActor<D : DomainUnderTest<*>> {
 
     abstract val name: String
 
-    fun generateStep(block: D.() -> Unit): DdtStep<D> =
-        generateStep(getCurrentMethodName(), block)
-
     private fun getCurrentMethodName() =
         Thread.currentThread().stackTrace[3].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
 
-    fun generateStep(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
+    fun generateStepName(block: D.() -> Unit): DdtStep<D> =
+        step(getCurrentMethodName(), block)
+
+    fun generateStepName(vararg parameters: Any, block: D.() -> Unit): DdtStep<D> =
+        step(getCurrentMethodName().replaceDollars(parameters), block)
+
+    fun step(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
         DdtStep(stepDesc) { it.also(block) }
 
 
-    fun generateStep(stepDesc: String, block: Consumer<D>): DdtStep<D> =
-        generateStep(stepDesc, block::accept)
-
-    fun generateStep(block: Consumer<D>): DdtStep<D> =
-        generateStep(block::accept)
+    //mainly for Java use
+    fun step(stepDesc: String, block: Consumer<D>): DdtStep<D> =
+        step(stepDesc, block::accept)
 
 }
+
+private fun String.replaceDollars(parameters: Array<out Any>): String = parameters
+    .map(Any::toString)
+    .fold(this) { text, param ->
+        text.replaceFirst("$", param)
+    }

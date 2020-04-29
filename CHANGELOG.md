@@ -5,6 +5,7 @@ changes with their rationale when appropriate:
 
 ### v0.9.6
 - pass the domain from one step to the next
+- improved the step auto naming
 
 ### v0.9.5
 - added junit5 as api dependency

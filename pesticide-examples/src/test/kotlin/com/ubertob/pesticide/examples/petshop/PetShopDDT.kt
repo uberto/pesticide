@@ -18,9 +18,9 @@ class PetShopDDT : DomainDrivenTest<PetShopDomainWrapper>(allPetShopAbstractions
         setting {
             populateShop(lamb, hamster)
         } atRise play(
-            mary.`check the price of`("lamb", 64),
-            mary.`check the price of`("hamster", 128),
-            mary.`buy a`("lamb")
+            mary.`check that the price of $ is $`("lamb", 64),
+            mary.`check that the price of $ is $`("hamster", 128),
+            mary.`buy a $`("lamb")
         ).wip(LocalDate.of(2020, 5, 30), "Complete domain and actors", setOf(InMemoryHubs::class))
     }
 
