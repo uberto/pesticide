@@ -19,7 +19,7 @@ allprojects {
 
 subprojects {
     group 'com.ubertob.pesticide'
-    version '0.9.6-SNAPSHOT'
+    version '0.9.6'
 
     ext {
         junitVersion = "5.6.1"
