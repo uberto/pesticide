@@ -1,6 +1,6 @@
 features:
 
-nested scenarios
+nested scenarios: wrapping together steps for clarity
 
 ---
 docs:
@@ -20,6 +20,8 @@ An example with different protocols
 ---
 tech debt:
 
+check step name params equals $ in method
+make step name generation java friendly with snake notation
 isReady should return a better error state
 browse stack trace in a safer way for the default StepName
 browse stack trace in a safer way for the TestUri
