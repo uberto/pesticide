@@ -5,9 +5,9 @@ import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.NamedActor
 import java.time.LocalDate
 
-class FablesDDT : DomainDrivenTest<FablesDomain>(
+class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(
     setOf(
-        FablesDomain()
+        FablesDomainWrapper()
     )
 ) {
 

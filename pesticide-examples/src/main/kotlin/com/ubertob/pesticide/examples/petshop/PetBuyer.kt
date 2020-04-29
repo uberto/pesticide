@@ -7,8 +7,8 @@ import com.ubertob.pesticide.examples.petshop.PetShopAction.BuyPet
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-data class PetBuyer(override val name: String) : DdtActor<PetShopDomain>() {
-    fun `check the price of`(petName: String, expectedPrice: Int): DdtStep<PetShopDomain> =
+data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>() {
+    fun `check the price of`(petName: String, expectedPrice: Int): DdtStep<PetShopDomainWrapper> =
         generateStep("check that the price of $petName is $expectedPrice") {
             AskPrice(petName) { price ->
                 expectThat(expectedPrice).isEqualTo(price)
@@ -17,7 +17,7 @@ data class PetBuyer(override val name: String) : DdtActor<PetShopDomain>() {
         }
 
 
-    fun `buy a`(petName: String): DdtStep<PetShopDomain> =
+    fun `buy a`(petName: String): DdtStep<PetShopDomainWrapper> =
         generateStep("buy a $petName") {
             BuyPet(petName).doIt()
         }

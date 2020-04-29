@@ -6,7 +6,7 @@ import com.ubertob.pesticide.DomainUnderTest
 import com.ubertob.pesticide.PureHttp
 
 
-class GooglePageDomain : DomainUnderTest<DdtProtocol> {
+class GooglePageDomainWrapper : DomainUnderTest<DdtProtocol> {
     override val protocol: DdtProtocol = PureHttp("web")
     override fun isReady(): Boolean = true
 
@@ -15,6 +15,8 @@ class GooglePageDomain : DomainUnderTest<DdtProtocol> {
         `$`("input[name=q]").setValue(search).pressEnter()
     }
 
-    fun getSearchResults(): List<String> =
-        `$$`(".r").map { it.text() }
+    fun getSearchResults(): List<String> {
+        return `$$`(".r").shouldHaveSize(10).map { it.text() }
+    }
+
 }

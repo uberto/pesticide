@@ -7,7 +7,7 @@ import com.ubertob.pesticide.NamedActor
 import java.time.LocalDate
 
 
-class PetShopDDT : DomainDrivenTest<PetShopDomain>(allPetShopAbstractions()) {
+class PetShopDDT : DomainDrivenTest<PetShopDomainWrapper>(allPetShopAbstractions()) {
 
     val mary by NamedActor(::PetBuyer)
 

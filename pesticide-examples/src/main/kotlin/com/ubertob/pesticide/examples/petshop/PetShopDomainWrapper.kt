@@ -10,17 +10,17 @@ fun allPetShopAbstractions() = setOf(
     HttpRestPetshopDomain()
 )
 
-interface PetShopDomain : DomainUnderTest<DdtProtocol> {
-    fun populateShop(vararg pets: Pet): PetShopDomain
+interface PetShopDomainWrapper : DomainUnderTest<DdtProtocol> {
+    fun populateShop(vararg pets: Pet): PetShopDomainWrapper
 
-    fun PetShopAction.BuyPet.doIt(): PetShopDomain
-    fun PetShopAction.AskPrice.doIt(): PetShopDomain
+    fun PetShopAction.BuyPet.doIt(): PetShopDomainWrapper
+    fun PetShopAction.AskPrice.doIt(): PetShopDomainWrapper
 
 }
 
 sealed class PetShopAction {
-    data class BuyPet(val petName: String) : PetShopAction(), DomainCommand<PetShopDomain>
+    data class BuyPet(val petName: String) : PetShopAction(), DomainCommand<PetShopDomainWrapper>
     data class AskPrice(val petName: String, override val verifyBlock: (Int) -> Unit) : PetShopAction(),
-        DomainQuery<PetShopDomain, Int>
+        DomainQuery<PetShopDomainWrapper, Int>
 }
 

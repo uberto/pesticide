@@ -11,17 +11,17 @@ fun allCalculatorAbstractions() = setOf(
     FakeHttpCalculatorDomain()
 )
 
-interface CalculatorDomain :
+interface CalculatorDomainWrapper :
     DomainUnderTest<DdtProtocol> {
     fun addNumber(num: Int)
 
     fun getTotal(): Int
-    fun startWithNumber(num: Int): CalculatorDomain
+    fun startWithNumber(num: Int): CalculatorDomainWrapper
 }
 
 
 class InMemoryCalculatorDomain :
-    CalculatorDomain {
+    CalculatorDomainWrapper {
 
     var tot = 0
 
@@ -31,7 +31,7 @@ class InMemoryCalculatorDomain :
 
     override fun getTotal(): Int = tot
 
-    override fun startWithNumber(num: Int): CalculatorDomain {
+    override fun startWithNumber(num: Int): CalculatorDomainWrapper {
         tot = num
         return this
     }
@@ -44,7 +44,7 @@ class InMemoryCalculatorDomain :
 
 
 class FakeHttpCalculatorDomain :
-    CalculatorDomain {
+    CalculatorDomainWrapper {
 
     val tot = AtomicInteger(0)
 
@@ -53,7 +53,7 @@ class FakeHttpCalculatorDomain :
     }
 
     override fun getTotal(): Int = tot.get()
-    override fun startWithNumber(num: Int): CalculatorDomain {
+    override fun startWithNumber(num: Int): CalculatorDomainWrapper {
         tot.set(num)
         return this
     }
@@ -64,7 +64,7 @@ class FakeHttpCalculatorDomain :
 
 }
 
-data class Student(override val name: String) : DdtActor<CalculatorDomain>() {
+data class Student(override val name: String) : DdtActor<CalculatorDomainWrapper>() {
     fun `tells a number`(num: Int) = generateStep("Scolar tell $num to system") { addNumber(num) }
     fun `verifies the total`(expected: Int) = generateStep("Scolar verify the total is $expected") {
         expectThat(getTotal()).isEqualTo(expected)

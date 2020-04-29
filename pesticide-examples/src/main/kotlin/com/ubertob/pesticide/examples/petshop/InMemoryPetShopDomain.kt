@@ -3,8 +3,8 @@ package com.ubertob.pesticide.examples.petshop
 import com.ubertob.pesticide.InMemoryHubs
 
 data class InMemoryPetShopDomain(val pets: List<Pet> = emptyList()) :
-    PetShopDomain {
-    override fun populateShop(vararg pets: Pet): PetShopDomain =
+    PetShopDomainWrapper {
+    override fun populateShop(vararg pets: Pet): PetShopDomainWrapper =
         InMemoryPetShopDomain(pets.asList())
 
 
