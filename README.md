@@ -35,3 +35,18 @@ See some Kotlin examples in the pesticide-example project, and some Java example
 - GooglePageDDT: http/html only example to see how to integrate with WebDriver
 - PetShopDDT: example on how to test restful apis
 - StackDDT: simple example in Java
+
+## Dependency declaration
+Maven
+```
+<dependency>
+  <groupId>com.ubertob.pesticide</groupId>
+  <artifactId>pesticide-core</artifactId>
+  <version>0.9.6</version>
+</dependency>
+```
+
+Gradle
+```
+testImplementation 'com.ubertob.pesticide:pesticide-core:0.9.6'
+```
