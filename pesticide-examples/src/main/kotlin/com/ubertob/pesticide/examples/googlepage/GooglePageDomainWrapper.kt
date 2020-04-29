@@ -8,7 +8,17 @@ import com.ubertob.pesticide.PureHttp
 
 class GooglePageDomainWrapper : DomainUnderTest<DdtProtocol> {
     override val protocol: DdtProtocol = PureHttp("web")
-    override fun isReady(): Boolean = true
+    override fun isReady(): Boolean {
+//        // setup
+//        val desiredCapabilities = DesiredCapabilities.htmlUnit()
+//        desiredCapabilities.setCapability(HtmlUnitDriver.INVALIDSELECTIONERROR, true)
+//        desiredCapabilities.setCapability(HtmlUnitDriver.INVALIDXPATHERROR, false)
+//        desiredCapabilities.setJavascriptEnabled(false)
+//        val driver = HtmlUnitDriver(desiredCapabilities)
+//// associate to selenide
+//        WebDriverRunner.setWebDriver(driver)
+        return true
+    }
 
     fun queryGoogle(search: String) {
         open("https://google.com/ncr") //no country redirect

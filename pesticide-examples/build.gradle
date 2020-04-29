@@ -8,6 +8,7 @@ dependencies {
 
     //DomainUnderTest and Actors are in src/main, not in test...
     implementation "com.codeborne:selenide:4.14.2"
+    implementation 'org.seleniumhq.selenium:htmlunit-driver:2.39.0'
     implementation "io.strikt:strikt-core:$striktVersion"
 
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
