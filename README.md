@@ -36,6 +36,9 @@ See some Kotlin examples in the pesticide-example project, and some Java example
 - PetShopDDT: example on how to test restful apis
 - StackDDT: simple example in Java
 
+## What does it look like?
+![tests running](docs/FablesTestRunning.png)
+
 ## Dependency declaration
 Maven
 ```
