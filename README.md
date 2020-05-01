@@ -1,7 +1,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.ubertob.pesticide/pesticide-core/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.ubertob.pesticide/pesticide-core)
 
 # Pesticide
-A Library To Write Domain-Driven Tests, written in Kotlin on top of Junit5.
+A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java as well).
 
 ## What are DDT?
 Unit-Tests are very useful but they work on a small scale, we can test only a few objects or functions in this way.
