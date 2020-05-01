@@ -37,6 +37,9 @@ See some Kotlin examples in the pesticide-example project, and some Java example
 - StackDDT: simple example in Java
 
 ## What does it look like?
+
+[FablesDDT example code](pesticide-examples/src/test/kotlin/com/ubertob/pesticide/examples/fables/FablesDDT.kt)
+
 ![tests running](docs/FablesTestRunning.png)
 
 ## Dependency declaration
