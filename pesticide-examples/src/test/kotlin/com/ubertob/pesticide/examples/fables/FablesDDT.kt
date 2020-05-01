@@ -4,15 +4,10 @@ import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.NamedActor
 
-class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(
-    setOf(
-        FablesDomainWrapper()
-    )
-) {
+class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(setOf(FablesDomainWrapper())) {
 
     val littleRedRidingHood by NamedActor(::Human)
     val bigBadWolf by NamedActor(::Wolf)
-    val grandMa by NamedActor(::Human)
 
     @DDT
     fun `little red riding hood goes into the forest`() = ddtScenario {
