@@ -3,7 +3,6 @@ package com.ubertob.pesticide.examples.fables
 import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.NamedActor
-import java.time.LocalDate
 
 class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(
     setOf(
@@ -17,21 +16,20 @@ class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(
 
     @DDT
     fun `little red riding hood goes into the forest`() = ddtScenario {
-//should we use 3rd person, imperative or "can xy" style?
+
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
-            littleRedRidingHood.`get basket with goods`(100),
-            littleRedRidingHood.`go into the forest`(),
-            littleRedRidingHood.`tell the GrandMa location to`(bigBadWolf),
-            bigBadWolf.`meet and eat`(grandMa),
-            littleRedRidingHood.`go to GrandMa's house`(),
-            bigBadWolf.`meet and eat`(littleRedRidingHood),
-            bigBadWolf.`get killed by hunter`(),
-            littleRedRidingHood.`jump out belly of`(bigBadWolf),
-            grandMa.`jump out belly of`(bigBadWolf),
-            grandMa.`receive the goods worth`(100)
-        ).wip(LocalDate.of(2020, 5, 30))
+            littleRedRidingHood.`gets basket with goods worth $`(100),
+            littleRedRidingHood.`goes into the forest`(),
+            littleRedRidingHood.`tells the GrandMa location to Wolf`(),
+            bigBadWolf.`goes to GrandMa's house`(),
+            littleRedRidingHood.`goes to GrandMa's house`(),
+            bigBadWolf.`meets and eats the girl`(),
+            bigBadWolf.`got killed by hunter`(),
+            littleRedRidingHood.`jumps out from the belly of Wolf`(),
+            littleRedRidingHood.`gives to GrandMa the goods worth $`(100)
+        )
     }
 
     @DDT
@@ -40,12 +38,13 @@ class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
-            littleRedRidingHood.`get basket with goods`(50),
-            littleRedRidingHood.`go into the forest`(),
+            littleRedRidingHood.`gets basket with goods worth $`(50),
+            littleRedRidingHood.`goes into the forest`(),
             //skip revealing the location to the wolf
-            bigBadWolf.`cannot meet and eat`(grandMa),
-            grandMa.`receive the goods worth`(50)
-        ).wip(LocalDate.of(2020, 5, 30))
+            littleRedRidingHood.`goes to GrandMa's house`(),
+            bigBadWolf.`cannot go to GrandMa's house`(),
+            littleRedRidingHood.`gives to GrandMa the goods worth $`(50)
+        )
     }
 
     @DDT
@@ -53,16 +52,15 @@ class FablesDDT : DomainDrivenTest<FablesDomainWrapper>(
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
-            littleRedRidingHood.`get basket with goods`(100),
-            littleRedRidingHood.`go into the forest`(),
-            littleRedRidingHood.`tell the GrandMa location to`(bigBadWolf),
-            bigBadWolf.`meet and eat`(grandMa),
-            littleRedRidingHood.`go to GrandMa's house`(),
-            bigBadWolf.`meet and eat`(littleRedRidingHood),
+            littleRedRidingHood.`gets basket with goods worth $`(100),
+            littleRedRidingHood.`goes into the forest`(),
+            littleRedRidingHood.`tells the GrandMa location to Wolf`(),
+            bigBadWolf.`goes to GrandMa's house`(),
+            littleRedRidingHood.`goes to GrandMa's house`(),
+            bigBadWolf.`meets and eats the girl`(),
             //hunter forgot to kill the wolf
-            littleRedRidingHood.`cannot jump out belly of`(bigBadWolf),
-            grandMa.`cannot jump out belly of`(bigBadWolf),
-            grandMa.`cannot receive the goods`()
-        ).wip(LocalDate.of(2020, 5, 30))
+            littleRedRidingHood.`cannot jump out belly of Wolf`(),
+            littleRedRidingHood.`cannot give to GrandMa the goods`()
+        )
     }
 }

@@ -65,8 +65,8 @@ class FakeHttpCalculatorDomain :
 }
 
 data class Student(override val name: String) : DdtActor<CalculatorDomainWrapper>() {
-    fun `tells a number`(num: Int) = step("Scolar tell $num to system") { addNumber(num) }
-    fun `verifies the total`(expected: Int) = step("Scolar verify the total is $expected") {
+    fun `tells a number`(num: Int) = stepWithDesc("Scolar tell $num to system") { addNumber(num) }
+    fun `verifies the total`(expected: Int) = stepWithDesc("Scolar verify the total is $expected") {
         expectThat(getTotal()).isEqualTo(expected)
     }
 }

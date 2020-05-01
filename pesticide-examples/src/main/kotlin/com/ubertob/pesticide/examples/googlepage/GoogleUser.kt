@@ -7,11 +7,11 @@ import strikt.assertions.filter
 import strikt.assertions.hasSize
 
 data class GoogleUser(override val name: String) : DdtActor<GooglePageDomainWrapper>() {
-    fun `search for`(searchText: String): DdtStep<GooglePageDomainWrapper> = step("searching for $searchText") {
+    fun `search for`(searchText: String): DdtStep<GooglePageDomainWrapper> = stepWithDesc("searching for $searchText") {
         queryGoogle(searchText)
     }
 
-    fun `can see among results`(expectedText: String): DdtStep<GooglePageDomainWrapper> = generateStepName {
+    fun `can see among results`(expectedText: String): DdtStep<GooglePageDomainWrapper> = step {
 
         val results = getSearchResults()
 

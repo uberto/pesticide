@@ -35,26 +35,31 @@ abstract class DdtActor<D : DomainUnderTest<*>> {
     abstract val name: String
 
     private fun getCurrentMethodName() =
-        Thread.currentThread().stackTrace[3].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
+        Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
 
-    fun generateStepName(block: D.() -> Unit): DdtStep<D> =
-        step(getCurrentMethodName(), block)
+    fun step(block: D.() -> Unit): DdtStep<D> =
+        stepWithDesc(step(), block)
 
-    fun generateStepName(vararg parameters: Any, block: D.() -> Unit): DdtStep<D> =
-        step(getCurrentMethodName().replaceDollars(parameters), block)
+    private fun step() =
+        "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the meethod name
 
-    fun step(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
+    private fun generateStepName(vararg parameters: String) =
+        "$name ${getCurrentMethodName()}".replaceDollars(parameters)
+
+    fun step(vararg parameters: String, block: D.() -> Unit): DdtStep<D> =
+        stepWithDesc(generateStepName(*parameters), block)
+
+    fun stepWithDesc(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
         DdtStep(stepDesc) { it.also(block) }
 
 
     //mainly for Java use
-    fun step(stepDesc: String, block: Consumer<D>): DdtStep<D> =
-        step(stepDesc, block::accept)
+    fun stepWithDesc(stepDesc: String, block: Consumer<D>): DdtStep<D> =
+        stepWithDesc(stepDesc, block::accept)
 
 }
 
-private fun String.replaceDollars(parameters: Array<out Any>): String = parameters
-    .map(Any::toString)
+private fun String.replaceDollars(parameters: Array<out String>): String = parameters
     .fold(this) { text, param ->
         text.replaceFirst("$", param)
     }
