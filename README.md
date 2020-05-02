@@ -18,7 +18,7 @@ They also are influenced by Serenity and the Screenplay pattern by Anthony Marca
 
 They have been named from the concern that tests should concentrate on the business domain and he named this style DDT also as a pun since they are quite efficient in killing bugs (like the pesticide).
 
-Having a single interface for two or more representations of our System force us to define a common language independently of technical details. This practice is called [`lingua franca`](https://wiki.c2.com/?LinguaFrancaPattern) 
+Having a single interface for two or more representations of our System force us to define a common language independently of technical details. This practice is called [`lingua franca`](https://wiki.c2.com/?LinguaFrancaPattern).
 
 We also aim to use the same terms both in our tests and in the conversation with the business people. In this way, we can facilitate the communication between people working on the software and the business domain experts. See [`ubiquitous language`](https://martinfowler.com/bliki/UbiquitousLanguage.html)
 
