@@ -43,11 +43,11 @@ abstract class DdtActor<D : DomainUnderTest<*>> {
     private fun step() =
         "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the meethod name
 
-    private fun generateStepName(vararg parameters: String) =
-        "$name ${getCurrentMethodName()}".replaceDollars(parameters)
+    private fun generateStepName(parameters: Array<out Any>) =
+        "$name ${getCurrentMethodName()}".replaceDollars(parameters.map { it.toString() })
 
-    fun step(vararg parameters: String, block: D.() -> Unit): DdtStep<D> =
-        stepWithDesc(generateStepName(*parameters), block)
+    fun step(vararg parameters: Any, block: D.() -> Unit): DdtStep<D> =
+        stepWithDesc(generateStepName(parameters), block)
 
     fun stepWithDesc(stepDesc: String, block: D.() -> Unit): DdtStep<D> =
         DdtStep(stepDesc) { it.also(block) }
@@ -59,7 +59,7 @@ abstract class DdtActor<D : DomainUnderTest<*>> {
 
 }
 
-private fun String.replaceDollars(parameters: Array<out String>): String = parameters
+private fun String.replaceDollars(parameters: List<String>): String = parameters
     .fold(this) { text, param ->
         text.replaceFirst("$", param)
     }

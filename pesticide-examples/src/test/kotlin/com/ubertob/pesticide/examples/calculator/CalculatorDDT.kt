@@ -17,10 +17,10 @@ class CalculatorDDT : DomainDrivenTest<CalculatorDomainWrapper>(allCalculatorAbs
         setting {
             startWithNumber(128)
         } atRise play(
-            bart.`tells a number`(64),
-            bart.`tells a number`(31),
-            bart.`tells a number`(33),
-            bart.`verifies the total`(256)
+            bart.`add number $`(64),
+            bart.`add number $`(31),
+            bart.`add number $`(33),
+            bart.`verifies the total is $`(256)
         )
     }
 
@@ -31,8 +31,8 @@ class CalculatorDDT : DomainDrivenTest<CalculatorDomainWrapper>(allCalculatorAbs
         setting {
             startWithNumber(100)
         } atRise play(
-            bart.`tells a number`(rndNum),
-            bart.`verifies the total`(99)
+            bart.`add number $`(rndNum),
+            bart.`verifies the total is $`(99)
         ).wip(LocalDate.of(2100, 1, 1), "Waiting for new century")
 
     }
@@ -46,11 +46,11 @@ class CalculatorDDT : DomainDrivenTest<CalculatorDomainWrapper>(allCalculatorAbs
         setting {
             startWithNumber(128)
         } atRise play(
-            bart.`tells a number`(n1),
-            bart.`tells a number`(n2),
-            bart.`tells a number`(n3),
+            bart.`add number $`(n1),
+            bart.`add number $`(n2),
+            bart.`add number $`(n3),
 
-            bart.`verifies the total`(256)
+            bart.`verifies the total is $`(256)
         )
     }
 
@@ -60,8 +60,8 @@ class CalculatorDDT : DomainDrivenTest<CalculatorDomainWrapper>(allCalculatorAbs
         val rndNum = Random.nextInt()
 
         withoutSetting atRise play(
-            bart.`tells a number`(rndNum),
-            bart.`verifies the total`(rndNum)
+            bart.`add number $`(rndNum),
+            bart.`verifies the total is $`(rndNum)
         )
     }
 
