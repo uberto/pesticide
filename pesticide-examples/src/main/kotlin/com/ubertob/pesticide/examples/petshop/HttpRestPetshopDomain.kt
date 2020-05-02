@@ -1,6 +1,8 @@
 package com.ubertob.pesticide.examples.petshop
 
+import com.ubertob.pesticide.DomainSetUp
 import com.ubertob.pesticide.PureHttp
+import com.ubertob.pesticide.Ready
 
 class HttpRestPetshopDomain : PetShopDomainWrapper {
     override fun populateShop(vararg pets: Pet): PetShopDomainWrapper = TODO("not implemented")
@@ -11,7 +13,7 @@ class HttpRestPetshopDomain : PetShopDomainWrapper {
 
     override val protocol = PureHttp("local")
 
-    override fun isReady() = true //check on http server start
+    override fun prepare(): DomainSetUp = Ready //check on http server start
 
 
 }

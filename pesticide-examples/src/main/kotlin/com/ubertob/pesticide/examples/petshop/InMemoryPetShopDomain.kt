@@ -1,6 +1,8 @@
 package com.ubertob.pesticide.examples.petshop
 
+import com.ubertob.pesticide.DomainSetUp
 import com.ubertob.pesticide.InMemoryHubs
+import com.ubertob.pesticide.Ready
 
 data class InMemoryPetShopDomain(val pets: List<Pet> = emptyList()) :
     PetShopDomainWrapper {
@@ -18,7 +20,7 @@ data class InMemoryPetShopDomain(val pets: List<Pet> = emptyList()) :
 
     override val protocol = InMemoryHubs
 
-    override fun isReady() = true
+    override fun prepare(): DomainSetUp = Ready
 
 
 }

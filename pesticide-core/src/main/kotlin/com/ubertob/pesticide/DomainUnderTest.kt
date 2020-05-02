@@ -3,8 +3,11 @@ package com.ubertob.pesticide
 interface DomainUnderTest<out P : DdtProtocol> {
     val protocol: P
 
-    fun isReady(): Boolean
+    fun prepare(): DomainSetUp
 
 }
 
 
+sealed class DomainSetUp
+object Ready : DomainSetUp()
+data class NotReady(val reason: String) : DomainSetUp()

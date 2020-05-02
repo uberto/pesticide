@@ -1,8 +1,6 @@
 package com.ubertob.pesticide.examples.fables
 
-import com.ubertob.pesticide.DdtProtocol
-import com.ubertob.pesticide.DomainUnderTest
-import com.ubertob.pesticide.InMemoryHubs
+import com.ubertob.pesticide.*
 
 class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
     override val protocol: DdtProtocol = InMemoryHubs
@@ -12,7 +10,7 @@ class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
     var girlLocation: Location = Location.littleRedRidingHoodHouse
     var basket: Basket? = null
 
-    override fun isReady(): Boolean = true
+    override fun prepare(): DomainSetUp = Ready
 
     fun aGrandMaLivingAloneIntoTheForest(): FablesDomainWrapper =
         apply {
@@ -21,7 +19,7 @@ class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
 
     fun prepareBasket(value: Int, location: Location) =
         apply {
-            basket = Basket(value, Location.littleRedRidingHoodHouse)
+            basket = Basket(value, location)
         }
 
     fun updateGirlLocation(location: FablesDomainWrapper.Location) =

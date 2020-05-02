@@ -1,7 +1,10 @@
 package com.ubertob.pesticide.examples.stack;
 
 import com.ubertob.pesticide.DdtProtocol;
+import com.ubertob.pesticide.DomainSetUp;
 import com.ubertob.pesticide.InMemoryHubs;
+import com.ubertob.pesticide.Ready;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Stack;
 
@@ -29,8 +32,9 @@ public class StackDomainInMemory implements StackDomain {
         return InMemoryHubs.INSTANCE;
     }
 
+    @NotNull
     @Override
-    public boolean isReady() {
-        return true;
+    public DomainSetUp prepare() {
+        return Ready.INSTANCE;
     }
 }

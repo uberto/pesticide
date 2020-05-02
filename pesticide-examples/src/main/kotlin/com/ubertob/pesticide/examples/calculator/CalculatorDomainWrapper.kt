@@ -38,7 +38,7 @@ class InMemoryCalculatorDomain :
 
     override val protocol = InMemoryHubs
 
-    override fun isReady() = true
+    override fun prepare(): DomainSetUp = Ready
 
 }
 
@@ -60,7 +60,7 @@ class FakeHttpCalculatorDomain :
 
     override val protocol = PureHttp("fake")
 
-    override fun isReady() = true
+    override fun prepare(): DomainSetUp = Ready
 
 }
 

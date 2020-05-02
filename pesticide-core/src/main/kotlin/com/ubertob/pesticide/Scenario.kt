@@ -1,6 +1,7 @@
 package com.ubertob.pesticide
 
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.opentest4j.TestAbortedException
 import java.time.LocalDate
@@ -11,10 +12,10 @@ import kotlin.streams.asStream
 data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val wipData: WipData? = null) :
         (D) -> DynamicContainer {
 
-    var alreadyFailed = false //TODO replace it with a proper fold
+    var alreadyFailed = false
 
     override fun invoke(domain: D): DynamicContainer {
-        Assertions.assertTrue(domain.isReady(), "Protocol ${domain.protocol.desc} ready")
+        assertEquals(Ready, domain.prepare(), "Protocol ${domain.protocol.desc} ready")
 
         val tests = trapUnexpectedExceptions {
             createTests(domain)
