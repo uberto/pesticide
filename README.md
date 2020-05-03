@@ -36,7 +36,7 @@ See some Kotlin examples in the pesticide-example project, and some Java example
 - CalculatorDDT: simplest example
 - FablesDDT: in-memory only example to see the narrative flow
 - GooglePageDDT: http/html only example to see how to integrate with WebDriver
-- PetShopDDT: example on how to test restful apis
+- PetShopDDT: example on how to test restful apis, using Http4k
 - StackDDT: simple example in Java
 
 ## What does it look like?

@@ -1,4 +1,4 @@
-package com.ubertob.pesticide.examples.stack;
+package com.ubertob.pesticide.examples.stack.testing;
 
 import com.ubertob.pesticide.DdtActor;
 import com.ubertob.pesticide.DdtStep;
@@ -9,7 +9,7 @@ public class StackUser extends DdtActor<StackDomain> {
 
     private final String name;
 
-    StackUser(String name) {
+    public StackUser(String name) {
         this.name = name;
     }
 
@@ -18,7 +18,7 @@ public class StackUser extends DdtActor<StackDomain> {
         return name;
     }
 
-    DdtStep<StackDomain> pushANumber(int x) {
+    public DdtStep<StackDomain> pushANumber(int x) {
         return stepWithDesc("push " + x + " into stack", domain -> {
             int size = domain.size();
             domain.pushNumber(x);
@@ -27,7 +27,7 @@ public class StackUser extends DdtActor<StackDomain> {
         });
     }
 
-    DdtStep<StackDomain> popANumber(int expected) {
+    public DdtStep<StackDomain> popANumber(int expected) {
         return stepWithDesc("pop from stack and expect " + expected, domain -> {
                     int x = domain.popNumber();
 
@@ -36,7 +36,7 @@ public class StackUser extends DdtActor<StackDomain> {
         );
     }
 
-    DdtStep<StackDomain> verifyStackSizeIs(int expected) {
+    public DdtStep<StackDomain> verifyStackSizeIs(int expected) {
         return stepWithDesc("verify stack size is " + expected,
                 domain -> {
                     assertThat(domain.size()).isEqualTo(expected);

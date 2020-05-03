@@ -1,4 +1,4 @@
-package com.ubertob.pesticide.examples.stack;
+package com.ubertob.pesticide.examples.stack.testing;
 
 
 import com.ubertob.pesticide.DdtProtocol;
@@ -7,7 +7,7 @@ import com.ubertob.pesticide.DomainUnderTest;
 import java.util.ArrayList;
 import java.util.List;
 
-interface StackDomain extends DomainUnderTest<DdtProtocol> {
+public interface StackDomain extends DomainUnderTest<DdtProtocol> {
     void pushNumber(int num);
 
     int popNumber();

@@ -1,16 +1,15 @@
-package com.ubertob.pesticide.examples.stack;
+package com.ubertob.pesticide.examples.stack.testing;
 
 import com.ubertob.pesticide.DdtProtocol;
 import com.ubertob.pesticide.DomainSetUp;
-import com.ubertob.pesticide.PureHttp;
+import com.ubertob.pesticide.InMemoryHubs;
 import com.ubertob.pesticide.Ready;
+import com.ubertob.pesticide.examples.stack.MyStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Stack;
+public class StackDomainInMemory implements StackDomain {
 
-public class StackDomainFakeHttp implements StackDomain {
-
-    Stack<Integer> stack = new Stack<>(); //a call to a http server
+    MyStack<Integer> stack = new MyStack<Integer>();
 
     @Override
     public void pushNumber(int num) {
@@ -29,12 +28,12 @@ public class StackDomainFakeHttp implements StackDomain {
 
     @Override
     public DdtProtocol getProtocol() {
-        return new PureHttp("local");
+        return InMemoryHubs.INSTANCE;
     }
 
     @NotNull
     @Override
     public DomainSetUp prepare() {
-        return Ready.INSTANCE; //it should check the rest server is up
+        return Ready.INSTANCE;
     }
 }

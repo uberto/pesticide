@@ -3,11 +3,11 @@ plugins {
 }
 
 dependencies {
-    implementation project(":pesticide-core")
-
-    implementation 'org.assertj:assertj-core:3.15.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    testImplementation project(":pesticide-core")
+    testImplementation 'org.assertj:assertj-core:3.15.0'
 
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 }
