@@ -1,8 +1,8 @@
 package com.ubertob.pesticide.examples.fables
 
 import com.ubertob.pesticide.DdtActor
-import com.ubertob.pesticide.examples.fables.FablesDomainWrapper.Location.*
-import com.ubertob.pesticide.examples.fables.FablesDomainWrapper.WolfState.*
+import com.ubertob.pesticide.examples.fables.Location.*
+import com.ubertob.pesticide.examples.fables.WolfState.*
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotEqualTo

@@ -6,8 +6,10 @@ class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
     override val protocol: DdtProtocol = InMemoryHubs
 
     lateinit var grandMaLocation: Location
-    var wolfState: WolfState = WolfState.ignorant
-    var girlLocation: Location = Location.littleRedRidingHoodHouse
+    var wolfState: WolfState =
+        WolfState.ignorant
+    var girlLocation: Location =
+        Location.littleRedRidingHoodHouse
     var basket: Basket? = null
 
     override fun prepare(): DomainSetUp = Ready
@@ -22,7 +24,7 @@ class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
             basket = Basket(value, location)
         }
 
-    fun updateGirlLocation(location: FablesDomainWrapper.Location) =
+    fun updateGirlLocation(location: Location) =
         apply {
             girlLocation = location
         }
@@ -33,14 +35,5 @@ class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
         }
 
 
-    enum class Location {
-        littleRedRidingHoodHouse, middleOfTheForest, grandMaHouse, insideTheWolfBelly
-    }
-
-    enum class WolfState {
-        ignorant, knowAboutGrandMa, waitingForTheGirl, sleepy, dead
-    }
-
-    data class Basket(val value: Int, val location: FablesDomainWrapper.Location)
 }
 

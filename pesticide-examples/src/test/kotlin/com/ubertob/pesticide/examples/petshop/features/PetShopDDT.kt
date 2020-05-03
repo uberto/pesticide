@@ -1,4 +1,4 @@
-package com.ubertob.pesticide.examples.petshop
+package com.ubertob.pesticide.examples.petshop.features
 
 import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
