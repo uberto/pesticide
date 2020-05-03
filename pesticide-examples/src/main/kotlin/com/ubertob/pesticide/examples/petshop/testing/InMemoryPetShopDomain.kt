@@ -4,24 +4,33 @@ import com.ubertob.pesticide.DomainSetUp
 import com.ubertob.pesticide.InMemoryHubs
 import com.ubertob.pesticide.Ready
 import com.ubertob.pesticide.examples.petshop.model.Pet
+import com.ubertob.pesticide.examples.petshop.model.PetShopHub
 
-data class InMemoryPetShopDomain(val pets: List<Pet> = emptyList()) :
-    PetShopDomainWrapper {
-    override fun populateShop(vararg pets: Pet): PetShopDomainWrapper =
-        InMemoryPetShopDomain(pets.asList())
+class InMemoryPetShopDomain() : PetShopDomainWrapper {
 
-
-    override fun PetShopAction.BuyPet.doIt() =
-        this@InMemoryPetShopDomain.copy(pets.filterNot { it.name == petName })
-
-    override fun PetShopAction.AskPrice.doIt() =
-        this@InMemoryPetShopDomain.also {
-            verifyBlock(pets.first { it.name == petName }.price)
-        }
+    private val hub = PetShopHub()
 
     override val protocol = InMemoryHubs
 
     override fun prepare(): DomainSetUp = Ready
+
+    override fun populateShop(vararg pets: Pet): PetShopDomainWrapper =
+        apply {
+            pets.forEach {
+                hub.addPet(it)
+            }
+        }
+
+
+    override fun BuyPet.doIt(): InMemoryPetShopDomain {
+        hub.buyPet(petName)
+        return this@InMemoryPetShopDomain
+    }
+
+    override fun AskPrice.doIt() =
+        this@InMemoryPetShopDomain.also {
+            verifyBlock(hub.getByName(petName)?.price)
+        }
 
 
 }

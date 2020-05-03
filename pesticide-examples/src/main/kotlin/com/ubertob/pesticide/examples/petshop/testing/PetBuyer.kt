@@ -2,16 +2,15 @@ package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.DdtActor
 import com.ubertob.pesticide.DdtStep
-import com.ubertob.pesticide.examples.petshop.testing.PetShopAction.AskPrice
-import com.ubertob.pesticide.examples.petshop.testing.PetShopAction.BuyPet
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNull
 
 data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>() {
     fun `check that the price of $ is $`(petName: String, expectedPrice: Int): DdtStep<PetShopDomainWrapper> =
         step(petName, expectedPrice) {
             AskPrice(petName) { price ->
-                expectThat(expectedPrice).isEqualTo(price)
+                expectThat(price).isEqualTo(expectedPrice)
             }.doIt()
 
         }
@@ -20,6 +19,13 @@ data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>(
     fun `buy a $`(petName: String): DdtStep<PetShopDomainWrapper> =
         step(petName) {
             BuyPet(petName).doIt()
+        }
+
+    fun `check that there are no more $ for sale`(petName: String): DdtStep<PetShopDomainWrapper> =
+        step(petName) {
+            AskPrice(petName) { price ->
+                expectThat(price).isNull()
+            }.doIt()
         }
 
 }

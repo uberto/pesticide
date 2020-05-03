@@ -13,9 +13,14 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
 
     val petShopRoutes: HttpHandler = routes(
         "/pets" bind Method.GET to ::listPets,
+        "/pets/{name}" bind Method.GET to ::petDetails,
         "/pets" bind Method.POST to ::addPet,
-        "/pets/{petId}/buy" bind Method.PUT to ::buyPet
+        "/pets/{name}/buy" bind Method.PUT to ::buyPet
     )
+
+    fun petDetails(request: Request): Response {
+        return TODO("not implemented")
+    }
 
     fun buyPet(request: Request): Response {
         return TODO("not implemented")
