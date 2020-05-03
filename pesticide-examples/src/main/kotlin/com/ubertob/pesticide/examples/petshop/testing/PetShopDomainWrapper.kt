@@ -14,14 +14,13 @@ fun allPetShopAbstractions() = setOf(
 interface PetShopDomainWrapper : DomainUnderTest<DdtProtocol> {
     fun populateShop(vararg pets: Pet): PetShopDomainWrapper
 
-    fun BuyPet.doIt(): PetShopDomainWrapper
-    fun AskPrice.doIt(): PetShopDomainWrapper
+    fun BuyPet.tryIt(): PetShopDomainWrapper
+    fun PetPrice.askIt(): PetShopDomainWrapper
 
 }
 
-sealed class PetShopAction
-data class BuyPet(val petName: String) : PetShopAction(), DomainCommand<PetShopDomainWrapper>
-data class AskPrice(val petName: String, override val verifyBlock: (Int?) -> Unit) : PetShopAction(),
+data class BuyPet(val petName: String) : DomainCommand<PetShopDomainWrapper>
+data class PetPrice(val petName: String, override val verifyBlock: (Int?) -> Unit) :
     DomainQuery<PetShopDomainWrapper, Int>
 
 

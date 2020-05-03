@@ -7,25 +7,24 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isNull
 
 data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>() {
+
     fun `check that the price of $ is $`(petName: String, expectedPrice: Int): DdtStep<PetShopDomainWrapper> =
         step(petName, expectedPrice) {
-            AskPrice(petName) { price ->
+            PetPrice(petName) { price ->
                 expectThat(price).isEqualTo(expectedPrice)
-            }.doIt()
-
+            }.askIt()
         }
-
 
     fun `buy a $`(petName: String): DdtStep<PetShopDomainWrapper> =
         step(petName) {
-            BuyPet(petName).doIt()
+            BuyPet(petName).tryIt()
         }
 
     fun `check that there are no more $ for sale`(petName: String): DdtStep<PetShopDomainWrapper> =
         step(petName) {
-            AskPrice(petName) { price ->
+            PetPrice(petName) { price ->
                 expectThat(price).isNull()
-            }.doIt()
+            }.askIt()
         }
 
 }

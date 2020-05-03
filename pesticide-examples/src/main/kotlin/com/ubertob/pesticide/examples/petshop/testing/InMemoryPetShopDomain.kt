@@ -22,12 +22,13 @@ class InMemoryPetShopDomain() : PetShopDomainWrapper {
         }
 
 
-    override fun BuyPet.doIt(): InMemoryPetShopDomain {
+    override fun BuyPet.tryIt(): InMemoryPetShopDomain {
         hub.buyPet(petName)
         return this@InMemoryPetShopDomain
     }
 
-    override fun AskPrice.doIt() =
+
+    override fun PetPrice.askIt() =
         this@InMemoryPetShopDomain.also {
             verifyBlock(hub.getByName(petName)?.price)
         }
