@@ -2,7 +2,7 @@
 
 # Pesticide
 
-A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java as well).
+A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java projects as well).
 
 ## What a DDT is?
 
@@ -35,11 +35,11 @@ The goal is to describe our stories as interactions between actors [see why here
 ## How does Pesticide work?
 See some Kotlin examples in the pesticide-example project, and some Java examples in the pesticide-example-java project.
 
-- CalculatorDDT: simplest example
-- FablesDDT: in-memory only example to see the narrative flow
-- GooglePageDDT: http/html only example to see how to integrate with WebDriver
-- PetShopDDT: example on how to test restful apis, using Http4k
-- StackDDT: simple example in Java
+- CalculatorDDT: the simplest example
+- FablesDDT: an in-memory only example to see how the narrative flows
+- GooglePageDDT: a http/html only example to see how to integrate with WebDriver
+- PetShopDDT: a full example on how to test restful apis using Http4k
+- StackDDT: a simple example to see how to use it from Java
 
 ## What does it look like?
 
