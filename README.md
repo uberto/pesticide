@@ -1,9 +1,11 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.ubertob.pesticide/pesticide-core/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.ubertob.pesticide/pesticide-core)
 
 # Pesticide
+
 A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java as well).
 
-## What are DDT?
+## What a DDT is?
+
 Unit-Tests are very useful but they work on a small scale, we can test only a few objects or functions in this way.
 
 We also need a way to test our full application end-to-end in order to be sure to be on the right track. We can do that simulating user clicking on the web page but we need a more abstract way to represent it, otherwise, tests would become quickly very hard to understand.
@@ -18,14 +20,14 @@ They also are influenced by Serenity and the Screenplay pattern by Anthony Marca
 
 They have been named from the concern that tests should concentrate on the business domain and he named this style DDT also as a pun since they are quite efficient in killing bugs (like the pesticide).
 
-Having a single interface for two or more representations of our System force us to define a common language independently of technical details. This practice is called [`lingua franca`](https://wiki.c2.com/?LinguaFrancaPattern).
+Having a single interface for two or more representations of our System forces us to define a common language independently of technical details. This practice is called [`lingua franca`](https://wiki.c2.com/?LinguaFrancaPattern).
 
 We also aim to use the same terms both in our tests and in the conversation with the business people. In this way, we can facilitate the communication between people working on the software and the business domain experts. See [`ubiquitous language`](https://martinfowler.com/bliki/UbiquitousLanguage.html)
 
 The goal is to describe our stories as interactions between actors [see why here](https://www.infoq.com/presentations/pragmatic-personas/) and as an abstraction of our system. Using different system implementations we can reach these benefits:
 
 - Test the functionality works both end-to-end and in the in-memory domain
-- Document the story using a language close to business
+- Document the story using a language close to the business
 - Describing test without using UI details (click here/insert text there)
 - Make sure there is no business logic in the infrastructure layer
 - Make sure there is no infrastructure details in the business logic
