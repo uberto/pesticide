@@ -1,10 +1,9 @@
 package com.ubertob.pesticide.examples.petshop.http
 
+import com.beust.klaxon.Klaxon
+import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
-import org.http4k.core.HttpHandler
-import org.http4k.core.Method
-import org.http4k.core.Request
-import org.http4k.core.Response
+import org.http4k.core.*
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 
@@ -26,9 +25,12 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
         return TODO("not implemented")
     }
 
-    fun addPet(request: Request): Response {
-        return TODO("not implemented")
-    }
+    fun addPet(request: Request): Response =
+        Klaxon().parse<Pet>(request.bodyString())?.let {
+            hub.addPet(it)
+            Response(Status.ACCEPTED)
+        } ?: Response(Status.BAD_REQUEST)
+
 
     fun listPets(request: Request): Response {
         return TODO("not implemented")

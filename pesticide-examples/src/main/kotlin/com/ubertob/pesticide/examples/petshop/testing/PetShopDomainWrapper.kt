@@ -8,7 +8,7 @@ import com.ubertob.pesticide.examples.petshop.model.Pet
 
 fun allPetShopAbstractions() = setOf(
     InMemoryPetShopDomain(),
-    HttpRestPetshopDomain()
+    HttpRestPetshopDomain("localhost", 8082)
 )
 
 interface PetShopDomainWrapper : DomainUnderTest<DdtProtocol> {
