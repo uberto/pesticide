@@ -12,4 +12,5 @@ class PetShopHub() {
 
     fun buyPet(petName: String): List<Pet> = pets.updateAndGet { it.filterNot { it.name == petName } }
     fun getByName(petName: String): Pet? = pets.get().firstOrNull { it.name == petName }
+    fun getAll(): List<String> = pets.get().map { it.name }
 }

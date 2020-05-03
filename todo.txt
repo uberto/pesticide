@@ -5,8 +5,6 @@ nested scenarios: wrapping together steps for clarity
 ---
 docs:
 
-PetShop example with http4k
-
 PetShop similar example in Java
 
 Write blog post on how to create DDTs and what are the responsabilities of each part

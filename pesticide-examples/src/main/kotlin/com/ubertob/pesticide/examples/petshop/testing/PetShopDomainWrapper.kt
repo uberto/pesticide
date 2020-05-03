@@ -16,6 +16,7 @@ interface PetShopDomainWrapper : DomainUnderTest<DdtProtocol> {
 
     fun BuyPet.tryIt(): PetShopDomainWrapper
     fun PetPrice.askIt(): PetShopDomainWrapper
+    fun PetList.askIt(): PetShopDomainWrapper
 
 }
 
@@ -23,4 +24,6 @@ data class BuyPet(val petName: String) : DomainCommand<PetShopDomainWrapper>
 data class PetPrice(val petName: String, override val verifyBlock: (Int?) -> Unit) :
     DomainQuery<PetShopDomainWrapper, Int>
 
+data class PetList(override val verifyBlock: (List<String>?) -> Unit) :
+    DomainQuery<PetShopDomainWrapper, List<String>>
 

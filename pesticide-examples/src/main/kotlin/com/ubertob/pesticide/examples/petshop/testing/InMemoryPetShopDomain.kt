@@ -29,8 +29,13 @@ class InMemoryPetShopDomain() : PetShopDomainWrapper {
 
 
     override fun PetPrice.askIt() =
-        this@InMemoryPetShopDomain.also {
+        this@InMemoryPetShopDomain.apply {
             verifyBlock(hub.getByName(petName)?.price)
+        }
+
+    override fun PetList.askIt(): PetShopDomainWrapper =
+        this@InMemoryPetShopDomain.apply {
+            verifyBlock(hub.getAll())
         }
 
 

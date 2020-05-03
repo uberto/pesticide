@@ -3,16 +3,17 @@ plugins {
 }
 
 dependencies {
-    implementation project(":pesticide-core")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     implementation "org.http4k:http4k-core:${http4kVersion}"
     implementation "org.http4k:http4k-server-jetty:${http4kVersion}"
     implementation "com.beust:klaxon:${klaxonVersion}"
 
+    implementation project(":pesticide-core")
     implementation "com.codeborne:selenide:4.14.2"
     implementation 'org.seleniumhq.selenium:htmlunit-driver:2.39.0'
     implementation "io.strikt:strikt-core:$striktVersion"
+    implementation "org.http4k:http4k-client-jetty:${http4kVersion}"
 
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 }
