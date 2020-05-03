@@ -37,11 +37,11 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(private val domains: Ite
 
 
     @JvmField
-    val withoutSetting: Setting<D> = Setting(DdtStep("empty stage") { it })
+    val withoutSetting: Setting<D> = Setting(DdtStep("Empty scenario") { it })
 
     fun setting(
         block: D.() -> D
-    ): Setting<D> = Setting(DdtStep("Preparing", block))
+    ): Setting<D> = Setting(DdtStep("Setting up the scenario", block))
 
 
     infix fun Setting<D>.atRise(steps: Scenario<D>): Scenario<D> =
