@@ -21,13 +21,6 @@ subprojects {
     group 'com.ubertob.pesticide'
     version '0.9.9-SNAPSHOT'
 
-    ext {
-        junitVersion = "5.6.1"
-        minutestVersion = "1.11.0"
-        junitLauncherVersion = "1.6.1"
-        striktVersion = "0.25.0"
-    }
-
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
     }

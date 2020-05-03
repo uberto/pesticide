@@ -4,10 +4,16 @@ import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.InMemoryHubs
 import com.ubertob.pesticide.NamedActor
+import com.ubertob.pesticide.examples.petshop.model.Pet
+import com.ubertob.pesticide.examples.petshop.testing.PetBuyer
+import com.ubertob.pesticide.examples.petshop.testing.PetShopDomainWrapper
+import com.ubertob.pesticide.examples.petshop.testing.allPetShopAbstractions
 import java.time.LocalDate
 
 
-class PetShopDDT : DomainDrivenTest<PetShopDomainWrapper>(allPetShopAbstractions()) {
+class PetShopDDT : DomainDrivenTest<PetShopDomainWrapper>(
+    allPetShopAbstractions()
+) {
 
     val mary by NamedActor(::PetBuyer)
 

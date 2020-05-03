@@ -1,9 +1,9 @@
-package com.ubertob.pesticide.examples.petshop
+package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.DdtActor
 import com.ubertob.pesticide.DdtStep
-import com.ubertob.pesticide.examples.petshop.PetShopAction.AskPrice
-import com.ubertob.pesticide.examples.petshop.PetShopAction.BuyPet
+import com.ubertob.pesticide.examples.petshop.testing.PetShopAction.AskPrice
+import com.ubertob.pesticide.examples.petshop.testing.PetShopAction.BuyPet
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 

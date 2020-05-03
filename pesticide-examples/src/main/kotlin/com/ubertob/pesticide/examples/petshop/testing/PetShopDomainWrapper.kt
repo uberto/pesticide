@@ -1,9 +1,10 @@
-package com.ubertob.pesticide.examples.petshop
+package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.DdtProtocol
 import com.ubertob.pesticide.DomainCommand
 import com.ubertob.pesticide.DomainQuery
 import com.ubertob.pesticide.DomainUnderTest
+import com.ubertob.pesticide.examples.petshop.model.Pet
 
 fun allPetShopAbstractions() = setOf(
     InMemoryPetShopDomain(),
