@@ -66,8 +66,8 @@ testImplementation 'com.ubertob.pesticide:pesticide-core:0.9.8'
 
 I want to thank first Nat Pryce for having introduced me to the DDT concept and the long hours spent pairing together that helped me to finally understand it.
 
-We also stealed a lot of good ideas to Anthony Marcano's Serenity project.
+We also stealed a lot of good ideas to Antony Marcano's Serenity project.
 
 Duncan McGregor's Minutest project was also a big inspiration for me, both as api design and technical implementation.
 
-Last but not least, my current team: Asad Manji, Tom Power, Andrew Couchman, Andrew Gray and all the others for suggestions, contribution and in general having great time working together.
+Last but not least, my current team: Asad Manji, Tom Power, Andrew Couchman, Andrew Gray and the rest of the developers for suggestions, contribution and in general having great time working together.
