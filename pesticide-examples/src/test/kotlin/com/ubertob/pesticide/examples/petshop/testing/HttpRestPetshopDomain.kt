@@ -72,15 +72,31 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopDomainWrap
 
     override val protocol = PureHttp("$host:$port")
 
+    var started = false
+
     override fun prepare(): DomainSetUp = try {
-        if (host == "localhost") {
+        if (host == "localhost" && !started) {
+            started = true
             println("Pets example started listening on port $port")
-            val hub = PetShopHub()
-            PetShopHandler(hub).asServer(Jetty(port)).start()
+            val server = PetShopHandler(PetShopHub()).asServer(Jetty(port)).start()
+            registerShutdownHook {
+                server.stop()
+            }
         }
         Ready
     } catch (t: Throwable) {
         NotReady(t.toString())
+    }
+
+    private fun registerShutdownHook(hookToExecute: () -> Unit) {
+        Runtime.getRuntime().addShutdownHook(Thread {
+            val out = System.out
+            try {
+                hookToExecute()
+            } finally {
+                System.setOut(out)
+            }
+        })
     }
 
     val klaxon = Klaxon()

@@ -57,6 +57,7 @@ abstract class DdtActor<D : DomainUnderTest<*>> {
     fun stepWithDesc(stepDesc: String, block: Consumer<D>): DdtStep<D> =
         stepWithDesc(stepDesc, block::accept)
 
+
 }
 
 private fun String.replaceDollars(parameters: List<String>): String = parameters
