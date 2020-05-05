@@ -9,7 +9,7 @@ docs:
 
 PetShop similar example in Java
 
-Write blog post on how to create DDTs and what are the responsabilities of each part
+Write blog post on how to create DDTs and what are the responsibilities of each part
 
 Add JavaDoc
 
