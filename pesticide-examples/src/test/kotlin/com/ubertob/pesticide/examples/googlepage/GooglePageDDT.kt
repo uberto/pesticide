@@ -4,9 +4,9 @@ import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.NamedActor
 
-class GooglePageDDT : DomainDrivenTest<GooglePageDomainWrapper>(
+class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
     setOf(
-        GooglePageDomainWrapper()
+        GooglePageInterpreter()
     )
 ) {
 

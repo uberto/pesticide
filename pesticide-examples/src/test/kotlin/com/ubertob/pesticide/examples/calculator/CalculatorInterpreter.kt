@@ -4,21 +4,20 @@ import com.ubertob.pesticide.*
 import java.util.concurrent.atomic.AtomicInteger
 
 
-fun allCalculatorAbstractions() = setOf(
-    InMemoryCalculatorDomain(),
-    FakeHttpCalculatorDomain()
+fun allCalculatorInterpreters() = setOf(
+    InMemoryCalculator(),
+    FakeHttpCalculator()
 )
 
-interface CalculatorDomainWrapper : DomainUnderTest<DdtProtocol> {
+interface CalculatorInterpreter : BoundedContextInterpreter<DdtProtocol> {
     fun addNumber(num: Int)
 
     fun getTotal(): Int
-    fun startWithNumber(num: Int): CalculatorDomainWrapper
+    fun startWithNumber(num: Int): CalculatorInterpreter
 }
 
 
-class InMemoryCalculatorDomain :
-    CalculatorDomainWrapper {
+class InMemoryCalculator : CalculatorInterpreter {
 
     var tot = 0
 
@@ -28,7 +27,7 @@ class InMemoryCalculatorDomain :
 
     override fun getTotal(): Int = tot
 
-    override fun startWithNumber(num: Int): CalculatorDomainWrapper {
+    override fun startWithNumber(num: Int): CalculatorInterpreter {
         tot = num
         return this
     }
@@ -40,8 +39,8 @@ class InMemoryCalculatorDomain :
 }
 
 
-class FakeHttpCalculatorDomain :
-    CalculatorDomainWrapper {
+class FakeHttpCalculator :
+    CalculatorInterpreter {
 
     val tot = AtomicInteger(0)
 
@@ -50,7 +49,7 @@ class FakeHttpCalculatorDomain :
     }
 
     override fun getTotal(): Int = tot.get()
-    override fun startWithNumber(num: Int): CalculatorDomainWrapper {
+    override fun startWithNumber(num: Int): CalculatorInterpreter {
         tot.set(num)
         return this
     }

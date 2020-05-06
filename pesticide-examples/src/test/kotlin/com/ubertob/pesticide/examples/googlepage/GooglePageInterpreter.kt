@@ -5,10 +5,10 @@ import com.ubertob.pesticide.*
 import java.net.URL
 
 
-class GooglePageDomainWrapper : DomainUnderTest<DdtProtocol> {
+class GooglePageInterpreter : BoundedContextInterpreter<DdtProtocol> {
     override val protocol: DdtProtocol = HtmlUIUsingJS("web")
     override fun prepare(): DomainSetUp {
-//        // setup
+//        // setup for headless htmlUnit
 //        val desiredCapabilities = DesiredCapabilities.htmlUnit()
 //        desiredCapabilities.setCapability(HtmlUnitDriver.INVALIDSELECTIONERROR, true)
 //        desiredCapabilities.setCapability(HtmlUnitDriver.INVALIDXPATHERROR, false)

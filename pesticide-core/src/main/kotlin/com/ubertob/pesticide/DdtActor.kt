@@ -5,7 +5,7 @@ import java.net.URI
 import java.util.function.Consumer
 
 
-data class DdtStep<D : DomainUnderTest<*>>(val description: String, val action: (D) -> D) {
+data class DdtStep<D : BoundedContextInterpreter<*>>(val description: String, val action: (D) -> D) {
 
     val stackTraceElement = Thread.currentThread().stackTrace[5]
 
@@ -30,7 +30,7 @@ private val sourceRoot = listOf(
     File("src/test/java")
 ).find { it.isDirectory } ?: File(".")
 
-abstract class DdtActor<D : DomainUnderTest<*>> {
+abstract class DdtActor<D : BoundedContextInterpreter<*>> {
 
     abstract val name: String
 

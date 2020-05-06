@@ -7,7 +7,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotEqualTo
 
-data class Human(override val name: String) : DdtActor<FablesDomainWrapper>() {
+data class Human(override val name: String) : DdtActor<FablesInterpreter>() {
     fun `gets basket with goods worth $`(value: Int) = step(value.toString()) {
         prepareBasket(value, littleRedRidingHoodHouse)
     }
@@ -48,7 +48,7 @@ data class Human(override val name: String) : DdtActor<FablesDomainWrapper>() {
 
 }
 
-data class Wolf(override val name: String) : DdtActor<FablesDomainWrapper>() {
+data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
     fun `meets and eats the girl`() = step {
         expectThat(girlLocation).isEqualTo(grandMaHouse)
         expectThat(wolfState).isEqualTo(waitingForTheGirl)

@@ -3,6 +3,9 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v0.9.9
+- changed name of class DomainUnderTest to BoundedContextInterpreter
+
 ### v0.9.8
 - changed DomainUnderTest.isReady() to prepare()
 

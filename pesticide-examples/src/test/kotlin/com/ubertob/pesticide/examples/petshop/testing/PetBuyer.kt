@@ -10,7 +10,7 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 
 
-data class ShopAssistant(override val name: String) : DdtActor<PetShopDomainWrapper>() {
+data class ShopAssistant(override val name: String) : DdtActor<PetShopInterpreter>() {
 
     fun `check that $ is in the shop`(pet: Pet) = step(pet.name) {
         PetList { pets: List<String>? ->
@@ -19,7 +19,7 @@ data class ShopAssistant(override val name: String) : DdtActor<PetShopDomainWrap
     }
 }
 
-data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>() {
+data class PetBuyer(override val name: String) : DdtActor<PetShopInterpreter>() {
 
     fun `check that the price of $ is $`(petName: String, expectedPrice: Int) =
         step(petName, expectedPrice) {
@@ -33,7 +33,7 @@ data class PetBuyer(override val name: String) : DdtActor<PetShopDomainWrapper>(
             BuyPet(petName).tryIt()
         }
 
-    fun `check that there are no more $ for sale`(petName: String): DdtStep<PetShopDomainWrapper> =
+    fun `check that there are no more $ for sale`(petName: String): DdtStep<PetShopInterpreter> =
         step(petName) {
             PetList() { pets ->
                 expectThat(pets.orEmpty()).doesNotContain(petName)

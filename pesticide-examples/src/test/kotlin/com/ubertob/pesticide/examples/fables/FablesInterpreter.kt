@@ -2,7 +2,7 @@ package com.ubertob.pesticide.examples.fables
 
 import com.ubertob.pesticide.*
 
-class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
+class FablesInterpreter : BoundedContextInterpreter<DdtProtocol> {
     override val protocol: DdtProtocol = InMemoryHubs
 
     lateinit var grandMaLocation: Location
@@ -14,7 +14,7 @@ class FablesDomainWrapper : DomainUnderTest<DdtProtocol> {
 
     override fun prepare(): DomainSetUp = Ready
 
-    fun aGrandMaLivingAloneIntoTheForest(): FablesDomainWrapper =
+    fun aGrandMaLivingAloneIntoTheForest(): FablesInterpreter =
         apply {
             grandMaLocation = Location.grandMaHouse
         }

@@ -1,6 +1,9 @@
 package com.ubertob.pesticide
 
-interface DomainUnderTest<out P : DdtProtocol> {
+@Deprecated("Use BoundedContextInterpreter instead")
+typealias DomainUnderTest<P> = BoundedContextInterpreter<P>
+
+interface BoundedContextInterpreter<out P : DdtProtocol> {
     val protocol: P
 
     fun prepare(): DomainSetUp

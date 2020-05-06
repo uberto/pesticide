@@ -1,7 +1,7 @@
 package com.ubertob.pesticide.examples.stack;
 
 import com.ubertob.pesticide.DomainDrivenTest;
-import com.ubertob.pesticide.examples.stack.testing.StackDomain;
+import com.ubertob.pesticide.examples.stack.testing.StackInterpreter;
 import com.ubertob.pesticide.examples.stack.testing.StackUser;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.TestFactory;
@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.stream.Stream;
 
 
-public class StackDDT extends DomainDrivenTest<StackDomain> {
+public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     public StackDDT() {
-        super(StackDomain.allProtocols());
+        super(StackInterpreter.allProtocols());
     }
 
     StackUser sabine = new StackUser("Sabine");

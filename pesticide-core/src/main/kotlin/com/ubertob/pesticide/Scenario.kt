@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicReference
 import kotlin.streams.asStream
 
 
-data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val wipData: WipData? = null) :
+data class Scenario<D : BoundedContextInterpreter<*>>(val steps: Iterable<DdtStep<D>>, val wipData: WipData? = null) :
         (D) -> DynamicContainer {
 
     var alreadyFailed = false
@@ -84,10 +84,10 @@ data class Scenario<D : DomainUnderTest<*>>(val steps: Iterable<DdtStep<D>>, val
             )
         }
 
-    fun DomainUnderTest<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
+    fun BoundedContextInterpreter<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
 
 
-    private fun <D : DomainUnderTest<*>> executeInWIP(
+    private fun <D : BoundedContextInterpreter<*>> executeInWIP(
         due: LocalDate,
         testBlock: (D) -> D
     ): (D) -> D = { domain ->

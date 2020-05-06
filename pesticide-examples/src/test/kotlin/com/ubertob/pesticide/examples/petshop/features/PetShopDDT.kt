@@ -5,12 +5,12 @@ import com.ubertob.pesticide.DomainDrivenTest
 import com.ubertob.pesticide.NamedActor
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.testing.PetBuyer
-import com.ubertob.pesticide.examples.petshop.testing.PetShopDomainWrapper
+import com.ubertob.pesticide.examples.petshop.testing.PetShopInterpreter
 import com.ubertob.pesticide.examples.petshop.testing.ShopAssistant
 import com.ubertob.pesticide.examples.petshop.testing.allPetShopAbstractions
 
 
-class PetShopDDT : DomainDrivenTest<PetShopDomainWrapper>(allPetShopAbstractions) {
+class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopAbstractions) {
 
     val mary by NamedActor(::PetBuyer)
 

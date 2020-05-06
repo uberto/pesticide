@@ -5,7 +5,7 @@ import com.ubertob.pesticide.DdtStep;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StackUser extends DdtActor<StackDomain> {
+public class StackUser extends DdtActor<StackInterpreter> {
 
     private final String name;
 
@@ -18,7 +18,7 @@ public class StackUser extends DdtActor<StackDomain> {
         return name;
     }
 
-    public DdtStep<StackDomain> pushANumber(int x) {
+    public DdtStep<StackInterpreter> pushANumber(int x) {
         return stepWithDesc("push " + x + " into stack", domain -> {
             int size = domain.size();
             domain.pushNumber(x);
@@ -27,7 +27,7 @@ public class StackUser extends DdtActor<StackDomain> {
         });
     }
 
-    public DdtStep<StackDomain> popANumber(int expected) {
+    public DdtStep<StackInterpreter> popANumber(int expected) {
         return stepWithDesc("pop from stack and expect " + expected, domain -> {
                     int x = domain.popNumber();
 
@@ -36,7 +36,7 @@ public class StackUser extends DdtActor<StackDomain> {
         );
     }
 
-    public DdtStep<StackDomain> verifyStackSizeIs(int expected) {
+    public DdtStep<StackInterpreter> verifyStackSizeIs(int expected) {
         return stepWithDesc("verify stack size is " + expected,
                 domain -> {
                     assertThat(domain.size()).isEqualTo(expected);

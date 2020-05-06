@@ -6,12 +6,12 @@ import strikt.api.expectThat
 import strikt.assertions.filter
 import strikt.assertions.hasSize
 
-data class GoogleUser(override val name: String) : DdtActor<GooglePageDomainWrapper>() {
-    fun `search for`(searchText: String): DdtStep<GooglePageDomainWrapper> = stepWithDesc("searching for $searchText") {
+data class GoogleUser(override val name: String) : DdtActor<GooglePageInterpreter>() {
+    fun `search for`(searchText: String): DdtStep<GooglePageInterpreter> = stepWithDesc("searching for $searchText") {
         queryGoogle(searchText)
     }
 
-    fun `can see among results`(expectedText: String): DdtStep<GooglePageDomainWrapper> = step {
+    fun `can see among results`(expectedText: String): DdtStep<GooglePageInterpreter> = step {
 
         val results = getSearchResults()
 

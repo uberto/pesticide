@@ -11,9 +11,9 @@ import kotlin.reflect.KProperty
 
 typealias DDT = TestFactory
 
-data class Setting<D : DomainUnderTest<*>>(val setUp: DdtStep<D>)
+data class Setting<D : BoundedContextInterpreter<*>>(val setUp: DdtStep<D>)
 
-abstract class DomainDrivenTest<D : DomainUnderTest<*>>(private val domains: Iterable<D>) {
+abstract class DomainDrivenTest<D : BoundedContextInterpreter<*>>(private val domains: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D>): Scenario<D> =
         Scenario(stepsArray.toList())
@@ -50,7 +50,7 @@ abstract class DomainDrivenTest<D : DomainUnderTest<*>>(private val domains: Ite
 }
 
 
-class NamedActor<D : DomainUnderTest<*>, A : DdtActor<D>>(val actorConstructor: (String) -> A) :
+class NamedActor<D : BoundedContextInterpreter<*>, A : DdtActor<D>>(val actorConstructor: (String) -> A) :
     ReadOnlyProperty<DomainDrivenTest<D>, A> {
     override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
         actorConstructor(property.name.capitalize())

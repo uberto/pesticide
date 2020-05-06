@@ -18,7 +18,7 @@ import org.http4k.server.asServer
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopDomainWrapper {
+class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterpreter {
 
     val client = JettyClient()
 
@@ -26,14 +26,14 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopDomainWrap
 
     fun addPetRequest(pet: Pet) = Request(POST, uri("pets")).body(pet.toJson())
 
-    override fun populateShop(vararg pets: Pet): PetShopDomainWrapper = apply {
+    override fun populateShop(vararg pets: Pet): PetShopInterpreter = apply {
         pets.forEach {
             val resp = client(addPetRequest(it))
             expectThat(resp.status).isEqualTo(ACCEPTED)
         }
     }
 
-    override fun BuyPet.tryIt(): PetShopDomainWrapper {
+    override fun BuyPet.tryIt(): PetShopInterpreter {
 
         val req = Request(PUT, uri("pets/${petName}/buy"))
         val resp = client(req)
@@ -42,7 +42,7 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopDomainWrap
         return this@HttpRestPetshopDomain
     }
 
-    override fun PetPrice.askIt(): PetShopDomainWrapper {
+    override fun PetPrice.askIt(): PetShopInterpreter {
 
         val req = Request(GET, uri("pets/${petName}"))
         val resp = client(req)
@@ -57,7 +57,7 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopDomainWrap
 
     }
 
-    override fun PetList.askIt(): PetShopDomainWrapper {
+    override fun PetList.askIt(): PetShopInterpreter {
         val req = Request(GET, uri("pets"))
         val resp = client(req)
 
