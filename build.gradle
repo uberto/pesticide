@@ -19,7 +19,7 @@ allprojects {
 
 subprojects {
     group 'com.ubertob.pesticide'
-    version '0.9.9'
+    version '0.9.10-SNAPSHOT'
 
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
