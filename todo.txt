@@ -2,7 +2,7 @@ features:
 
 nested scenarios: wrapping together steps for clarity
 
-http4k support "out-of-the-box"
+http4k support "out-of-the-box" (both client and server)
 
 ---
 docs:
