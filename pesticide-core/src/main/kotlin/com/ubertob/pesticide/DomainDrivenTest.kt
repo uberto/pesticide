@@ -11,11 +11,18 @@ import kotlin.reflect.KProperty
 
 typealias DDT = TestFactory
 
-data class Setting<D : BoundedContextInterpreter<*>>(val setUp: DdtStep<D>)
+data class Setting<D : BoundedContextInterpreter<*>>(val setUp: DdtStep<D, Unit>)
+
+
+class FakeActor<D : BoundedContextInterpreter<*>> : DdtActor<D>() {
+    override val name: String = "Fake"
+}
 
 abstract class DomainDrivenTest<D : BoundedContextInterpreter<*>>(private val domains: Iterable<D>) {
 
-    fun play(vararg stepsArray: DdtStep<D>): Scenario<D> =
+    val fakeActor = FakeActor<D>()
+
+    fun play(vararg stepsArray: DdtStep<D, *>): Scenario<D> =
         Scenario(stepsArray.toList())
 
     fun Scenario<D>.wip(
@@ -37,11 +44,11 @@ abstract class DomainDrivenTest<D : BoundedContextInterpreter<*>>(private val do
 
 
     @JvmField
-    val withoutSetting: Setting<D> = Setting(DdtStep("Empty scenario") { it })
+    val withoutSetting: Setting<D> = Setting(DdtStep(fakeActor, "Empty scenario") { it })
 
     fun setting(
         block: D.() -> D
-    ): Setting<D> = Setting(DdtStep("Setting up the scenario", block))
+    ): Setting<D> = Setting(DdtStep(fakeActor, "Setting up the scenario", block))
 
 
     infix fun Setting<D>.atRise(steps: Scenario<D>): Scenario<D> =

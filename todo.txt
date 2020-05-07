@@ -1,5 +1,9 @@
 features:
 
+ActorWithContext for actors steps and setting as well
+
+example with actors as receivers
+
 nested scenarios: wrapping together steps for clarity
 
 http4k support "out-of-the-box" (both client and server)

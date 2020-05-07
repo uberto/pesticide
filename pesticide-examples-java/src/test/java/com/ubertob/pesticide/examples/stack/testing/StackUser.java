@@ -2,6 +2,7 @@ package com.ubertob.pesticide.examples.stack.testing;
 
 import com.ubertob.pesticide.DdtActor;
 import com.ubertob.pesticide.DdtStep;
+import kotlin.Unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +19,7 @@ public class StackUser extends DdtActor<StackInterpreter> {
         return name;
     }
 
-    public DdtStep<StackInterpreter> pushANumber(int x) {
+    public DdtStep<StackInterpreter, Unit> pushANumber(int x) {
         return stepWithDesc("push " + x + " into stack", domain -> {
             int size = domain.size();
             domain.pushNumber(x);
@@ -27,7 +28,7 @@ public class StackUser extends DdtActor<StackInterpreter> {
         });
     }
 
-    public DdtStep<StackInterpreter> popANumber(int expected) {
+    public DdtStep<StackInterpreter, Unit> popANumber(int expected) {
         return stepWithDesc("pop from stack and expect " + expected, domain -> {
                     int x = domain.popNumber();
 
@@ -36,7 +37,7 @@ public class StackUser extends DdtActor<StackInterpreter> {
         );
     }
 
-    public DdtStep<StackInterpreter> verifyStackSizeIs(int expected) {
+    public DdtStep<StackInterpreter, Unit> verifyStackSizeIs(int expected) {
         return stepWithDesc("verify stack size is " + expected,
                 domain -> {
                     assertThat(domain.size()).isEqualTo(expected);

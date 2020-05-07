@@ -1,21 +1,19 @@
 package com.ubertob.pesticide.examples.googlepage
 
 import com.ubertob.pesticide.DdtActor
-import com.ubertob.pesticide.DdtStep
 import strikt.api.expectThat
-import strikt.assertions.filter
-import strikt.assertions.hasSize
+import strikt.assertions.isGreaterThanOrEqualTo
 
 data class GoogleUser(override val name: String) : DdtActor<GooglePageInterpreter>() {
-    fun `search for`(searchText: String): DdtStep<GooglePageInterpreter> = stepWithDesc("searching for $searchText") {
+    fun `search for`(searchText: String) = stepWithDesc("searching for $searchText") {
         queryGoogle(searchText)
     }
 
-    fun `can see among results`(expectedText: String): DdtStep<GooglePageInterpreter> = step {
+    fun `can see among results`(expectedText: String) = step {
 
-        val results = getSearchResults()
+        val occurrences = getSearchResults().filter { it.contains(expectedText, true) }
 
-        expectThat(results).filter { it.contains(expectedText, true) }.hasSize(1)
+        expectThat(occurrences.size).isGreaterThanOrEqualTo(1)
     }
 
 }

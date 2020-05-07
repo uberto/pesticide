@@ -1,7 +1,6 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.DdtActor
-import com.ubertob.pesticide.DdtStep
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import strikt.api.expectThat
 import strikt.assertions.contains
@@ -33,7 +32,7 @@ data class PetBuyer(override val name: String) : DdtActor<PetShopInterpreter>() 
             BuyPet(petName).tryIt()
         }
 
-    fun `check that there are no more $ for sale`(petName: String): DdtStep<PetShopInterpreter> =
+    fun `check that there are no more $ for sale`(petName: String) =
         step(petName) {
             PetList() { pets ->
                 expectThat(pets.orEmpty()).doesNotContain(petName)

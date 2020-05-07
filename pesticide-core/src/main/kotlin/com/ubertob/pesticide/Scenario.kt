@@ -9,7 +9,10 @@ import java.util.concurrent.atomic.AtomicReference
 import kotlin.streams.asStream
 
 
-data class Scenario<D : BoundedContextInterpreter<*>>(val steps: Iterable<DdtStep<D>>, val wipData: WipData? = null) :
+data class Scenario<D : BoundedContextInterpreter<*>>(
+    val steps: Iterable<DdtStep<D, *>>,
+    val wipData: WipData? = null
+) :
         (D) -> DynamicContainer {
 
     var alreadyFailed = false
@@ -35,7 +38,7 @@ data class Scenario<D : BoundedContextInterpreter<*>>(val steps: Iterable<DdtSte
     }
 
     private fun createTest(
-        step: DdtStep<D>,
+        step: DdtStep<D, *>,
         currentDomain: AtomicReference<D>
     ): DynamicTest = dynamicTest(decorateTestName(currentDomain.get(), step), step.testSourceURI()) {
         currentDomain.set(execute(currentDomain.get(), step))
@@ -43,7 +46,7 @@ data class Scenario<D : BoundedContextInterpreter<*>>(val steps: Iterable<DdtSte
 
     private fun execute(
         domainUnderTest: D,
-        step: DdtStep<D>
+        step: DdtStep<D, *>
     ): D =
         checkWIP(wipData, domainUnderTest, {
             Assumptions.assumeFalse(alreadyFailed, "Skipped because of previous failures")
@@ -58,7 +61,7 @@ data class Scenario<D : BoundedContextInterpreter<*>>(val steps: Iterable<DdtSte
         })
 
 
-    private fun decorateTestName(domainUnderTest: D, step: DdtStep<D>) =
+    private fun decorateTestName(domainUnderTest: D, step: DdtStep<D, *>) =
         "${domainUnderTest.protocol.desc} - ${step.description}"
 
 
