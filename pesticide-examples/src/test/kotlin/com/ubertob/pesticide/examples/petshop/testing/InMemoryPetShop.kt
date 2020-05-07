@@ -22,21 +22,18 @@ class InMemoryPetShop() : PetShopInterpreter {
         }
 
 
-    override fun BuyPet.tryIt(): InMemoryPetShop {
+    override fun BuyPet.tryIt() {
         hub.buyPet(petName)
-        return this@InMemoryPetShop
     }
 
 
-    override fun PetPrice.askIt() =
-        this@InMemoryPetShop.apply {
-            verifyBlock(hub.getByName(petName)?.price)
-        }
+    override fun PetPrice.askIt() {
+        verifyBlock(hub.getByName(petName)?.price)
+    }
 
-    override fun PetList.askIt(): PetShopInterpreter =
-        this@InMemoryPetShop.apply {
-            verifyBlock(hub.getAll())
-        }
+    override fun PetList.askIt() {
+        verifyBlock(hub.getAll())
+    }
 
 
 }

@@ -48,7 +48,10 @@ abstract class DomainDrivenTest<D : BoundedContextInterpreter<*>>(private val do
 
     fun setting(
         block: D.() -> D
-    ): Setting<D> = Setting(DdtStep(fakeActor, "Setting up the scenario", block))
+    ): Setting<D> = Setting(DdtStep(fakeActor, "Setting up the scenario") {
+        block(this)
+        Unit
+    })
 
 
     infix fun Setting<D>.atRise(steps: Scenario<D>): Scenario<D> =

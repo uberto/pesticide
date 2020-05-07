@@ -14,6 +14,7 @@ data class GoogleUser(override val name: String) : DdtActor<GooglePageInterprete
         val occurrences = getSearchResults().filter { it.contains(expectedText, true) }
 
         expectThat(occurrences.size).isGreaterThanOrEqualTo(1)
+        Unit
     }
 
 }

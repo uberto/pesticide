@@ -36,14 +36,17 @@ data class Human(override val name: String) : DdtActor<FablesInterpreter>() {
         expectThat(girlLocation).isEqualTo(grandMaHouse)
         basket = basket?.copy(location = grandMaLocation)
         expectThat(basket?.value).isEqualTo(expectedValue)
+        Unit
     }
 
     fun `cannot jump out belly of Wolf`() = step {
         expectThat(wolfState).isNotEqualTo(dead)
+        Unit
     }
 
     fun `cannot give to GrandMa the goods`() = step {
         expectThat(girlLocation).isNotEqualTo(grandMaHouse)
+        Unit
     }
 
 }
@@ -63,6 +66,7 @@ data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
 
     fun `cannot go to GrandMa's house`() = step {
         expectThat(wolfState).isEqualTo(ignorant)
+        Unit
     }
 
     fun `goes to GrandMa's house`() = step(name) {

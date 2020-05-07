@@ -33,16 +33,15 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
         }
     }
 
-    override fun BuyPet.tryIt(): PetShopInterpreter {
+    override fun BuyPet.tryIt() {
 
         val req = Request(PUT, uri("pets/${petName}/buy"))
         val resp = client(req)
         expectThat(resp.status).isEqualTo(ACCEPTED)
 
-        return this@HttpRestPetshopDomain
     }
 
-    override fun PetPrice.askIt(): PetShopInterpreter {
+    override fun PetPrice.askIt() {
 
         val req = Request(GET, uri("pets/${petName}"))
         val resp = client(req)
@@ -53,11 +52,9 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
 
         verifyBlock(pet?.price)
 
-        return this@HttpRestPetshopDomain
-
     }
 
-    override fun PetList.askIt(): PetShopInterpreter {
+    override fun PetList.askIt() {
         val req = Request(GET, uri("pets"))
         val resp = client(req)
 
@@ -66,8 +63,6 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
         val pets = klaxon.parseArray<String>(resp.bodyString())
 
         verifyBlock(pets)
-
-        return this@HttpRestPetshopDomain
     }
 
     override val protocol = PureHttp("$host:$port")

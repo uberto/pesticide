@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.opentest4j.TestAbortedException
 import java.time.LocalDate
-import java.util.concurrent.atomic.AtomicReference
 import kotlin.streams.asStream
 
 
@@ -30,45 +29,50 @@ data class Scenario<D : BoundedContextInterpreter<*>>(
     }
 
     fun createTests(domain: D): Sequence<DynamicNode> {
-        val currentDomain = AtomicReference(domain)
+        val context = mutableMapOf<DdtActorWithContext<D, *>, Any>()
 
         return steps.map { step ->
-            createTest(step, currentDomain)
+            createTest(step, domain, context)
         }.asSequence()
     }
 
-    private fun createTest(
-        step: DdtStep<D, *>,
-        currentDomain: AtomicReference<D>
-    ): DynamicTest = dynamicTest(decorateTestName(currentDomain.get(), step), step.testSourceURI()) {
-        currentDomain.set(execute(currentDomain.get(), step))
+    private fun <C : Any> createTest(
+        step: DdtStep<D, C>,
+        domain: D,
+        contextMap: MutableMap<DdtActorWithContext<D, *>, Any>
+    ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI()) {
+        val context = contextMap[step.actor] as C?  //unfortunate... can we do without downcast?
+        val newContext = execute(domain, step, context)
+
+        newContext?.let { contextMap[step.actor] = it }
     }
 
-    private fun execute(
+    private fun <C : Any> execute(
         domainUnderTest: D,
-        step: DdtStep<D, *>
-    ): D =
-        checkWIP(wipData, domainUnderTest, {
+        step: DdtStep<D, C>,
+        context: C?
+    ): C? =
+        checkWIP(wipData, domainUnderTest, context) {
             Assumptions.assumeFalse(alreadyFailed, "Skipped because of previous failures")
 
             try {
-                step.action(domainUnderTest)
+                step.action(domainUnderTest, context)
             } catch (t: Throwable) {
                 alreadyFailed = true
                 throw t
             }
 
-        })
+        }
 
 
     private fun decorateTestName(domainUnderTest: D, step: DdtStep<D, *>) =
         "${domainUnderTest.protocol.desc} - ${step.description}"
 
 
-    private fun checkWIP(wipData: WipData?, domain: D, testBlock: (D) -> D): D =
+    private fun <C : Any> checkWIP(wipData: WipData?, domain: D, context: C?, testBlock: StepBlock<D, C>): C? =
         getDueDate(wipData, domain)
-            ?.let { executeInWIP(it, testBlock)(domain) }
-            ?: testBlock(domain)
+            ?.let { executeInWIP(it, testBlock)(domain, context) }
+            ?: testBlock(domain, context)
 
 
     private fun getDueDate(wipData: WipData?, domain: D): LocalDate? =
@@ -90,10 +94,10 @@ data class Scenario<D : BoundedContextInterpreter<*>>(
     fun BoundedContextInterpreter<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
 
 
-    private fun <D : BoundedContextInterpreter<*>> executeInWIP(
+    private fun <D : BoundedContextInterpreter<*>, C> executeInWIP(
         due: LocalDate,
-        testBlock: (D) -> D
-    ): (D) -> D = { domain ->
+        testBlock: StepBlock<D, C>
+    ): StepBlock<D, C> = { domain ->
         if (due < LocalDate.now()) {
             fail("Due date expired $due")
         } else {

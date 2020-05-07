@@ -9,10 +9,10 @@ import com.ubertob.pesticide.examples.petshop.model.Pet
 interface PetShopInterpreter : BoundedContextInterpreter<DdtProtocol> {
 
     fun populateShop(vararg pets: Pet): PetShopInterpreter
-    fun BuyPet.tryIt(): PetShopInterpreter
+    fun BuyPet.tryIt()
 
-    fun PetPrice.askIt(): PetShopInterpreter
-    fun PetList.askIt(): PetShopInterpreter
+    fun PetPrice.askIt()
+    fun PetList.askIt()
 }
 
 val allPetShopAbstractions = setOf(

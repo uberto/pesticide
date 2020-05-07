@@ -8,5 +8,6 @@ data class Student(override val name: String) : DdtActor<CalculatorInterpreter>(
     fun `add number $`(num: Int) = step(num) { addNumber(num) }
     fun `verifies the total is $`(expected: Int) = step(expected) {
         expectThat(getTotal()).isEqualTo(expected)
+        Unit
     }
 }
