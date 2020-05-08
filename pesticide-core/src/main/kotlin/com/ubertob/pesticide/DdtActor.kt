@@ -54,29 +54,22 @@ abstract class DdtActorWithContext<D : BoundedContextInterpreter<*>, C : Any> {
     private fun getCurrentMethodName() =
         Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
 
-    fun step(block: StepBlock<D, C>): DdtStep<D, C> =
-        stepWithDesc(step(), block)
 
-    private fun step() =
+    fun step(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
+        stepWithDesc(generateStepName(parameters), block)
+
+    fun step(block: StepBlock<D, C>): DdtStep<D, C> =
+        stepWithDesc(generateStepName(), block)
+
+    private fun generateStepName() =
         "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the meethod name
 
     private fun generateStepName(parameters: Array<out Any>) =
         "$name ${getCurrentMethodName()}".replaceDollars(parameters.map { it.toString() })
 
-    fun step(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
-        stepWithDesc(generateStepName(parameters), block)
 
     fun stepWithDesc(stepDesc: String, block: StepBlock<D, C>): DdtStep<D, C> =
-        DdtStep(this, stepDesc) {
-            block(this, it)
-        }
-
-
-//    //mainly for Java use
-//    fun stepWithDesc(stepDesc: String, block: Consumer<D>): DdtStep<D> =
-//        stepWithDesc(stepDesc, block::accept)
-
-
+        DdtStep(this, stepDesc, block)
 }
 
 private fun String.replaceDollars(parameters: List<String>): String = parameters

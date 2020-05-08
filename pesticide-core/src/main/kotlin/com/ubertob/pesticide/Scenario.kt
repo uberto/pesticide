@@ -36,6 +36,7 @@ data class Scenario<D : BoundedContextInterpreter<*>>(
         }.asSequence()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <C : Any> createTest(
         step: DdtStep<D, C>,
         domain: D,
