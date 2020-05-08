@@ -19,15 +19,23 @@ class FablesInterpreter : BoundedContextInterpreter<DdtProtocol> {
             grandMaLocation = Location.grandMaHouse
         }
 
-    fun prepareBasket(value: Int, location: Location) {
+    fun Human.prepareBasket(value: Int, location: Location) {
         basket = Basket(value, location)
     }
 
-    fun updateGirlLocation(location: Location) {
+    fun Human.updateGirlLocation(location: Location) {
         girlLocation = location
     }
 
-    fun updateWolfState(state: WolfState) {
+    fun Human.tellTheWolf() {
+        wolfState = WolfState.knowAboutGrandMa
+    }
+
+    fun Wolf.eatGirl() {
+        girlLocation = Location.insideTheWolfBelly
+    }
+
+    fun Wolf.updateWolfState(state: WolfState) {
         wolfState = state
     }
 

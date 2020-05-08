@@ -55,10 +55,23 @@ abstract class DdtActorWithContext<D : BoundedContextInterpreter<*>, C : Any> {
         Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
 
 
-    fun step(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
+    fun step(vararg parameters: Any, block: D.(C?) -> Unit): DdtStep<D, C> =
+        stepWithDesc(generateStepName(parameters)) {
+            block(this, it)
+            it
+        }
+
+    fun step(block: D.(C?) -> Unit): DdtStep<D, C> =
+        stepWithDesc(generateStepName()) {
+            block(this, it)
+            it
+        }
+
+
+    fun stepAndUpdate(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
         stepWithDesc(generateStepName(parameters), block)
 
-    fun step(block: StepBlock<D, C>): DdtStep<D, C> =
+    fun stepAndUpdate(block: StepBlock<D, C>): DdtStep<D, C> =
         stepWithDesc(generateStepName(), block)
 
     private fun generateStepName() =

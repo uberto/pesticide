@@ -19,7 +19,7 @@ data class Human(override val name: String) : DdtActor<FablesInterpreter>() {
 
     fun `tells the GrandMa location to Wolf`() = step {
         expectThat(girlLocation).isEqualTo(middleOfTheForest)
-        updateWolfState(knowAboutGrandMa)
+        tellTheWolf()
     }
 
     fun `goes to GrandMa's house`() = step {
@@ -36,17 +36,14 @@ data class Human(override val name: String) : DdtActor<FablesInterpreter>() {
         expectThat(girlLocation).isEqualTo(grandMaHouse)
         basket = basket?.copy(location = grandMaLocation)
         expectThat(basket?.value).isEqualTo(expectedValue)
-        Unit
     }
 
     fun `cannot jump out belly of Wolf`() = step {
         expectThat(wolfState).isNotEqualTo(dead)
-        Unit
     }
 
     fun `cannot give to GrandMa the goods`() = step {
         expectThat(girlLocation).isNotEqualTo(grandMaHouse)
-        Unit
     }
 
 }
@@ -55,7 +52,7 @@ data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
     fun `meets and eats the girl`() = step {
         expectThat(girlLocation).isEqualTo(grandMaHouse)
         expectThat(wolfState).isEqualTo(waitingForTheGirl)
-        updateGirlLocation(insideTheWolfBelly)
+        eatGirl()
         updateWolfState(sleepy)
     }
 
@@ -66,10 +63,9 @@ data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
 
     fun `cannot go to GrandMa's house`() = step {
         expectThat(wolfState).isEqualTo(ignorant)
-        Unit
     }
 
-    fun `goes to GrandMa's house`() = step(name) {
+    fun `goes to GrandMa's house`() = step(name) { context ->
         expectThat(wolfState).isEqualTo(knowAboutGrandMa)
         updateWolfState(waitingForTheGirl)
     }
