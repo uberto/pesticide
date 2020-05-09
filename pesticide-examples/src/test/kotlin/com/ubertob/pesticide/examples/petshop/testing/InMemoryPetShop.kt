@@ -30,5 +30,21 @@ class InMemoryPetShop() : PetShopInterpreter {
         verifyBlock(hub.getAll())
     }
 
+    override fun CartStatus.askIt() {
+        return TODO("not implemented")
+    }
+
+    override fun NewCart.createIt(): CartId {
+        return TODO("not implemented")
+    }
+
+    override fun AddToCart.tryIt() {
+        return TODO("not implemented")
+    }
+
+    override fun CheckOut.tryIt() {
+        return TODO("not implemented")
+    }
+
 
 }

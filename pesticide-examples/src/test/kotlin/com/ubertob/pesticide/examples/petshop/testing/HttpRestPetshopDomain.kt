@@ -66,6 +66,22 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
         verifyBlock(pets)
     }
 
+    override fun CartStatus.askIt() {
+        return TODO("not implemented")
+    }
+
+    override fun NewCart.createIt(): CartId {
+        return TODO("not implemented")
+    }
+
+    override fun AddToCart.tryIt() {
+        return TODO("not implemented")
+    }
+
+    override fun CheckOut.tryIt() {
+        return TODO("not implemented")
+    }
+
     override val protocol = PureHttp("$host:$port")
 
     var started = false

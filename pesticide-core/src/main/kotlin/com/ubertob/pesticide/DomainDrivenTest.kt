@@ -44,13 +44,12 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
 
 
     @JvmField
-    val withoutSetting: Setting<D> = Setting(DdtStep(fakeActor, "Empty scenario") { it })
+    val withoutSetting: Setting<D> = Setting(DdtStep(fakeActor, "Empty scenario") {})
 
     fun setting(
         block: D.() -> D
     ): Setting<D> = Setting(DdtStep(fakeActor, "Setting up the scenario") {
         block(this)
-        Unit
     })
 
 
@@ -64,5 +63,4 @@ class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<D, *>>(val ac
     ReadOnlyProperty<DomainDrivenTest<D>, A> {
     override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
         actorConstructor(property.name.capitalize())
-
 }

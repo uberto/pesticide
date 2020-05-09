@@ -8,6 +8,7 @@ import com.ubertob.pesticide.examples.petshop.testing.PetBuyer
 import com.ubertob.pesticide.examples.petshop.testing.PetShopInterpreter
 import com.ubertob.pesticide.examples.petshop.testing.ShopAssistant
 import com.ubertob.pesticide.examples.petshop.testing.allPetShopAbstractions
+import java.time.LocalDate
 
 
 class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopAbstractions) {
@@ -36,14 +37,15 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopAbstractions) 
             populateShop(lamb, hamster)
         } atRise play(
             mary.`check that the price of $ is $`("lamb", 64),
-            mary.`check that the price of $ is $`("hamster", 128)
-//            mary.`buy a $`("lamb"),
-//            mary.`check that there are no more $ for sale`("lamb")
-        )
-
+            mary.`check that the price of $ is $`("hamster", 128),
+            mary.`put $ into the cart`("lamb"),
+            mary.`check that there are no more $ for sale`("lamb"),
+            mary.`checkout with pets $`(listOf("lamb"))
+        ).wip(LocalDate.of(2020, 5, 15))
     }
 
-
+    //check that cannot add to cart after checkout
+    //check that different customer cannot see each other cart
 }
 
 

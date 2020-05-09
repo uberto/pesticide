@@ -106,7 +106,7 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             fail("Due date expired $due")
         } else {
             try {
-                testBlock
+                testBlock()
             } catch (aborted: TestAbortedExceptionWIP) {
                 throw aborted //nothing to do here
             } catch (t: Throwable) {

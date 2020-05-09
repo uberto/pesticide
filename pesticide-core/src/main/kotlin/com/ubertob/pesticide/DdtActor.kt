@@ -46,7 +46,8 @@ abstract class DdtActor<D : DomainInterpreter<*>> : DdtActorWithContext<D, Unit>
 }
 
 data class StepContext<C>(val context: C?, private val contextUpdater: (C?) -> Unit) {
-    fun updateContext(newContext: C?) = contextUpdater(newContext)
+    fun updateContext(newContext: C) = contextUpdater(newContext)
+    fun deleteContext() = contextUpdater(null)
 }
 
 typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
@@ -66,7 +67,7 @@ abstract class DdtActorWithContext<D : DomainInterpreter<*>, C : Any> {
         stepWithDesc(generateStepName(), block)
 
     private fun generateStepName() =
-        "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the meethod name
+        "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the method name
 
     private fun generateStepName(parameters: Array<out Any>) =
         "$name ${getCurrentMethodName()}".replaceDollars(parameters.map { it.toString() })
