@@ -6,9 +6,11 @@ import com.ubertob.pesticide.NotReady
 import com.ubertob.pesticide.PureHttp
 import com.ubertob.pesticide.Ready
 import com.ubertob.pesticide.examples.petshop.http.PetShopHandler
+import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
 import org.http4k.client.JettyClient
+import org.http4k.core.Method
 import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
 import org.http4k.core.Request
@@ -19,7 +21,7 @@ import org.http4k.server.asServer
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterpreter {
+class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
 
     val client = JettyClient()
 
@@ -33,14 +35,6 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
             expectThat(resp.status).isEqualTo(ACCEPTED)
         }
     }
-
-//    fun BuyPet.tryIt() {
-//
-//        val req = Request(PUT, uri("pets/${petName}/buy"))
-//        val resp = client(req)
-//        expectThat(resp.status).isEqualTo(ACCEPTED)
-//
-//    }
 
     override fun PetPrice.askIt() {
 
@@ -67,19 +61,33 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
     }
 
     override fun CartStatus.askIt() {
-        return TODO("not implemented")
+        val req = Request(GET, uri("cart/$cartId"))
+        val resp = client(req)
+
+        expectThat(resp.status).isEqualTo(OK)
+
+        val cart = klaxon.parse<Cart>(resp.bodyString())
+
+        verifyBlock(cart)
     }
 
-    override fun NewCart.createIt(): CartId {
-        return TODO("not implemented")
+    override fun NewCart.createIt(): CartId? {
+        val req = Request(POST, uri("cart"))
+        val resp = client(req)
+        expectThat(resp.status).isEqualTo(ACCEPTED)
+        return klaxon.parse<Cart>(resp.bodyString())?.id
     }
 
     override fun AddToCart.tryIt() {
-        return TODO("not implemented")
+        val req = Request(Method.PUT, uri("cart/$cartId/add/$petName"))
+        val resp = client(req)
+        expectThat(resp.status).isEqualTo(ACCEPTED)
     }
 
     override fun CheckOut.tryIt() {
-        return TODO("not implemented")
+        val req = Request(Method.PUT, uri("cart/$cartId/checkout"))
+        val resp = client(req)
+        expectThat(resp.status).isEqualTo(ACCEPTED)
     }
 
     override val protocol = PureHttp("$host:$port")

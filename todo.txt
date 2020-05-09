@@ -7,8 +7,6 @@ http4k support "out-of-the-box" (both client and server)
 ---
 docs:
 
-Example with actor context
-
 PetShop similar example in Java
 
 Write blog post on how to create DDTs and what are the responsibilities of each part

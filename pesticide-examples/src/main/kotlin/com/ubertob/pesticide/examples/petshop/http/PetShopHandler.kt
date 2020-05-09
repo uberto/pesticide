@@ -18,7 +18,7 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
         "/cart" bind Method.POST to ::createCart,
         "/cart/{cartId}" bind Method.GET to ::cartDetails,
         "/cart/{cartId}/add/{petName}" bind Method.PUT to ::addPetToCart,
-        "/cart/{cartId}/checkout" bind Method.POST to ::checkout
+        "/cart/{cartId}/checkout" bind Method.PUT to ::checkout
     )
 
     fun petDetails(request: Request): Response =

@@ -2,6 +2,7 @@ package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.DdtActorWithContext
 import com.ubertob.pesticide.examples.petshop.model.Pet
+import org.junit.jupiter.api.Assertions.fail
 import strikt.api.expectThat
 import strikt.assertions.containsExactly
 import strikt.assertions.doesNotContain
@@ -20,16 +21,17 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
 
     fun `put $ into the cart`(petName: String) =
         step(petName) { cxt ->
-            val cartId = cxt.context ?: NewCart.createIt()
+            val cartId = cxt.context ?: NewCart.createIt() ?: fail("No CartId")
             AddToCart(cartId, petName).tryIt()
             cxt.updateContext(cartId)
         }
 
-    fun `checkout with pets $`(pets: Iterable<String>) =
-        step(pets) { ctx ->
+    fun `checkout with pets $`(vararg pets: String) =
+        step(pets.asList().joinToString(",")) { ctx ->
             val cartId = ctx.context!!
             CartStatus(cartId) { cart ->
-                expectThat(cart.pets.map(Pet::name)).containsExactly(pets)
+                val petList = cart?.pets?.map(Pet::name).orEmpty()
+                expectThat(petList).containsExactly(pets.toList())
             }.askIt()
 
 
