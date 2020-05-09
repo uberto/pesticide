@@ -65,7 +65,7 @@ data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
         expectThat(wolfState).isEqualTo(ignorant)
     }
 
-    fun `goes to GrandMa's house`() = step(name) { context ->
+    fun `goes to GrandMa's house`() = step(name) {
         expectThat(wolfState).isEqualTo(knowAboutGrandMa)
         updateWolfState(waitingForTheGirl)
     }

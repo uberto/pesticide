@@ -22,11 +22,6 @@ class InMemoryPetShop() : PetShopInterpreter {
         }
 
 
-    override fun BuyPet.tryIt() {
-        hub.buyPet(petName)
-    }
-
-
     override fun PetPrice.askIt() {
         verifyBlock(hub.getByName(petName)?.price)
     }

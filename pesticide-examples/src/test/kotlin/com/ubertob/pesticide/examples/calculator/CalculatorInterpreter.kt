@@ -9,7 +9,7 @@ fun allCalculatorInterpreters() = setOf(
     FakeHttpCalculator()
 )
 
-interface CalculatorInterpreter : BoundedContextInterpreter<DdtProtocol> {
+interface CalculatorInterpreter : DomainInterpreter<DdtProtocol> {
     fun addNumber(num: Int)
 
     fun getTotal(): Int

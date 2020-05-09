@@ -11,32 +11,32 @@ import kotlin.reflect.KProperty
 
 typealias DDT = TestFactory
 
-data class Setting<D : BoundedContextInterpreter<*>>(val setUp: DdtStep<D, Unit>)
+data class Setting<D : DomainInterpreter<*>>(val setUp: DdtStep<D, Unit>)
 
 
-class FakeActor<D : BoundedContextInterpreter<*>> : DdtActor<D>() {
+class FakeActor<D : DomainInterpreter<*>> : DdtActor<D>() {
     override val name: String = "Fake"
 }
 
-abstract class DomainDrivenTest<D : BoundedContextInterpreter<*>>(private val domains: Iterable<D>) {
+abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: Iterable<D>) {
 
     val fakeActor = FakeActor<D>()
 
-    fun play(vararg stepsArray: DdtStep<D, *>): Scenario<D> =
-        Scenario(stepsArray.toList())
+    fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
+        DdtScenario(stepsArray.toList())
 
-    fun Scenario<D>.wip(
+    fun DdtScenario<D>.wip(
         dueDate: LocalDate,
         reason: String = "Work In Progress",
         except: Set<KClass<out DdtProtocol>> = emptySet()
-    ): Scenario<D> =
+    ): DdtScenario<D> =
         this.copy(wipData = WipData(dueDate, except, reason))
 
     val timeoutInMillis = 1000
 
 
     fun ddtScenario(
-        scenarioBuilder: () -> Scenario<D>
+        scenarioBuilder: () -> DdtScenario<D>
     ): Stream<DynamicContainer> =
         domains.map {
             scenarioBuilder()(it)
@@ -54,13 +54,13 @@ abstract class DomainDrivenTest<D : BoundedContextInterpreter<*>>(private val do
     })
 
 
-    infix fun Setting<D>.atRise(steps: Scenario<D>): Scenario<D> =
-        Scenario(listOf(this.setUp) + steps.steps, steps.wipData) //add source URL
+    infix fun Setting<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
+        DdtScenario(listOf(this.setUp) + steps.steps, steps.wipData) //add source URL
 
 }
 
 
-class NamedActor<D : BoundedContextInterpreter<*>, A : DdtActor<D>>(val actorConstructor: (String) -> A) :
+class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<D, *>>(val actorConstructor: (String) -> A) :
     ReadOnlyProperty<DomainDrivenTest<D>, A> {
     override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
         actorConstructor(property.name.capitalize())

@@ -8,7 +8,7 @@ import java.time.LocalDate
 import kotlin.streams.asStream
 
 
-data class Scenario<D : BoundedContextInterpreter<*>>(
+data class DdtScenario<D : DomainInterpreter<*>>(
     val steps: Iterable<DdtStep<D, *>>,
     val wipData: WipData? = null
 ) :
@@ -23,16 +23,16 @@ data class Scenario<D : BoundedContextInterpreter<*>>(
             createTests(domain)
         }
 
-        val inWip = getDueDate(wipData, domain)?.let { "WIP till $it - " } ?: ""
+        val inWip = getDueDate(wipData, domain.protocol)?.let { "WIP till $it - " } ?: ""
 
         return DynamicContainer.dynamicContainer("$inWip${domain.description()}", tests.asStream())
     }
 
-    fun createTests(domain: D): Sequence<DynamicNode> {
-        val context = mutableMapOf<DdtActorWithContext<D, *>, Any>()
+    private fun createTests(domain: D): Sequence<DynamicNode> {
+        val contextMap = mutableMapOf<DdtActorWithContext<D, *>, Any?>()
 
         return steps.map { step ->
-            createTest(step, domain, context)
+            createTest(step, domain, contextMap)
         }.asSequence()
     }
 
@@ -40,44 +40,47 @@ data class Scenario<D : BoundedContextInterpreter<*>>(
     private fun <C : Any> createTest(
         step: DdtStep<D, C>,
         domain: D,
-        contextMap: MutableMap<DdtActorWithContext<D, *>, Any>
+        contextMap: MutableMap<DdtActorWithContext<D, *>, Any?>
     ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI()) {
         val context = contextMap[step.actor] as C?  //unfortunate... can we do without downcast?
-        val newContext = execute(domain, step, context)
 
-        newContext?.let { contextMap[step.actor] = it }
+        val stepContext = StepContext(context) { contextMap[step.actor] = it }
+
+        execute(domain, step, stepContext)
+
     }
 
     private fun <C : Any> execute(
-        domainUnderTest: D,
+        interpreter: D,
         step: DdtStep<D, C>,
-        context: C?
-    ): C? =
-        checkWIP(wipData, domainUnderTest, context) {
+        stepContext: StepContext<C>
+    ) {
+        checkWIP(wipData, interpreter.protocol) {
             Assumptions.assumeFalse(alreadyFailed, "Skipped because of previous failures")
 
             try {
-                step.action(domainUnderTest, context)
+                step.action(interpreter, stepContext)
             } catch (t: Throwable) {
                 alreadyFailed = true
                 throw t
             }
 
         }
+    }
 
 
     private fun decorateTestName(domainUnderTest: D, step: DdtStep<D, *>) =
         "${domainUnderTest.protocol.desc} - ${step.description}"
 
 
-    private fun <C : Any> checkWIP(wipData: WipData?, domain: D, context: C?, testBlock: StepBlock<D, C>): C? =
-        getDueDate(wipData, domain)
-            ?.let { executeInWIP(it, testBlock)(domain, context) }
-            ?: testBlock(domain, context)
+    private fun checkWIP(wipData: WipData?, protocol: DdtProtocol, testBlock: () -> Unit) =
+        getDueDate(wipData, protocol)
+            ?.let { executeInWIP(it, testBlock) }
+            ?: testBlock()
 
 
-    private fun getDueDate(wipData: WipData?, domain: D): LocalDate? =
-        if (wipData == null || wipData.shouldWorkFor(domain.protocol))
+    private fun getDueDate(wipData: WipData?, protocol: DdtProtocol): LocalDate? =
+        if (wipData == null || wipData.shouldWorkFor(protocol))
             null
         else
             wipData.dueDate
@@ -92,18 +95,18 @@ data class Scenario<D : BoundedContextInterpreter<*>>(
             )
         }
 
-    fun BoundedContextInterpreter<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
+    fun DomainInterpreter<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
 
 
-    private fun <D : BoundedContextInterpreter<*>, C> executeInWIP(
+    private fun executeInWIP(
         due: LocalDate,
-        testBlock: StepBlock<D, C>
-    ): StepBlock<D, C> = { domain ->
+        testBlock: () -> Unit
+    ) {
         if (due < LocalDate.now()) {
             fail("Due date expired $due")
         } else {
             try {
-                testBlock(domain)
+                testBlock
             } catch (aborted: TestAbortedExceptionWIP) {
                 throw aborted //nothing to do here
             } catch (t: Throwable) {

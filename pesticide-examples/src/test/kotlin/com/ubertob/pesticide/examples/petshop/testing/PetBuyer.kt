@@ -1,24 +1,13 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.DdtActor
-import com.ubertob.pesticide.examples.petshop.model.Pet
+import com.ubertob.pesticide.DdtActorWithContext
 import strikt.api.expectThat
-import strikt.assertions.contains
 import strikt.assertions.doesNotContain
 import strikt.assertions.isEqualTo
-import strikt.assertions.isNotNull
 
+typealias CartId = Int
 
-data class ShopAssistant(override val name: String) : DdtActor<PetShopInterpreter>() {
-
-    fun `check that $ is in the shop`(pet: Pet) = step(pet.name) {
-        PetList { pets: List<String>? ->
-            expectThat(pets).isNotNull().contains(pet.name)
-        }.askIt()
-    }
-}
-
-data class PetBuyer(override val name: String) : DdtActor<PetShopInterpreter>() {
+data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInterpreter, CartId>() {
 
     fun `check that the price of $ is $`(petName: String, expectedPrice: Int) =
         step(petName, expectedPrice) {
@@ -27,10 +16,18 @@ data class PetBuyer(override val name: String) : DdtActor<PetShopInterpreter>() 
             }.askIt()
         }
 
-    fun `buy a $`(petName: String) =
-        step(petName) {
-            BuyPet(petName).tryIt()
-        }
+//    fun `put $ into the cart`(petName: String) =
+//        stepAndUpdate(petName) {
+//            val cartId = GetCart(){ }.askIt()
+//
+//            PutPetIntoCart(petName, cartId).tryIt()
+//            cartId
+//        }
+//
+//    fun `checkout with pets $`(pets: List<String>) =
+//        step(pets) {
+//            BuyPet(petName).tryIt()
+//        }
 
     fun `check that there are no more $ for sale`(petName: String) =
         step(petName) {

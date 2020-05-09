@@ -9,7 +9,8 @@ import com.ubertob.pesticide.examples.petshop.http.PetShopHandler
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
 import org.http4k.client.JettyClient
-import org.http4k.core.Method.*
+import org.http4k.core.Method.GET
+import org.http4k.core.Method.POST
 import org.http4k.core.Request
 import org.http4k.core.Status.Companion.ACCEPTED
 import org.http4k.core.Status.Companion.OK
@@ -33,13 +34,13 @@ class HttpRestPetshopDomain(val host: String, val port: Int) : PetShopInterprete
         }
     }
 
-    override fun BuyPet.tryIt() {
-
-        val req = Request(PUT, uri("pets/${petName}/buy"))
-        val resp = client(req)
-        expectThat(resp.status).isEqualTo(ACCEPTED)
-
-    }
+//    fun BuyPet.tryIt() {
+//
+//        val req = Request(PUT, uri("pets/${petName}/buy"))
+//        val resp = client(req)
+//        expectThat(resp.status).isEqualTo(ACCEPTED)
+//
+//    }
 
     override fun PetPrice.askIt() {
 

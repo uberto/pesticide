@@ -14,8 +14,11 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
     val petShopRoutes: HttpHandler = routes(
         "/pets" bind Method.GET to ::listPets,
         "/pets/{name}" bind Method.GET to ::petDetails,
-        "/pets" bind Method.POST to ::addPet,
-        "/pets/{name}/buy" bind Method.PUT to ::buyPet
+        "/pets" bind Method.POST to ::addPetToShop,
+        "/cart" bind Method.POST to ::createCart,
+        "/cart/{cartId}" bind Method.GET to ::cartDetails,
+        "/cart/{cartId}/add/{petName}" bind Method.PUT to ::addPetToCart,
+        "/cart/{cartId}/checkout" bind Method.POST to ::checkout
     )
 
     fun petDetails(request: Request): Response =
@@ -26,19 +29,26 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
                     .body(klaxon.toJsonString(it))
             } ?: Response(Status.BAD_REQUEST)
 
-    fun buyPet(request: Request): Response =
-        request.path("name")
-            ?.let {
-                hub.buyPet(it)
-                Response(Status.ACCEPTED)
+    fun addPetToCart(request: Request): Response =
+        request.path("cartId")
+            ?.let { cartId ->
+                request.path("petName")?.let {
+                    hub.addPetToCart(cartId.asCartId(), it)
+                    Response(Status.ACCEPTED)
+                }
             } ?: Response(Status.BAD_REQUEST)
 
-    fun addPet(request: Request): Response =
+    fun addPetToShop(request: Request): Response =
         klaxon.parse<Pet>(request.bodyString())
             ?.let {
                 hub.addPet(it)
                 Response(Status.ACCEPTED)
             } ?: Response(Status.BAD_REQUEST)
+
+    fun createCart(request: Request): Response =
+        Response(Status.ACCEPTED).body(
+            klaxon.toJsonString(hub.createCart())
+        )
 
 
     fun listPets(request: Request): Response =
@@ -46,7 +56,25 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
             klaxon.toJsonString(hub.getAll())
         )
 
+    fun cartDetails(request: Request): Response =
+        request.path("cartId")
+            ?.let { hub.getCart(it.asCartId()) }
+            ?.let {
+                Response(Status.OK)
+                    .body(klaxon.toJsonString(it))
+            } ?: Response(Status.BAD_REQUEST)
+
+    fun checkout(request: Request): Response =
+        request.path("cartId")
+            ?.let {
+                Response(Status.ACCEPTED).body(
+                    klaxon.toJsonString(hub.cartCheckout(it.asCartId()))
+                )
+            } ?: Response(Status.BAD_REQUEST)
+
     val klaxon = Klaxon()
 
     override fun invoke(request: Request): Response = petShopRoutes(request)
+
+    fun String.asCartId(): Int = toIntOrNull() ?: -1
 }

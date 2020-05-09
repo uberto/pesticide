@@ -5,7 +5,7 @@ import java.net.URI
 import java.util.function.Consumer
 
 
-data class DdtStep<D : BoundedContextInterpreter<*>, C : Any>(
+data class DdtStep<D : DomainInterpreter<*>, C : Any>(
     val actor: DdtActorWithContext<D, C>,
     val description: String,
     val action: StepBlock<D, C>
@@ -33,7 +33,7 @@ private val sourceRoot = listOf(
     File("src/test/java")
 ).find { it.isDirectory } ?: File(".")  //TODO make sure it works for others as well
 
-abstract class DdtActor<D : BoundedContextInterpreter<*>> : DdtActorWithContext<D, Unit>() {
+abstract class DdtActor<D : DomainInterpreter<*>> : DdtActorWithContext<D, Unit>() {
 
     fun stepWithDesc(
         stepDesc: String,
@@ -45,9 +45,13 @@ abstract class DdtActor<D : BoundedContextInterpreter<*>> : DdtActorWithContext<
         }
 }
 
-typealias StepBlock<D, C> = D.(C?) -> C?
+data class StepContext<C>(val context: C?, private val contextUpdater: (C?) -> Unit) {
+    fun updateContext(newContext: C?) = contextUpdater(newContext)
+}
 
-abstract class DdtActorWithContext<D : BoundedContextInterpreter<*>, C : Any> {
+typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
+
+abstract class DdtActorWithContext<D : DomainInterpreter<*>, C : Any> {
 
     abstract val name: String
 
@@ -55,23 +59,10 @@ abstract class DdtActorWithContext<D : BoundedContextInterpreter<*>, C : Any> {
         Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
 
 
-    fun step(vararg parameters: Any, block: D.(C?) -> Unit): DdtStep<D, C> =
-        stepWithDesc(generateStepName(parameters)) {
-            block(this, it)
-            it
-        }
-
-    fun step(block: D.(C?) -> Unit): DdtStep<D, C> =
-        stepWithDesc(generateStepName()) {
-            block(this, it)
-            it
-        }
-
-
-    fun stepAndUpdate(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
+    fun step(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
         stepWithDesc(generateStepName(parameters), block)
 
-    fun stepAndUpdate(block: StepBlock<D, C>): DdtStep<D, C> =
+    fun step(block: StepBlock<D, C>): DdtStep<D, C> =
         stepWithDesc(generateStepName(), block)
 
     private fun generateStepName() =

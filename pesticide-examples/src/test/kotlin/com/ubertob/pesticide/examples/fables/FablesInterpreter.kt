@@ -2,7 +2,7 @@ package com.ubertob.pesticide.examples.fables
 
 import com.ubertob.pesticide.*
 
-class FablesInterpreter : BoundedContextInterpreter<DdtProtocol> {
+class FablesInterpreter : DomainInterpreter<DdtProtocol> {
     override val protocol: DdtProtocol = InMemoryHubs
 
     lateinit var grandMaLocation: Location

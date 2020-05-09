@@ -1,13 +1,13 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
 
-import com.ubertob.pesticide.BoundedContextInterpreter;
 import com.ubertob.pesticide.DdtProtocol;
+import com.ubertob.pesticide.DomainInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface StackInterpreter extends BoundedContextInterpreter<DdtProtocol> {
+public interface StackInterpreter extends DomainInterpreter<DdtProtocol> {
     void pushNumber(int num);
 
     int popNumber();

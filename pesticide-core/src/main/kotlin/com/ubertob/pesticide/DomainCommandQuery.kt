@@ -21,10 +21,10 @@ data class CQDomainApi<D : DomainUnderTest<*>>(
 */
 
 
-interface DomainAction<D : BoundedContextInterpreter<*>>
+interface DomainAction<D : DomainInterpreter<*>>
 
-interface DomainQuery<D : BoundedContextInterpreter<*>, T> : DomainAction<D> {
+interface DomainQuery<D : DomainInterpreter<*>, T> : DomainAction<D> {
     val verifyBlock: (T) -> Any?
 }
 
-interface DomainCommand<D : BoundedContextInterpreter<*>> : DomainAction<D>
+interface DomainCommand<D : DomainInterpreter<*>> : DomainAction<D>
