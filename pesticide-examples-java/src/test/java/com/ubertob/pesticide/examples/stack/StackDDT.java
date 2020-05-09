@@ -58,7 +58,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
                 }),
                 wip(
                         play(sabine.popANumber(4)),
-                        LocalDate.of(2100, 01, 01), "Impossible Stack", new HashSet<>()
+                        LocalDate.of(2100, 1, 1), "Impossible Stack", new HashSet<>()
                 )
         ));
     }
