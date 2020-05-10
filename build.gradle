@@ -4,7 +4,7 @@ plugins {
 allprojects {
 
     group 'com.ubertob.pesticide'
-    version '0.9.10'
+    version '0.9.11-SNAPSHOT'
 
     repositories {
         mavenCentral()
@@ -12,7 +12,7 @@ allprojects {
     }
 
     wrapper {
-        gradleVersion = "6.3"
+        gradleVersion = "6.4"
     }
 
     compileKotlin {
