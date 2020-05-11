@@ -11,21 +11,20 @@ import kotlin.streams.asStream
 data class DdtScenario<D : DomainInterpreter<*>>(
     val steps: Iterable<DdtStep<D, *>>,
     val wipData: WipData? = null
-) :
-        (D) -> DynamicContainer {
+) : (D) -> DynamicContainer {
 
     var alreadyFailed = false
 
-    override fun invoke(domain: D): DynamicContainer {
-        assertEquals(Ready, domain.prepare(), "Protocol ${domain.protocol.desc} ready")
+    override fun invoke(domainInterpreter: D): DynamicContainer {
+        assertEquals(Ready, domainInterpreter.prepare(), "Protocol ${domainInterpreter.protocol.desc} ready")
 
         val tests = trapUnexpectedExceptions {
-            createTests(domain)
+            createTests(domainInterpreter)
         }
 
-        val inWip = getDueDate(wipData, domain.protocol)?.let { "WIP till $it - " } ?: ""
+        val inWip = getDueDate(wipData, domainInterpreter.protocol)?.let { "WIP till $it - " } ?: ""
 
-        return DynamicContainer.dynamicContainer("$inWip${domain.description()}", tests.asStream())
+        return DynamicContainer.dynamicContainer("$inWip${domainInterpreter.description()}", tests.asStream())
     }
 
     private fun createTests(domain: D): Sequence<DynamicNode> {
@@ -95,7 +94,7 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             )
         }
 
-    fun DomainInterpreter<*>.description(): String = "${javaClass.simpleName} - ${protocol.desc}"
+    fun DomainInterpreter<*>.description(): String = "${javaClass.simpleName}"
 
 
     private fun executeInWIP(

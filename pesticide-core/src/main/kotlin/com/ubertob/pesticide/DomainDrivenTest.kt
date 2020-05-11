@@ -2,6 +2,7 @@ package com.ubertob.pesticide
 
 import org.junit.jupiter.api.DynamicContainer
 import org.junit.jupiter.api.TestFactory
+import org.junit.jupiter.api.fail
 import java.time.LocalDate
 import java.util.function.Consumer
 import java.util.stream.Stream
@@ -39,9 +40,9 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     fun ddtScenario(
         scenarioBuilder: () -> DdtScenario<D>
     ): Stream<DynamicContainer> =
-        domains.map {
-            scenarioBuilder()(it)
-        }.toList().stream()
+        domains.map(scenarioBuilder())
+            .ifEmpty { fail("No protocols selected!") }
+            .stream()
 
 
     @JvmField

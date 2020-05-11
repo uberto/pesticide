@@ -7,10 +7,10 @@ import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.testing.PetBuyer
 import com.ubertob.pesticide.examples.petshop.testing.PetShopInterpreter
 import com.ubertob.pesticide.examples.petshop.testing.ShopAssistant
-import com.ubertob.pesticide.examples.petshop.testing.allPetShopAbstractions
+import com.ubertob.pesticide.examples.petshop.testing.allPetShopInterpreters
 
 
-class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopAbstractions) {
+class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) {
 
     val mary by NamedActor(::PetBuyer)
     val bert by NamedActor(::PetBuyer)

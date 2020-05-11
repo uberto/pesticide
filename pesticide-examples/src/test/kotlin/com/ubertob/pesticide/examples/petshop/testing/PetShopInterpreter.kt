@@ -20,8 +20,8 @@ interface PetShopInterpreter : DomainInterpreter<DdtProtocol> {
     fun CheckOut.tryIt()
 }
 
-val allPetShopAbstractions = setOf(
-    InMemoryPetShop(),
+val allPetShopInterpreters = setOf(
+    DomainOnlyPetShop(),
     HttpRestPetshop("localhost", 8082)
 )
 
