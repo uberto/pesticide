@@ -53,13 +53,13 @@ Maven
 <dependency>
   <groupId>com.ubertob.pesticide</groupId>
   <artifactId>pesticide-core</artifactId>
-  <version>0.9.10</version>
+  <version>0.9.12</version>
 </dependency>
 ```
 
 Gradle
 ```
-testImplementation 'com.ubertob.pesticide:pesticide-core:0.9.10'
+testImplementation 'com.ubertob.pesticide:pesticide-core:0.9.12'
 ```
 
 ## Acknowledgement
