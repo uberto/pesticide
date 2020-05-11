@@ -13,6 +13,7 @@ import com.ubertob.pesticide.examples.petshop.testing.allPetShopAbstractions
 class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopAbstractions) {
 
     val mary by NamedActor(::PetBuyer)
+    val bert by NamedActor(::PetBuyer)
 
     val adam by NamedActor(::ShopAssistant)
 
@@ -43,8 +44,22 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopAbstractions) 
         )
     }
 
+    @DDT
+    fun `mary buys a lamb and bert buys a hamster`() = ddtScenario {
+        val lamb = Pet("lamb", 64)
+        val hamster = Pet("hamster", 128)
+        setting {
+            populateShop(lamb, hamster)
+        } atRise play(
+            mary.`put $ into the cart`("lamb"),
+            bert.`check that there are no more $ for sale`("lamb"),
+            bert.`put $ into the cart`("hamster"),
+            mary.`checkout with pets $`("lamb"),
+            bert.`checkout with pets $`("hamster")
+        )
+    }
+
     //check that cannot add to cart after checkout
-    //check that different customer cannot see each other cart
 }
 
 
