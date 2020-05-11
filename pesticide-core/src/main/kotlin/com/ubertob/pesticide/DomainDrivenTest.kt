@@ -3,6 +3,7 @@ package com.ubertob.pesticide
 import org.junit.jupiter.api.DynamicContainer
 import org.junit.jupiter.api.TestFactory
 import java.time.LocalDate
+import java.util.function.Consumer
 import java.util.stream.Stream
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KClass
@@ -46,12 +47,13 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     @JvmField
     val withoutSetting: Setting<D> = Setting(DdtStep(fakeActor, "Empty scenario") {})
 
-    fun setting(
-        block: D.() -> D
-    ): Setting<D> = Setting(DdtStep(fakeActor, "Setting up the scenario") {
-        block(this)
-    })
+    fun setting(block: D.() -> Unit): Setting<D> =
+        Setting(DdtStep(fakeActor, "Setting up the scenario") {
+            block(this)
+        })
 
+    //useful for Java
+    fun onSetting(block: Consumer<D>): Setting<D> = setting { block.accept(this) }
 
     infix fun Setting<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
         DdtScenario(listOf(this.setUp) + steps.steps, steps.wipData) //add source URL

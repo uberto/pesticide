@@ -3,6 +3,15 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v0.9.12
+- going back in using api for JUnit dependency because of IntelliJ resolution
+- settings block doesn't require a result
+- if no protocols is selected, the test will fail
+- changed protocol InMemoryHubs to DomainOnly and PureHttp to Http
+
+### v0.9.11
+- using implementation instead of api for JUnit dependency because of IntelliJ resolution
+
 ### v0.9.10
 - changed name of class BoundedContextInterpreter to DomainInterpreter
 - added ActorWithContext class for Actors that must store and retrive info during the test

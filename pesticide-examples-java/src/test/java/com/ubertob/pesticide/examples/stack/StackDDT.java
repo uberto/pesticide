@@ -52,10 +52,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
     @TestFactory
     public Stream<DynamicContainer> testWorkInProgress() {
         return ddtScenario(() -> atRise(
-                setting(d -> {
-                    d.pushNumber(5);
-                    return d;
-                }),
+                onSetting(d -> d.pushNumber(5)),
                 wip(
                         play(sabine.popANumber(4)),
                         LocalDate.of(2100, 1, 1), "Impossible Stack", new HashSet<>()

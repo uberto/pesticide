@@ -1,7 +1,7 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
+import com.ubertob.pesticide.DomainOnly
 import com.ubertob.pesticide.DomainSetUp
-import com.ubertob.pesticide.InMemoryHubs
 import com.ubertob.pesticide.Ready
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
@@ -10,7 +10,7 @@ class InMemoryPetShop() : PetShopInterpreter {
 
     private val hub = PetShopHub()
 
-    override val protocol = InMemoryHubs
+    override val protocol = DomainOnly
 
     override fun prepare(): DomainSetUp = Ready
 

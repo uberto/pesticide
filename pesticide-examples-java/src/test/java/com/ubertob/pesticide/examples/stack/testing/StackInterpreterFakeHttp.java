@@ -2,7 +2,7 @@ package com.ubertob.pesticide.examples.stack.testing;
 
 import com.ubertob.pesticide.DdtProtocol;
 import com.ubertob.pesticide.DomainSetUp;
-import com.ubertob.pesticide.PureHttp;
+import com.ubertob.pesticide.Http;
 import com.ubertob.pesticide.Ready;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +29,7 @@ public class StackInterpreterFakeHttp implements StackInterpreter {
 
     @Override
     public DdtProtocol getProtocol() {
-        return new PureHttp("local");
+        return new Http("local");
     }
 
     @NotNull

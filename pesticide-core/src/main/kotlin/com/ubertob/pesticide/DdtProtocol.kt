@@ -4,11 +4,11 @@ interface DdtProtocol {
     val desc: String
 }
 
-object InMemoryHubs : DdtProtocol {
-    override val desc: String = "InMemory"
+object DomainOnly : DdtProtocol {
+    override val desc: String = "DomainOnly"
 }
 
-data class PureHttp(val environmentName: String) : DdtProtocol {
+data class Http(val environmentName: String) : DdtProtocol {
     override val desc: String = "Http $environmentName"
 }
 

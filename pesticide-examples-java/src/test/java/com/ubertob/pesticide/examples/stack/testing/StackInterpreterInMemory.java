@@ -1,8 +1,8 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
 import com.ubertob.pesticide.DdtProtocol;
+import com.ubertob.pesticide.DomainOnly;
 import com.ubertob.pesticide.DomainSetUp;
-import com.ubertob.pesticide.InMemoryHubs;
 import com.ubertob.pesticide.Ready;
 import com.ubertob.pesticide.examples.stack.MyStack;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ public class StackInterpreterInMemory implements StackInterpreter {
 
     @Override
     public DdtProtocol getProtocol() {
-        return InMemoryHubs.INSTANCE;
+        return DomainOnly.INSTANCE;
     }
 
     @NotNull

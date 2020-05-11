@@ -2,8 +2,8 @@ package com.ubertob.pesticide.examples.petshop.testing
 
 import com.beust.klaxon.Klaxon
 import com.ubertob.pesticide.DomainSetUp
+import com.ubertob.pesticide.Http
 import com.ubertob.pesticide.NotReady
-import com.ubertob.pesticide.PureHttp
 import com.ubertob.pesticide.Ready
 import com.ubertob.pesticide.examples.petshop.http.PetShopHandler
 import com.ubertob.pesticide.examples.petshop.model.Cart
@@ -90,7 +90,7 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
         expectThat(resp.status).isEqualTo(ACCEPTED)
     }
 
-    override val protocol = PureHttp("$host:$port")
+    override val protocol = Http("$host:$port")
 
     var started = false
 
