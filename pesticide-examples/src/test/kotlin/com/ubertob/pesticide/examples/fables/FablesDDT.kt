@@ -2,10 +2,8 @@ package com.ubertob.pesticide.examples.fables
 
 import com.ubertob.pesticide.DDT
 import com.ubertob.pesticide.DomainDrivenTest
-import com.ubertob.pesticide.NamedActor
 
 class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())) {
-
     val littleRedRidingHood by NamedActor(::Human)
     val bigBadWolf by NamedActor(::Wolf)
 

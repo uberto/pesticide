@@ -50,7 +50,6 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
             klaxon.toJsonString(hub.createCart())
         )
 
-
     fun listPets(request: Request): Response =
         Response(Status.OK).body(
             klaxon.toJsonString(hub.getAll())

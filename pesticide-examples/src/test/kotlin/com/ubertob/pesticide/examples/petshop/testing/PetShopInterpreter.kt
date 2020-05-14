@@ -1,9 +1,7 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.DdtProtocol
-import com.ubertob.pesticide.DomainCommand
 import com.ubertob.pesticide.DomainInterpreter
-import com.ubertob.pesticide.DomainQuery
 import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
 
@@ -26,8 +24,11 @@ val allPetShopInterpreters = setOf(
 )
 
 object NewCart : DomainCommand<PetShopInterpreter>
-data class AddToCart(val cartId: CartId, val petName: String) : DomainCommand<PetShopInterpreter>
-data class CheckOut(val cartId: CartId) : DomainCommand<PetShopInterpreter>
+data class AddToCart(val cartId: CartId, val petName: String) :
+    DomainCommand<PetShopInterpreter>
+
+data class CheckOut(val cartId: CartId) :
+    DomainCommand<PetShopInterpreter>
 
 
 data class PetPrice(val petName: String, override val verifyBlock: (Int?) -> Unit) :
