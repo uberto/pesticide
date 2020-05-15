@@ -1,8 +1,8 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
 
-import com.ubertob.pesticide.DdtProtocol;
-import com.ubertob.pesticide.DomainInterpreter;
+import com.ubertob.pesticide.core.DdtProtocol;
+import com.ubertob.pesticide.core.DomainInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;

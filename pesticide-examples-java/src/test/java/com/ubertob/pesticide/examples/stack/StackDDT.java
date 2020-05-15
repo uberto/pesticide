@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.stack;
 
-import com.ubertob.pesticide.DomainDrivenTest;
+import com.ubertob.pesticide.core.DomainDrivenTest;
 import com.ubertob.pesticide.examples.stack.testing.StackInterpreter;
 import com.ubertob.pesticide.examples.stack.testing.StackUser;
 import org.junit.jupiter.api.DynamicContainer;

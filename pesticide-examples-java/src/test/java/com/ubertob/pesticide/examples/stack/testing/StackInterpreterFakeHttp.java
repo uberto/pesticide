@@ -1,9 +1,9 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
-import com.ubertob.pesticide.DdtProtocol;
-import com.ubertob.pesticide.DomainSetUp;
-import com.ubertob.pesticide.Http;
-import com.ubertob.pesticide.Ready;
+import com.ubertob.pesticide.core.DdtProtocol;
+import com.ubertob.pesticide.core.DomainSetUp;
+import com.ubertob.pesticide.core.Http;
+import com.ubertob.pesticide.core.Ready;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Stack;

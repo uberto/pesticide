@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 interface DdtProtocol {
     val desc: String

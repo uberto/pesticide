@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.DdtActorWithContext
+import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import org.junit.jupiter.api.Assertions.fail
 import strikt.api.expectThat

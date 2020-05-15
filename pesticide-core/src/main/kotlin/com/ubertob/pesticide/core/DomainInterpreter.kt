@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 @Deprecated("Use BoundedContextInterpreter instead")
 typealias DomainUnderTest<P> = DomainInterpreter<P>

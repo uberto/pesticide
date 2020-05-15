@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.DomainInterpreter
+import com.ubertob.pesticide.core.DomainInterpreter
 
 
 interface DomainAction<D : DomainInterpreter<*>>

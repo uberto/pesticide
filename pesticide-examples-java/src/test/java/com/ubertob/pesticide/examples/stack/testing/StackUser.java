@@ -1,7 +1,7 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
-import com.ubertob.pesticide.DdtActor;
-import com.ubertob.pesticide.DdtStep;
+import com.ubertob.pesticide.core.DdtActor;
+import com.ubertob.pesticide.core.DdtStep;
 import kotlin.Unit;
 
 import static org.assertj.core.api.Assertions.assertThat;

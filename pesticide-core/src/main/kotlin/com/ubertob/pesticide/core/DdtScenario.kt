@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -43,7 +43,8 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI()) {
         val context = contextMap[step.actor] as C?  //unfortunate... can we do without downcast?
 
-        val stepContext = StepContext(context) { contextMap[step.actor] = it }
+        val stepContext =
+            StepContext(context) { contextMap[step.actor] = it }
 
         execute(domain, step, stepContext)
 

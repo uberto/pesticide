@@ -1,7 +1,7 @@
 package com.ubertob.pesticide.examples.googlepage
 
-import com.ubertob.pesticide.DDT
-import com.ubertob.pesticide.DomainDrivenTest
+import com.ubertob.pesticide.core.DDT
+import com.ubertob.pesticide.core.DomainDrivenTest
 
 class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
     setOf(

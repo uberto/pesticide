@@ -1,7 +1,7 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.DdtProtocol
-import com.ubertob.pesticide.DomainInterpreter
+import com.ubertob.pesticide.core.DdtProtocol
+import com.ubertob.pesticide.core.DomainInterpreter
 import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
 

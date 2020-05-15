@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.DdtActor
+import com.ubertob.pesticide.core.DdtActor
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import strikt.api.expectThat
 import strikt.assertions.contains

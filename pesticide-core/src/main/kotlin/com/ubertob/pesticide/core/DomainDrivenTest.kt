@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 import org.junit.jupiter.api.DynamicContainer
 import org.junit.jupiter.api.TestFactory
@@ -37,7 +37,8 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
 
 
     @JvmField
-    val withoutSetting: Setting<D> = Setting()
+    val withoutSetting: Setting<D> =
+        Setting()
 
     fun setting(block: D.() -> Unit): Setting<D> =
         Setting {
@@ -48,7 +49,10 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     fun onSetting(block: Consumer<D>): Setting<D> = setting { block.accept(this) }
 
     infix fun Setting<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
-        DdtScenario(listOf(this.step) + steps.steps, steps.wipData) //add source URL
+        DdtScenario(
+            listOf(this.step) + steps.steps,
+            steps.wipData
+        ) //add source URL
 
     class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<D, *>>(val actorConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {

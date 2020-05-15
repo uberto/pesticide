@@ -1,7 +1,7 @@
 package com.ubertob.pesticide.examples.calculator
 
-import com.ubertob.pesticide.DDT
-import com.ubertob.pesticide.DomainDrivenTest
+import com.ubertob.pesticide.core.DDT
+import com.ubertob.pesticide.core.DomainDrivenTest
 import java.time.LocalDate
 import kotlin.random.Random
 

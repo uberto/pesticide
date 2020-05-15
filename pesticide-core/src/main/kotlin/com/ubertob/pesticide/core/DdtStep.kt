@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 import java.io.File
 import java.net.URI

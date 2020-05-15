@@ -1,12 +1,14 @@
 package com.ubertob.pesticide.examples.googlepage
 
 import com.codeborne.selenide.Selenide.*
-import com.ubertob.pesticide.*
+import com.ubertob.pesticide.core.*
 import java.net.URL
 
 
 class GooglePageInterpreter : DomainInterpreter<DdtProtocol> {
-    override val protocol: DdtProtocol = HtmlUIUsingJS("web")
+    override val protocol: DdtProtocol =
+        HtmlUIUsingJS("web")
+
     override fun prepare(): DomainSetUp {
 //        // setup for headless htmlUnit
 //        val desiredCapabilities = DesiredCapabilities.htmlUnit()

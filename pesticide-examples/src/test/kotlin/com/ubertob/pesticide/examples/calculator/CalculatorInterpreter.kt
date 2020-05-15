@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.calculator
 
-import com.ubertob.pesticide.*
+import com.ubertob.pesticide.core.*
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -34,7 +34,8 @@ class InMemoryCalculator : CalculatorInterpreter {
 
     override val protocol = DomainOnly
 
-    override fun prepare(): DomainSetUp = Ready
+    override fun prepare(): DomainSetUp =
+        Ready
 
 }
 
@@ -56,7 +57,8 @@ class FakeHttpCalculator :
 
     override val protocol = Http("fake")
 
-    override fun prepare(): DomainSetUp = Ready
+    override fun prepare(): DomainSetUp =
+        Ready
 
 }
 

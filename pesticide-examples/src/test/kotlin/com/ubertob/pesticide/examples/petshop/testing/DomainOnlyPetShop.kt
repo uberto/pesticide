@@ -1,8 +1,8 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.DomainOnly
-import com.ubertob.pesticide.DomainSetUp
-import com.ubertob.pesticide.Ready
+import com.ubertob.pesticide.core.DomainOnly
+import com.ubertob.pesticide.core.DomainSetUp
+import com.ubertob.pesticide.core.Ready
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
 
@@ -12,7 +12,8 @@ class DomainOnlyPetShop() : PetShopInterpreter {
 
     override val protocol = DomainOnly
 
-    override fun prepare(): DomainSetUp = Ready
+    override fun prepare(): DomainSetUp =
+        Ready
 
     override fun populateShop(vararg pets: Pet): PetShopInterpreter =
         apply {

@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 import java.time.LocalDate
 import kotlin.reflect.KClass

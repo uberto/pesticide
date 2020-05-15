@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.googlepage
 
-import com.ubertob.pesticide.DdtActor
+import com.ubertob.pesticide.core.DdtActor
 import strikt.api.expectThat
 import strikt.assertions.isGreaterThanOrEqualTo
 

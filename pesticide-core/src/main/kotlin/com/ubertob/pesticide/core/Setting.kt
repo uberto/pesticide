@@ -1,4 +1,4 @@
-package com.ubertob.pesticide
+package com.ubertob.pesticide.core
 
 data class Setting<D : DomainInterpreter<*>>(val block: StepBlock<D, Unit>? = null) {
     private val fakeActor = FakeActor<D>()

@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.fables
 
-import com.ubertob.pesticide.DdtActor
+import com.ubertob.pesticide.core.DdtActor
 import com.ubertob.pesticide.examples.fables.Location.*
 import com.ubertob.pesticide.examples.fables.WolfState.*
 import strikt.api.expectThat

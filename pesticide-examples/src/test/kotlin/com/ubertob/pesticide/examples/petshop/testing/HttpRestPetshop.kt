@@ -1,10 +1,10 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
 import com.beust.klaxon.Klaxon
-import com.ubertob.pesticide.DomainSetUp
-import com.ubertob.pesticide.Http
-import com.ubertob.pesticide.NotReady
-import com.ubertob.pesticide.Ready
+import com.ubertob.pesticide.core.DomainSetUp
+import com.ubertob.pesticide.core.Http
+import com.ubertob.pesticide.core.NotReady
+import com.ubertob.pesticide.core.Ready
 import com.ubertob.pesticide.examples.petshop.http.PetShopHandler
 import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
