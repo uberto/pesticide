@@ -13,7 +13,6 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     val wipData: WipData? = null
 ) : (D) -> DynamicContainer {
 
-    var alreadyFailed = false
 
     override fun invoke(domainInterpreter: D): DynamicContainer {
         assertEquals(Ready, domainInterpreter.prepare(), "Protocol ${domainInterpreter.protocol.desc} ready")
@@ -27,8 +26,11 @@ data class DdtScenario<D : DomainInterpreter<*>>(
         return DynamicContainer.dynamicContainer("$inWip${domainInterpreter.description()}", tests.asStream())
     }
 
+    var alreadyFailed = false
+
     private fun createTests(domain: D): Sequence<DynamicNode> {
         val contextMap = mutableMapOf<DdtActorWithContext<D, *>, Any?>()
+        alreadyFailed = false
 
         return steps.map { step ->
             createTest(step, domain, contextMap)

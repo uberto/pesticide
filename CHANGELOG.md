@@ -3,6 +3,12 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v0.9.13
+- fixed a bug when failing on the first protocol of the scenario
+- started JavaDoc documentation
+- cleaning up internal code
+- moved core classes to com.ubertob.pesticide.core package
+
 ### v0.9.12
 - going back in using api for JUnit dependency because of IntelliJ resolution
 - settings block doesn't require a result

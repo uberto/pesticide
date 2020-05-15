@@ -39,6 +39,7 @@ abstract class DdtActor<D : DomainInterpreter<*>> : DdtActorWithContext<D, Unit>
  * see  {@link com.ubertob.pesticide.core.DdtActorWithContext} class
  *
  */
+
 data class StepContext<C>(val context: C?, private val contextUpdater: (C?) -> Unit) {
     fun updateContext(newContext: C) = contextUpdater(newContext)
     fun deleteContext() = contextUpdater(null)
