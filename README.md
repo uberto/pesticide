@@ -4,6 +4,9 @@
 
 A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java projects as well).
 
+My presentation about Pesticide:
+[![Watch the video](https://secure.meetupstatic.com/photos/event/2/2/c/0/highres_490268896.jpeg)](https://youtu.be/cUNVTXf6LxY)
+
 ## What a DDT is?
 
 Unit-Tests are very useful but they work on a small scale, we can test only a few objects or functions in this way.
@@ -53,13 +56,13 @@ Maven
 <dependency>
   <groupId>com.ubertob.pesticide</groupId>
   <artifactId>pesticide-core</artifactId>
-  <version>0.9.12</version>
+  <version>1.0</version>
 </dependency>
 ```
 
 Gradle
 ```
-testImplementation 'com.ubertob.pesticide:pesticide-core:0.9.12'
+testImplementation 'com.ubertob.pesticide:pesticide-core:0.1.0'
 ```
 
 ## Acknowledgement
