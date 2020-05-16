@@ -62,7 +62,7 @@ Maven
 
 Gradle
 ```
-testImplementation 'com.ubertob.pesticide:pesticide-core:0.1.0'
+testImplementation 'com.ubertob.pesticide:pesticide-core:1.0'
 ```
 
 ## Acknowledgement
