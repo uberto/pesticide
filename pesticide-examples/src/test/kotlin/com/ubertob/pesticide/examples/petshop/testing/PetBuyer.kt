@@ -21,14 +21,14 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
 
     fun `put $ into the cart`(petName: String) =
         step(petName) { cxt ->
-            val cartId = cxt.context ?: NewCart.createIt() ?: fail("No CartId")
+            val cartId = cxt.getOrNull() ?: NewCart.createIt() ?: fail("No CartId")
             AddToCart(cartId, petName).tryIt()
-            cxt.updateContext(cartId)
+            cxt.store(cartId)
         }
 
     fun `checkout with pets $`(vararg pets: String) =
         step(pets.asList().joinToString(",")) { ctx ->
-            val cartId = ctx.context!!
+            val cartId = ctx.get()
             CartStatus(cartId) { cart ->
                 val petList = cart?.pets?.map(Pet::name).orEmpty()
                 expectThat(petList).containsExactly(pets.toList())

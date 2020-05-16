@@ -8,6 +8,7 @@ changes with their rationale when appropriate:
 - started JavaDoc documentation
 - cleaning up internal code
 - moved core classes to com.ubertob.pesticide.core package
+- better method names for StepContext
 
 ### v0.9.12
 - going back in using api for JUnit dependency because of IntelliJ resolution

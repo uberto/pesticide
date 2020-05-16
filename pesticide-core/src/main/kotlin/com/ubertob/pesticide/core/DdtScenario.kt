@@ -29,11 +29,11 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     var alreadyFailed = false
 
     private fun createTests(domain: D): Sequence<DynamicNode> {
-        val contextMap = mutableMapOf<DdtActorWithContext<D, *>, Any?>()
+        val contextStore = ContextStore()
         alreadyFailed = false
 
         return steps.map { step ->
-            createTest(step, domain, contextMap)
+            createTest(step, domain, contextStore)
         }.asSequence()
     }
 
@@ -41,15 +41,9 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     private fun <C : Any> createTest(
         step: DdtStep<D, C>,
         domain: D,
-        contextMap: MutableMap<DdtActorWithContext<D, *>, Any?>
+        contextStore: ContextStore
     ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI()) {
-        val context = contextMap[step.actor] as C?  //unfortunate... can we do without downcast?
-
-        val stepContext =
-            StepContext(context) { contextMap[step.actor] = it }
-
-        execute(domain, step, stepContext)
-
+        execute(domain, step, StepContext(step.actor.name, contextStore))
     }
 
     private fun <C : Any> execute(
@@ -97,7 +91,7 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             )
         }
 
-    fun DomainInterpreter<*>.description(): String = "${javaClass.simpleName}"
+    fun DomainInterpreter<*>.description(): String = javaClass.simpleName
 
 
     private fun executeInWIP(
@@ -126,4 +120,6 @@ data class DdtScenario<D : DomainInterpreter<*>>(
         TestAbortedException(message, throwable)
 
 }
+
+
 

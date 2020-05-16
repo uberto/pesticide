@@ -21,30 +21,6 @@ abstract class DdtActor<D : DomainInterpreter<*>> : DdtActorWithContext<D, Unit>
 }
 
 
-/**
- * StepContext is the class to get and store the context for a specific actor.
- *
- * <code>
- *     fun `loggin in`() = step(foodName){ ctx ->
- *       ctx.updateContext( getCartId() )
- *     ...
- *     }
- *
- *     fun `checking out`() = step(foodName){ ctx ->
- *       val cartId = ctx.context
- *     ...
- *     }
- * </code>
- *
- * see  {@link com.ubertob.pesticide.core.DdtActorWithContext} class
- *
- */
-
-data class StepContext<C>(val context: C?, private val contextUpdater: (C?) -> Unit) {
-    fun updateContext(newContext: C) = contextUpdater(newContext)
-    fun deleteContext() = contextUpdater(null)
-}
-
 typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
 
 /**
