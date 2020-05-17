@@ -42,7 +42,7 @@ class DdtScenarioTest {
     val step2 = DdtStep(actor, "step2") {
         step2run = true
     }
-    val scenario = DdtScenario(listOf(step1, step2))
+    val scenario = DdtScenario(Setting(), listOf(step1, step2))
 
     @Test
     fun `scenario skip tests after the first failure`() {

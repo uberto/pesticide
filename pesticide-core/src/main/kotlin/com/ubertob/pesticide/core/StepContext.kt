@@ -52,6 +52,11 @@ data class StepContext<C>(val actorName: String, private val contextStore: Conte
 }
 
 data class ContextStore(private val map: MutableMap<String, Any?> = mutableMapOf()) {
+
+    fun clear() {
+        map.clear()
+    }
+
     fun delete(key: String) {
         map[key] = null
     }

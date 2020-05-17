@@ -1,11 +1,13 @@
 package com.ubertob.pesticide.core
 
-data class Setting<D : DomainInterpreter<*>>(val block: StepBlock<D, Unit>? = null) {
+data class Setting<D : DomainInterpreter<*>>(private val block: StepBlock<D, Unit>? = null) {
     private val fakeActor = FakeActor<D>()
 
-    val step = block
-        ?.let { DdtStep(fakeActor, "Setting up the scenario", it) }
-        ?: DdtStep(fakeActor, "Empty scenario") {}
+    fun asStep() =
+        if (block != null)
+            DdtStep(fakeActor, "Setting up the scenario", block)
+        else
+            DdtStep(fakeActor, "Empty scenario", {})
 
 }
 

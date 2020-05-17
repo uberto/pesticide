@@ -7,6 +7,7 @@ import strikt.api.expectThat
 import strikt.assertions.containsExactly
 import strikt.assertions.doesNotContain
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNull
 
 typealias CartId = Int
 
@@ -21,7 +22,8 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
 
     fun `put $ into the cart`(petName: String) =
         step(petName) { cxt ->
-            val cartId = cxt.getOrNull() ?: NewCart.createIt() ?: fail("No CartId")
+            expectThat(cxt.getOrNull()).isNull()
+            val cartId = NewCart.createIt() ?: fail("No CartId")
             AddToCart(cartId, petName).tryIt()
             cxt.store(cartId)
         }

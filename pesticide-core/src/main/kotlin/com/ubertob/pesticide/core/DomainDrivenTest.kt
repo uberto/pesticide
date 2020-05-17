@@ -16,7 +16,7 @@ typealias DDT = TestFactory
 abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
-        DdtScenario(stepsArray.toList())
+        DdtScenario(withoutSetting, stepsArray.toList())
 
     fun DdtScenario<D>.wip(
         dueDate: LocalDate,
@@ -49,10 +49,7 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     fun onSetting(block: Consumer<D>): Setting<D> = setting { block.accept(this) }
 
     infix fun Setting<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
-        DdtScenario(
-            listOf(this.step) + steps.steps,
-            steps.wipData
-        ) //add source URL
+        steps.copy(setting = this)
 
     class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<D, *>>(val actorConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {

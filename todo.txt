@@ -20,6 +20,7 @@ An example with different protocols
 ---
 tech debt:
 
+
 check step name params match number of $ in method
 make step name generation java friendly with snake notation
 browse stack trace in a safer way for the default StepName

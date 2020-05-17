@@ -9,10 +9,13 @@ import kotlin.streams.asStream
 
 
 data class DdtScenario<D : DomainInterpreter<*>>(
+    val setting: Setting<D>,
     val steps: Iterable<DdtStep<D, *>>,
     val wipData: WipData? = null
 ) : (D) -> DynamicContainer {
 
+    val ALREADY_FAILED = "_alreadyFailed"
+    val contextStore = ContextStore()
 
     override fun invoke(domainInterpreter: D): DynamicContainer {
         assertEquals(Ready, domainInterpreter.prepare(), "Protocol ${domainInterpreter.protocol.desc} ready")
@@ -23,41 +26,45 @@ data class DdtScenario<D : DomainInterpreter<*>>(
 
         val inWip = getDueDate(wipData, domainInterpreter.protocol)?.let { "WIP till $it - " } ?: ""
 
-        return DynamicContainer.dynamicContainer("$inWip${domainInterpreter.description()}", tests.asStream())
+        return DynamicContainer.dynamicContainer(
+            "$inWip${domainInterpreter.description()}",
+            tests.asSequence().asStream()
+        )
     }
 
-    var alreadyFailed = false
 
-    private fun createTests(domain: D): Sequence<DynamicNode> {
-        val contextStore = ContextStore()
-        alreadyFailed = false
+    private fun createTests(domain: D): List<DynamicNode> =
+        createTest(setting.asStep(), domain)
+        {
+            contextStore.clear()
+            contextStore.store(ALREADY_FAILED, false)
+            decorateExecution(domain, setting.asStep(), StepContext(setting.asStep().actor.name, contextStore))
+        } prependTo steps.map { step ->
+            createTest(step, domain)
+            { decorateExecution(domain, step, StepContext(step.actor.name, contextStore)) }
+        }
 
-        return steps.map { step ->
-            createTest(step, domain, contextStore)
-        }.asSequence()
-    }
-
-    @Suppress("UNCHECKED_CAST")
     private fun <C : Any> createTest(
         step: DdtStep<D, C>,
         domain: D,
-        contextStore: ContextStore
-    ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI()) {
-        execute(domain, step, StepContext(step.actor.name, contextStore))
-    }
+        executable: () -> Unit
+    ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI(), executable)
 
-    private fun <C : Any> execute(
+    private fun <C : Any> decorateExecution(
         interpreter: D,
         step: DdtStep<D, C>,
         stepContext: StepContext<C>
     ) {
         checkWIP(wipData, interpreter.protocol) {
-            Assumptions.assumeFalse(alreadyFailed, "Skipped because of previous failures")
+            Assumptions.assumeFalse(
+                contextStore.get(ALREADY_FAILED) as Boolean
+                , "Skipped because of previous failures"
+            )
 
             try {
                 step.action(interpreter, stepContext)
             } catch (t: Throwable) {
-                alreadyFailed = true
+                contextStore.store(ALREADY_FAILED, true)
                 throw t
             }
 
@@ -118,6 +125,8 @@ data class DdtScenario<D : DomainInterpreter<*>>(
 
     data class TestAbortedExceptionWIP(override val message: String, val throwable: Throwable? = null) :
         TestAbortedException(message, throwable)
+
+    infix fun <T : Any> T.prependTo(list: List<T>) = listOf(this) + list
 
 }
 
