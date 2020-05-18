@@ -3,6 +3,13 @@ package com.ubertob.pesticide.core
 import java.io.File
 import java.net.URI
 
+
+/**
+ * DdtStep is the class that should drive the {@link DomainInterpreter} and keep the Domain level assertions for all the {@link DdtProtocols}
+ *
+ * see {@link DdtActorWithContext} and {@link StepContext}
+ *
+ */
 data class DdtStep<D : DomainInterpreter<*>, C : Any>(
     val actor: DdtActorWithContext<D, C>,
     val description: String,

@@ -13,6 +13,30 @@ import kotlin.reflect.KProperty
 
 typealias DDT = TestFactory
 
+
+/**
+ * DomainDrivenTest is the base class to inherit to create a test.
+ * A test should look something like:
+ *
+ * <pre>
+ *    class MyDDT : DomainDrivenTest<MyInterpreter>(allInterpreters()) {
+ *
+ *   val adam by NamedActor(::MyActor)
+ *
+ *   @DDT
+ *   fun `do something`() = ddtScenario {
+ *       setting {
+ *         preparation()
+ *       } atRise play(
+ *           adam.`do this`()
+ *           adam.`do that`()
+ *       }
+ *   }
+ *
+ * </pre>
+ *
+ * See also {@link DdtScenario}
+ */
 abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =

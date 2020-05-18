@@ -1,8 +1,10 @@
 features:
 
-nested scenarios: wrapping together steps for clarity
+make step name generation java friendly with snake notation
 
 test description configurable
+
+nested scenarios: wrapping together steps for clarity
 
 http4k support "out-of-the-box" (both client and server)
 
@@ -13,16 +15,12 @@ PetShop similar example in Java
 
 Write blog post on how to create DDTs and what are the responsibilities of each part
 
-Add JavaDoc
-
 An example with different protocols
 
 ---
 tech debt:
 
-
 check step name params match number of $ in method
-make step name generation java friendly with snake notation
 browse stack trace in a safer way for the default StepName
 browse stack trace in a safer way for the TestUri
 make safer assumptions on the source location for the SourceReference

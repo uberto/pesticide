@@ -5,7 +5,9 @@ import java.util.function.Consumer
 /**
  * DdtActor is the base class to inherit from if we don't need a context.
  *
- * see  {@link com.ubertob.pesticide.core.DdtActorWithContext} class
+ * see  {@link DdtActorWithContext} if you need a context
+ *
+ * actors are generally created with the NamedActor delegate in the DomainDrivenTest
  *
  */
 abstract class DdtActor<D : DomainInterpreter<*>> : DdtActorWithContext<D, Unit>() {
@@ -26,13 +28,13 @@ typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
 /**
  * DdtActorWithContext is the base class to inherit from we need a context to store and retrieve information during our tests.
  *
- * An Actor should have a list of step methods in the for of
+ * An Actor should have a list of methods calling step in order to be used inside a DDT.
  *
- * <code>
+ * <pre>
  *     fun `eating $ now`(foodName: String) = step(foodName){ ... }
- * </code>
+ * </pre>
  *
- * see  {@link com.ubertob.pesticide.core.DdtActor} class
+ * see  {@link DdtActor} if you don't need a context
  *
  */
 abstract class DdtActorWithContext<D : DomainInterpreter<*>, C : Any> {

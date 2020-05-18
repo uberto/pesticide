@@ -4,7 +4,7 @@ package com.ubertob.pesticide.core
  * StepContext is the class to get and store the context for a specific actor.
  * It uses the actor.name as reference, since the actor instance and fields can be different between steps.
  *
- * <code>
+ * <pre>
  *     fun `loggin in`() = step(foodName){ ctx ->
  *       ctx.store( getCartId() )
  *     ...
@@ -14,9 +14,9 @@ package com.ubertob.pesticide.core
  *       val cartId = ctx.get()
  *     ...
  *     }
- * </code>
+ * </pre>
  *
- * see  {@link com.ubertob.pesticide.core.DdtActorWithContext} class
+ * see also {@link DdtActorWithContext} and {@link DdtStep}
  *
  */
 

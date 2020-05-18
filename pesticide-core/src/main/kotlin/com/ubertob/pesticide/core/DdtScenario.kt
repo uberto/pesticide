@@ -7,7 +7,11 @@ import org.opentest4j.TestAbortedException
 import java.time.LocalDate
 import kotlin.streams.asStream
 
-
+/**
+ * DdtScenario is the class that keeps together the information to create a scenario test. It can generate the {@code DynamicTest}
+ *
+ * Normally it shouldn't be created directly but using the {@code ddtScenario} method of {@code DomainDrivenTest}
+ */
 data class DdtScenario<D : DomainInterpreter<*>>(
     val setting: Setting<D>,
     val steps: Iterable<DdtStep<D, *>>,
