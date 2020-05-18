@@ -3,6 +3,11 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v1.1
+- fixed a bug when failing on the first protocol of the scenario (for real)
+- added more JavaDoc
+- tidy up internal code
+
 ### v1.0
 - fixed a bug when failing on the first protocol of the scenario
 - started JavaDoc documentation
