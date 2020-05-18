@@ -51,6 +51,7 @@ data class StepContext<C>(val actorName: String, private val contextStore: Conte
     fun delete() = contextStore.delete(actorName)
 }
 
+
 data class ContextStore(private val map: MutableMap<String, Any?> = mutableMapOf()) {
 
     fun clear() {
@@ -65,6 +66,7 @@ data class ContextStore(private val map: MutableMap<String, Any?> = mutableMapOf
         map[key] = newContext
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <C> getOrNull(key: String): C? =
         map[key] as C? //unfortunate... can we do without downcast?
 
