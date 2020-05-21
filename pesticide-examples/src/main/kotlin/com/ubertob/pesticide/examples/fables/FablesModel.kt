@@ -6,7 +6,7 @@ enum class Location {
 }
 
 enum class WolfState {
-    ignorant, knowAboutGrandMa, waitingForTheGirl, sleepy, dead
+    ignorant, waitingForTheGirl, sleepy, dead
 }
 
 data class Basket(val value: Int, val location: Location)

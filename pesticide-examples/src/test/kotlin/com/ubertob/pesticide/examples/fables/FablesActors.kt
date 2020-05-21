@@ -1,25 +1,20 @@
 package com.ubertob.pesticide.examples.fables
 
-import com.ubertob.pesticide.core.DdtActor
+import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.examples.fables.Location.*
 import com.ubertob.pesticide.examples.fables.WolfState.*
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotEqualTo
 
-data class Human(override val name: String) : DdtActor<FablesInterpreter>() {
-    fun `gets basket with goods worth $`(value: Int) = step(value.toString()) {
+data class Human(override val name: String) : DdtActorWithContext<FablesInterpreter, String>() {
+    fun `gets basket with goods worth $`(value: Int) = step(value.toString()) { ctx ->
         prepareBasket(value, littleRedRidingHoodHouse)
+        ctx.store("GrandMa's secret address")
     }
 
     fun `goes into the forest`() = step {
         updateGirlLocation(middleOfTheForest)
-    }
-
-
-    fun `tells the GrandMa location to Wolf`() = step {
-        expectThat(girlLocation).isEqualTo(middleOfTheForest)
-        tellTheWolf()
     }
 
     fun `goes to GrandMa's house`() = step {
@@ -48,7 +43,7 @@ data class Human(override val name: String) : DdtActor<FablesInterpreter>() {
 
 }
 
-data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
+data class Wolf(override val name: String) : DdtActorWithContext<FablesInterpreter, String>() {
     fun `meets and eats the girl`() = step {
         expectThat(girlLocation).isEqualTo(grandMaHouse)
         expectThat(wolfState).isEqualTo(waitingForTheGirl)
@@ -65,9 +60,13 @@ data class Wolf(override val name: String) : DdtActor<FablesInterpreter>() {
         expectThat(wolfState).isEqualTo(ignorant)
     }
 
-    fun `goes to GrandMa's house`() = step(name) {
-        expectThat(wolfState).isEqualTo(knowAboutGrandMa)
+    fun `goes to GrandMa's house`() = step(name) { ctx ->
+        expectThat(ctx.get()).isEqualTo("GrandMa's secret address")
         updateWolfState(waitingForTheGirl)
+    }
+
+    fun `get GrandMa location from $`(human: Human) = step(human.name) { ctx ->
+        ctx.getFrom(human) { it }
     }
 
 }

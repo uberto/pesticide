@@ -15,7 +15,7 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
         } atRise play(
             littleRedRidingHood.`gets basket with goods worth $`(100),
             littleRedRidingHood.`goes into the forest`(),
-            littleRedRidingHood.`tells the GrandMa location to Wolf`(),
+            bigBadWolf.`get GrandMa location from $`(littleRedRidingHood),
             bigBadWolf.`goes to GrandMa's house`(),
             littleRedRidingHood.`goes to GrandMa's house`(),
             bigBadWolf.`meets and eats the girl`(),
@@ -47,7 +47,7 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
         } atRise play(
             littleRedRidingHood.`gets basket with goods worth $`(100),
             littleRedRidingHood.`goes into the forest`(),
-            littleRedRidingHood.`tells the GrandMa location to Wolf`(),
+            bigBadWolf.`get GrandMa location from $`(littleRedRidingHood),
             bigBadWolf.`goes to GrandMa's house`(),
             littleRedRidingHood.`goes to GrandMa's house`(),
             bigBadWolf.`meets and eats the girl`(),

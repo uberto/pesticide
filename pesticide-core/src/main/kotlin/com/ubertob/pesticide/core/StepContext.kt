@@ -20,7 +20,7 @@ package com.ubertob.pesticide.core
  *
  */
 
-data class StepContext<C>(val actorName: String, private val contextStore: ContextStore) {
+data class StepContext<C : Any>(val actorName: String, private val contextStore: ContextStore) {
 
     /**
      * get
@@ -28,6 +28,16 @@ data class StepContext<C>(val actorName: String, private val contextStore: Conte
      * returns the context or throw exception if not present.
      */
     fun get(): C = contextStore.get(actorName)
+
+    /**
+     * getFrom
+     *
+     * allow to retrieve information from the context of another actor and store it in the current context.
+     */
+    fun <K : Any> getFrom(anotherActor: DdtActorWithContext<*, K>, block: (K) -> C) =
+        (contextStore.get(anotherActor.name) as? K)
+            ?.let(block)
+            ?.let { contextStore.store(actorName, it) }
 
     /**
      * getOrNull

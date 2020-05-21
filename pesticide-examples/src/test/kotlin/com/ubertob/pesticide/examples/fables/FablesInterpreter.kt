@@ -29,10 +29,6 @@ class FablesInterpreter : DomainInterpreter<DdtProtocol> {
         girlLocation = location
     }
 
-    fun Human.tellTheWolf() {
-        wolfState = WolfState.knowAboutGrandMa
-    }
-
     fun Wolf.eatGirl() {
         girlLocation = Location.insideTheWolfBelly
     }
