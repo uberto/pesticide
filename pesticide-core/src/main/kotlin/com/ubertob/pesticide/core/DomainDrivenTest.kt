@@ -42,6 +42,11 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
         DdtScenario(withoutSetting, stepsArray.toList())
 
+    /**
+     * wip
+     *
+     * Mark a test as Work In Progress until a given date. It's possible to specify that some protocols are not in WIP (that is the test should work)
+     */
     fun DdtScenario<D>.wip(
         dueDate: LocalDate,
         reason: String = "Work In Progress",
@@ -49,16 +54,34 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     ): DdtScenario<D> =
         this.copy(wipData = WipData(dueDate, except, reason))
 
-    val timeoutInMillis = 1000
-
-
+    /**
+     * ddtScenario
+     *
+     * Define a scenario for a test.
+     * Example of use:
+     *
+     *  <pre>
+     *   @DDT
+     *   fun `do something`() = ddtScenario { protocol ->
+     *
+     *       val secret = getCredentials(protocol)
+     *
+     *       setting {
+     *         preparation()
+     *       } atRise play(
+     *           adam.`can do this`(secret)
+     *           adam.`can do that`()
+     *       }
+     *   }
+     *
+     * </pre>
+     */
     fun ddtScenario(
-        scenarioBuilder: () -> DdtScenario<D>
+        scenarioBuilder: (DdtProtocol) -> DdtScenario<D>
     ): Stream<DynamicContainer> =
-        domains.map(scenarioBuilder())
+        domains.map { scenarioBuilder(it.protocol)(it) }
             .ifEmpty { fail("No protocols selected!") }
             .stream()
-
 
     @JvmField
     val withoutSetting: Setting<D> =

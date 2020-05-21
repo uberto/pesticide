@@ -21,7 +21,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     @TestFactory
     public Stream<DynamicContainer> push3Numbers() {
-        return ddtScenario(() -> atRise(
+        return ddtScenario(protocol -> atRise(
                 withoutSetting,
                 play(
                         sabine.pushANumber(4),
@@ -34,7 +34,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     @TestFactory
     public Stream<DynamicContainer> pushAndPull() {
-        return ddtScenario(() -> atRise(
+        return ddtScenario(protocol -> atRise(
                 withoutSetting,
                 play(
                         sabine.pushANumber(4),
@@ -51,7 +51,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     @TestFactory
     public Stream<DynamicContainer> testWorkInProgress() {
-        return ddtScenario(() -> atRise(
+        return ddtScenario(protocol -> atRise(
                 onSetting(d -> d.pushNumber(5)),
                 wip(
                         play(sabine.popANumber(4)),
