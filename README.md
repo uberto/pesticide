@@ -21,7 +21,7 @@ They also are influenced by Serenity and the Screenplay pattern by Anthony Marca
 
 [article](https://www.infoq.com/articles/Beyond-Page-Objects-Test-Automation-Serenity-Screenplay/)
 
-They have been named from the concern that tests should concentrate on the business domain, and he named this style DDT also as a pun since they are quite efficient in killing bugs (like the pesticide).
+The name come from the concern that tests should be written using business domain terms. DDT is also an apt name since they are quite efficient in killing bugs (like the pesticide)
 
 Having a single interface for two or more representations of our System forces us to define a common language independently of technical details. This practice is called [`lingua franca`](https://wiki.c2.com/?LinguaFrancaPattern).
 
