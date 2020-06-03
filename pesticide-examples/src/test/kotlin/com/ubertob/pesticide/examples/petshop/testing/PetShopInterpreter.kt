@@ -7,7 +7,7 @@ import com.ubertob.pesticide.examples.petshop.model.Pet
 
 interface PetShopInterpreter : DomainInterpreter<DdtProtocol> {
 
-    fun populateShop(vararg pets: Pet): PetShopInterpreter
+    fun populateShop(vararg pets: Pet)
 
     fun askPetPrice(petName: String): Int?
     fun askPetList(): List<String>?

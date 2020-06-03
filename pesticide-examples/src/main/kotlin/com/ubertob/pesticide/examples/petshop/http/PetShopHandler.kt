@@ -28,7 +28,7 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
     fun petDetails(request: Request): Response =
         request.path("name")
             ?.let(hub::getByName)
-            ?.let(this::toJson)
+            ?.let(::toJson)
             ?.let(Response(Status.OK)::body)
             ?: Response(Status.BAD_REQUEST)
 

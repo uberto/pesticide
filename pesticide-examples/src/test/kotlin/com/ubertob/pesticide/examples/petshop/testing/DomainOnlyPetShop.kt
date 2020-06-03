@@ -15,11 +15,9 @@ class DomainOnlyPetShop() : PetShopInterpreter {
     override fun prepare(): DomainSetUp =
         Ready
 
-    override fun populateShop(vararg pets: Pet): PetShopInterpreter =
-        apply {
-            pets.forEach {
-                hub.addPet(it)
-            }
+    override fun populateShop(vararg pets: Pet) =
+        pets.forEach {
+            hub.addPet(it)
         }
 
 

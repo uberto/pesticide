@@ -58,12 +58,11 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
 
     fun addPetRequest(pet: Pet) = Request(POST, uri("pets")).body(pet.toJson())
 
-    override fun populateShop(vararg pets: Pet): PetShopInterpreter = apply {
+    override fun populateShop(vararg pets: Pet) =
         pets.forEach {
             val resp = client(addPetRequest(it))
             expectThat(resp.status).isEqualTo(ACCEPTED)
         }
-    }
 
     override fun askPetPrice(petName: String): Int? {
         val req = Request(GET, uri("pets/${petName}"))
