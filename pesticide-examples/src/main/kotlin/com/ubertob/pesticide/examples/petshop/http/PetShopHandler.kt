@@ -11,6 +11,10 @@ import org.http4k.routing.routes
 
 class PetShopHandler(val hub: PetShopHub) : HttpHandler {
 
+    val klaxon = Klaxon()
+
+    override fun invoke(request: Request) = petShopRoutes(request)
+
     val petShopRoutes: HttpHandler = routes(
         "/pets" bind Method.GET to ::listPets,
         "/pets/{name}" bind Method.GET to ::petDetails,
@@ -23,11 +27,12 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
 
     fun petDetails(request: Request): Response =
         request.path("name")
-            ?.let { hub.getByName(it) }
-            ?.let {
-                Response(Status.OK)
-                    .body(klaxon.toJsonString(it))
-            } ?: Response(Status.BAD_REQUEST)
+            ?.let(hub::getByName)
+            ?.let(this::toJson)
+            ?.let(Response(Status.OK)::body)
+            ?: Response(Status.BAD_REQUEST)
+
+    private fun toJson(it: Pet) = klaxon.toJsonString(it)
 
     fun addPetToCart(request: Request): Response =
         request.path("cartId")
@@ -71,9 +76,6 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
                 )
             } ?: Response(Status.BAD_REQUEST)
 
-    val klaxon = Klaxon()
-
-    override fun invoke(request: Request): Response = petShopRoutes(request)
 
     fun String.asCartId(): Int = toIntOrNull() ?: -1
 }

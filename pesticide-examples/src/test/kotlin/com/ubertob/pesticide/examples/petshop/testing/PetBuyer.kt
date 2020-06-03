@@ -15,36 +15,31 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
 
     fun `check that the price of $ is $`(petName: String, expectedPrice: Int) =
         step(petName, expectedPrice) {
-            PetPrice(petName) { price ->
-                expectThat(price).isEqualTo(expectedPrice)
-            }.askIt()
+            val price = askPetPrice(petName)
+            expectThat(price).isEqualTo(expectedPrice)
         }
 
     fun `put $ into the cart`(petName: String) =
         step(petName) { cxt ->
             expectThat(cxt.getOrNull()).isNull()
-            val cartId = NewCart.createIt() ?: fail("No CartId")
-            AddToCart(cartId, petName).tryIt()
+            val cartId = createNewCart() ?: fail("No CartId")
+            addToCart(cartId, petName)
             cxt.store(cartId)
         }
 
     fun `checkout with pets $`(vararg pets: String) =
         step(pets.asList().joinToString(",")) { ctx ->
             val cartId = ctx.get()
-            CartStatus(cartId) { cart ->
-                val petList = cart?.pets?.map(Pet::name).orEmpty()
-                expectThat(petList).containsExactly(pets.toList())
-            }.askIt()
-
-
-            CheckOut(cartId).tryIt()
+            val cart = askCartStatus(cartId)
+            val petList = cart?.pets?.map(Pet::name).orEmpty()
+            expectThat(petList).containsExactly(pets.toList())
+            checkOut(cartId)
         }
 
     fun `check that there are no more $ for sale`(petName: String) =
         step(petName) {
-            PetList() { pets ->
-                expectThat(pets.orEmpty()).doesNotContain(petName)
-            }.askIt()
+            val pets = askPetList()
+            expectThat(pets.orEmpty()).doesNotContain(petName)
         }
 
 }

@@ -23,26 +23,20 @@ class DomainOnlyPetShop() : PetShopInterpreter {
         }
 
 
-    override fun PetPrice.askIt() {
-        verifyBlock(hub.getByName(petName)?.price)
-    }
+    override fun askPetPrice(petName: String): Int? = hub.getByName(petName)?.price
 
-    override fun PetList.askIt() {
-        verifyBlock(hub.getAll())
-    }
+    override fun askPetList() = hub.getAll()
 
-    override fun CartStatus.askIt() {
-        verifyBlock(hub.getCart(cartId))
-    }
+    override fun askCartStatus(cartId: CartId) = hub.getCart(cartId)
 
-    override fun NewCart.createIt(): CartId? =
+    override fun createNewCart(): CartId? =
         hub.createCart().id
 
-    override fun AddToCart.tryIt() {
+    override fun addToCart(cartId: CartId, petName: String) {
         hub.addPetToCart(cartId, petName)
     }
 
-    override fun CheckOut.tryIt() {
+    override fun checkOut(cartId: CartId) {
         hub.cartCheckout(cartId)
     }
 

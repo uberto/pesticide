@@ -9,8 +9,7 @@ import strikt.assertions.isNotNull
 data class ShopAssistant(override val name: String) : DdtActor<PetShopInterpreter>() {
 
     fun `check that $ is in the shop`(pet: Pet) = step(pet.name) {
-        PetList { pets: List<String>? ->
-            expectThat(pets).isNotNull().contains(pet.name)
-        }.askIt()
+        val pets = askPetList()
+        expectThat(pets).isNotNull().contains(pet.name)
     }
 }

@@ -23,73 +23,6 @@ import strikt.assertions.isEqualTo
 
 class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
 
-    val client = JettyClient()
-
-    private fun uri(path: String) = "http://$host:$port/$path"
-
-    fun addPetRequest(pet: Pet) = Request(POST, uri("pets")).body(pet.toJson())
-
-    override fun populateShop(vararg pets: Pet): PetShopInterpreter = apply {
-        pets.forEach {
-            val resp = client(addPetRequest(it))
-            expectThat(resp.status).isEqualTo(ACCEPTED)
-        }
-    }
-
-    override fun PetPrice.askIt() {
-
-        val req = Request(GET, uri("pets/${petName}"))
-        val resp = client(req)
-
-        expectThat(resp.status).isEqualTo(OK)
-
-        val pet = klaxon.parse<Pet>(resp.bodyString())
-
-        verifyBlock(pet?.price)
-
-    }
-
-    override fun PetList.askIt() {
-        val req = Request(GET, uri("pets"))
-        val resp = client(req)
-
-        expectThat(resp.status).isEqualTo(OK)
-
-        val pets = klaxon.parseArray<String>(resp.bodyString())
-
-        verifyBlock(pets)
-    }
-
-    override fun CartStatus.askIt() {
-        val req = Request(GET, uri("cart/$cartId"))
-        val resp = client(req)
-
-        expectThat(resp.status).isEqualTo(OK)
-
-        val cart = klaxon.parse<Cart>(resp.bodyString())
-
-        verifyBlock(cart)
-    }
-
-    override fun NewCart.createIt(): CartId? {
-        val req = Request(POST, uri("cart"))
-        val resp = client(req)
-        expectThat(resp.status).isEqualTo(ACCEPTED)
-        return klaxon.parse<Cart>(resp.bodyString())?.id
-    }
-
-    override fun AddToCart.tryIt() {
-        val req = Request(Method.PUT, uri("cart/$cartId/add/$petName"))
-        val resp = client(req)
-        expectThat(resp.status).isEqualTo(ACCEPTED)
-    }
-
-    override fun CheckOut.tryIt() {
-        val req = Request(Method.PUT, uri("cart/$cartId/checkout"))
-        val resp = client(req)
-        expectThat(resp.status).isEqualTo(ACCEPTED)
-    }
-
     override val protocol = Http("$host:$port")
 
     var started = false
@@ -117,6 +50,70 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
                 System.setOut(out)
             }
         })
+    }
+
+    val client = JettyClient()
+
+    private fun uri(path: String) = "http://$host:$port/$path"
+
+    fun addPetRequest(pet: Pet) = Request(POST, uri("pets")).body(pet.toJson())
+
+    override fun populateShop(vararg pets: Pet): PetShopInterpreter = apply {
+        pets.forEach {
+            val resp = client(addPetRequest(it))
+            expectThat(resp.status).isEqualTo(ACCEPTED)
+        }
+    }
+
+    override fun askPetPrice(petName: String): Int? {
+        val req = Request(GET, uri("pets/${petName}"))
+        val resp = client(req)
+
+        expectThat(resp.status).isEqualTo(OK)
+
+        val pet = klaxon.parse<Pet>(resp.bodyString())
+
+        return pet?.price
+
+    }
+
+    override fun askPetList(): List<String>? {
+        val req = Request(GET, uri("pets"))
+        val resp = client(req)
+
+        expectThat(resp.status).isEqualTo(OK)
+
+        val pets = klaxon.parseArray<String>(resp.bodyString())
+
+        return (pets)
+    }
+
+    override fun askCartStatus(cartId: CartId): Cart? {
+        val req = Request(GET, uri("cart/$cartId"))
+        val resp = client(req)
+
+        expectThat(resp.status).isEqualTo(OK)
+
+        return klaxon.parse<Cart>(resp.bodyString())
+    }
+
+    override fun createNewCart(): CartId? {
+        val req = Request(POST, uri("cart"))
+        val resp = client(req)
+        expectThat(resp.status).isEqualTo(ACCEPTED)
+        return klaxon.parse<Cart>(resp.bodyString())?.id
+    }
+
+    override fun addToCart(cartId: CartId, petName: String) {
+        val req = Request(Method.PUT, uri("cart/$cartId/add/$petName"))
+        val resp = client(req)
+        expectThat(resp.status).isEqualTo(ACCEPTED)
+    }
+
+    override fun checkOut(cartId: CartId) {
+        val req = Request(Method.PUT, uri("cart/$cartId/checkout"))
+        val resp = client(req)
+        expectThat(resp.status).isEqualTo(ACCEPTED)
     }
 
     val klaxon = Klaxon()

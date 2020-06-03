@@ -9,35 +9,18 @@ interface PetShopInterpreter : DomainInterpreter<DdtProtocol> {
 
     fun populateShop(vararg pets: Pet): PetShopInterpreter
 
-    fun PetPrice.askIt()
-    fun PetList.askIt()
-    fun CartStatus.askIt()
+    fun askPetPrice(petName: String): Int?
+    fun askPetList(): List<String>?
+    fun askCartStatus(cartId: CartId): Cart?
 
-    fun NewCart.createIt(): CartId?
-    fun AddToCart.tryIt()
-    fun CheckOut.tryIt()
+    fun createNewCart(): CartId?
+    fun addToCart(cartId: CartId, petName: String)
+    fun checkOut(cartId: CartId)
 }
 
 val allPetShopInterpreters = setOf(
     DomainOnlyPetShop(),
     HttpRestPetshop("localhost", 8082)
 )
-
-object NewCart : DomainCommand<PetShopInterpreter>
-data class AddToCart(val cartId: CartId, val petName: String) :
-    DomainCommand<PetShopInterpreter>
-
-data class CheckOut(val cartId: CartId) :
-    DomainCommand<PetShopInterpreter>
-
-
-data class PetPrice(val petName: String, override val verifyBlock: (Int?) -> Unit) :
-    DomainQuery<PetShopInterpreter, Int>
-
-data class PetList(override val verifyBlock: (List<String>?) -> Unit) :
-    DomainQuery<PetShopInterpreter, List<String>>
-
-data class CartStatus(val cartId: CartId, override val verifyBlock: (Cart?) -> Unit) :
-    DomainQuery<PetShopInterpreter, Cart>
 
 
