@@ -4,28 +4,15 @@
 
 A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java projects as well).
 
+I wrote a blog post about DDT and Pesticide:
+[Here](https://medium.com/javarevisited/beyond-traditional-acceptance-tests-79cbcee63eda)
+
 My presentation about Pesticide:
 [![Watch the video](https://secure.meetupstatic.com/photos/event/2/2/c/0/highres_490268896.jpeg)](https://youtu.be/cUNVTXf6LxY)
 
-## What a DDT is?
+## TLDR; Short version
 
-Unit-Tests are very useful but they work on a small scale, we can test only a few objects or functions in this way.
-
-We also need a way to test our full application end-to-end in order to be sure to be on the right track. We can do that simulating user clicking on the web page but we need a more abstract way to represent it, otherwise, tests would become quickly very hard to understand.
-
-Nat Pryce invented the Domain-Driven style of tests when he got tired of tests written in a way "click here and then click there".
-
-[video](https://www.youtube.com/watch?v=Fk4rCn4YLLU)
-
-They also are influenced by Serenity and the Screenplay pattern by Anthony Marcano.
-
-[article](https://www.infoq.com/articles/Beyond-Page-Objects-Test-Automation-Serenity-Screenplay/)
-
-The name come from the concern that tests should be written using business domain terms. DDT is also an apt name since they are quite efficient in killing bugs (like the pesticide)
-
-Having a single interface for two or more representations of our System forces us to define a common language independently of technical details. This practice is called [`lingua franca`](https://wiki.c2.com/?LinguaFrancaPattern).
-
-We also aim to use the same terms both in our tests and in the conversation with the business people. In this way, we can facilitate the communication between people working on the software and the business domain experts. See [`ubiquitous language`](https://martinfowler.com/bliki/UbiquitousLanguage.html)
+The name come from the concern that acceptance tests should be written using business domain terms. DDT is also an apt name since they are quite efficient in killing bugs (like the pesticide)
 
 The goal is to describe our stories as interactions between actors [see why here](https://www.infoq.com/presentations/pragmatic-personas/) and as an abstraction of our system. Using different system implementations we can reach these benefits:
 
@@ -64,6 +51,20 @@ Gradle
 ```
 testImplementation 'com.ubertob.pesticide:pesticide-core:1.2'
 ```
+
+## FAQ
+
+Is it safe to use Pesticide in my project?
+
+Why the theater metaphor?
+
+Why actors at all?
+
+Why a test for step?
+
+Why not GWT format?
+
+Why a setting block?
 
 ## Acknowledgement
 
