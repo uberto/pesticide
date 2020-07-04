@@ -22,7 +22,11 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     val contextStore = ContextStore()
 
     override fun invoke(domainInterpreter: D): DynamicContainer {
-        assertEquals(Ready, domainInterpreter.prepare(), "Protocol ${domainInterpreter.protocol.desc} ready")
+        assertEquals(
+            Ready,
+            domainInterpreter.prepare(),
+            "Interpreter ${domainInterpreter.protocol.desc} failed to start properly"
+        )
 
         val tests = trapUnexpectedExceptions {
             createTests(domainInterpreter)
