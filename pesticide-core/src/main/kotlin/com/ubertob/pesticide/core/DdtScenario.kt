@@ -32,10 +32,10 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             createTests(domainInterpreter)
         }
 
-        val inWip = getDueDate(wipData, domainInterpreter.protocol)?.let { "WIP till $it - " } ?: ""
+        val inWipPrefix = getDueDate(wipData, domainInterpreter.protocol)?.let { "WIP - " } ?: ""
 
         return DynamicContainer.dynamicContainer(
-            "$inWip${domainInterpreter.description()}",
+            "$inWipPrefix${domainInterpreter.description()}",
             tests.asSequence().asStream()
         )
     }
@@ -48,9 +48,11 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             contextStore.store(ALREADY_FAILED, false)
             decorateExecution(domain, setting.asStep(), StepContext(setting.asStep().actor.name, contextStore))
         } prependTo steps.map { step ->
-            createTest(step, domain)
-            { decorateExecution(domain, step, StepContext(step.actor.name, contextStore)) }
-        }
+            createTest(step, domain) {
+                decorateExecution(domain, step, StepContext(step.actor.name, contextStore))
+            }
+        }.addFinalWipTestIfNeeded(wipData)
+
 
     private fun <C : Any> createTest(
         step: DdtStep<D, C>,
@@ -65,8 +67,7 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     ) {
         checkWIP(wipData, interpreter.protocol) {
             Assumptions.assumeFalse(
-                contextStore.get(ALREADY_FAILED) as Boolean
-                , "Skipped because of previous failures"
+                alreadyFailed(), "Skipped because of previous failures"
             )
 
             try {
@@ -78,6 +79,8 @@ data class DdtScenario<D : DomainInterpreter<*>>(
 
         }
     }
+
+    private fun alreadyFailed() = contextStore.get(ALREADY_FAILED) as Boolean
 
 
     private fun decorateTestName(domainUnderTest: D, step: DdtStep<D, *>) =
@@ -123,13 +126,25 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             } catch (t: Throwable) {
                 //all the rest
                 throw TestAbortedExceptionWIP(
-                    "Test failed but this is ok until $due",
+                    "Test failed but this is OK until $due",
                     t
                 )
             }
-            throw TestAbortedExceptionWIP("Test succeded but you have to remove the WIP marker!")
+
         }
     }
+
+    private fun List<DynamicTest>.addFinalWipTestIfNeeded(wipData: WipData?): List<DynamicTest> =
+        if (wipData == null)
+            this
+        else {
+            this + dynamicTest("WIP till ${wipData.dueDate} because <${wipData.reason}>") {
+                if (alreadyFailed())
+                    throw TestAbortedExceptionWIP("Test marked as WIP failed. Ignoring it until ${wipData.dueDate}")
+                else
+                    fail("Test succeeded despite being marked as WIP. Please remove the WIP marker!")
+            }
+        }
 
     data class TestAbortedExceptionWIP(override val message: String, val throwable: Throwable? = null) :
         TestAbortedException(message, throwable)
@@ -137,6 +152,9 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     infix fun <T : Any> T.prependTo(list: List<T>) = listOf(this) + list
 
 }
+
+
+
 
 
 

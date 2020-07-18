@@ -3,6 +3,11 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v1.3
+- showing passing steps in WIP tests
+- making WIP tests failing if all steps succeeded (so you remember removing the marker)
+- better error message for startup failures
+
 ### v1.2
 - passing protocol to inside the ddtScenario
 - allowing actors to exchange context

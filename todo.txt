@@ -1,6 +1,5 @@
 features:
 
-
 make step name generation java friendly with snake notation
 
 test description configurable

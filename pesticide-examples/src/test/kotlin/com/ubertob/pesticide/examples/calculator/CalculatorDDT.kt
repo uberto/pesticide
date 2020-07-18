@@ -31,7 +31,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
             startWithNumber(100)
         } atRise play(
             bart.`add number $`(rndNum),
-            bart.`verifies the total is $`(99)
+            bart.`verifies the total is $`(100)
         ).wip(LocalDate.of(2100, 1, 1), "Waiting for new century")
 
     }
