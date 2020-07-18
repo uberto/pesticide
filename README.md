@@ -52,19 +52,43 @@ Gradle
 testImplementation 'com.ubertob.pesticide:pesticide-core:1.3'
 ```
 
+## What's new?
+
+* 2020/07/18 v.1.3
+  - better support for Work-In-Progress tests. Now it shows when steps are passing in WIP tests and report the reason together with the due date. 
+  If all steps are passing, the test will now fail (instead of just being skipped) to force the removal of the WIP marker.
+
+* 2020/07/18 v.1.2
+  - added actor context. It's now possible to store and retrieve data between steps. See for example `PetBuyer.kt`.
+
+
 ## FAQ
 
-Is it safe to use Pesticide in my project?
+- Is it safe to use Pesticide in my project?
 
-Why the theater metaphor?
+    We are using on a big project mission critical since 2019. In any case it's only test code and it should not be deployed in production. 
+    I'll will support it in the foreseeable future but in any case you can always fork and adapt to your needs since it's open source.
 
-Why actors at all?
+- Why the theater metaphor?
+    
+    It came up quite naturally since we aim to *play* our user-stories in our DDT.
 
-Why a test for step?
+- Why actors at all?
 
-Why not GWT format?
+    Writing the stories based on actors help us to focus on the actual end-user perspective. We discovered that writing tests in this way make them easier to maintain and more useful to guide our design.
+    Moreover actor steps are the best place to put the assertions on the domain state in a way that works for all the interpreters.
 
-Why a setting block?
+- Why a test for step?
+    
+    In this way is much easier to see at what point it fails and jump directly to the specific line of code from the IDE.
+
+- Why not Given-When-Then format?
+    
+    Although GWT is a good format for unit-tests in our experience it doesn't work well with stories, that can be longer and with multiple check points.
+
+- Why a setting block?
+    
+    It makes more clear what we want to test and what must be the state of the system at the beginning.
 
 ## Acknowledgement
 
