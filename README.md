@@ -58,7 +58,7 @@ testImplementation 'com.ubertob.pesticide:pesticide-core:1.3'
   - better support for Work-In-Progress tests. Now it shows when steps are passing in WIP tests and report the reason together with the due date. 
   If all steps are passing, the test will now fail (instead of just being skipped) to force the removal of the WIP marker.
 
-* 2020/07/18 v.1.2
+* 2020/05/21 v.1.2
   - added actor context. It's now possible to store and retrieve data between steps. See for example `PetBuyer.kt`.
 
 
