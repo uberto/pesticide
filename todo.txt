@@ -1,12 +1,12 @@
 features:
 
+http4k support "out-of-the-box" (both client and server)
+
 make step name generation java friendly with snake notation
 
 test description configurable
 
 nested scenarios: wrapping together steps for clarity
-
-http4k support "out-of-the-box" (both client and server)
 
 specific interpreter assertions called from the actors
 
