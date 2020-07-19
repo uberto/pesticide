@@ -41,24 +41,28 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     }
 
 
-    private fun createTests(domain: D): List<DynamicNode> =
-        createTest(setting.asStep(), domain)
+    private fun createTests(domainInterpreter: D): List<DynamicNode> =
+        createTest(setting.asStep(), domainInterpreter)
         {
             contextStore.clear()
             contextStore.store(ALREADY_FAILED, false)
-            decorateExecution(domain, setting.asStep(), StepContext(setting.asStep().actor.name, contextStore))
+            decorateExecution(
+                domainInterpreter,
+                setting.asStep(),
+                StepContext(setting.asStep().actor.name, contextStore)
+            )
         } prependTo steps.map { step ->
-            createTest(step, domain) {
-                decorateExecution(domain, step, StepContext(step.actor.name, contextStore))
+            createTest(step, domainInterpreter) {
+                decorateExecution(domainInterpreter, step, StepContext(step.actor.name, contextStore))
             }
-        }.addFinalWipTestIfNeeded(wipData)
+        }.addFinalWipTestIfNeeded(wipData, domainInterpreter.protocol)
 
 
     private fun <C : Any> createTest(
         step: DdtStep<D, C>,
-        domain: D,
+        domainInterpreter: D,
         executable: () -> Unit
-    ): DynamicTest = dynamicTest(decorateTestName(domain, step), step.testSourceURI(), executable)
+    ): DynamicTest = dynamicTest(decorateTestName(domainInterpreter, step), step.testSourceURI(), executable)
 
     private fun <C : Any> decorateExecution(
         interpreter: D,
@@ -83,8 +87,8 @@ data class DdtScenario<D : DomainInterpreter<*>>(
     private fun alreadyFailed() = contextStore.get(ALREADY_FAILED) as Boolean
 
 
-    private fun decorateTestName(domainUnderTest: D, step: DdtStep<D, *>) =
-        "${domainUnderTest.protocol.desc} - ${step.description}"
+    private fun decorateTestName(domainInterpreter: D, step: DdtStep<D, *>) =
+        "${domainInterpreter.protocol.desc} - ${step.description}"
 
 
     private fun checkWIP(wipData: WipData?, protocol: DdtProtocol, testBlock: () -> Unit) =
@@ -134,8 +138,8 @@ data class DdtScenario<D : DomainInterpreter<*>>(
         }
     }
 
-    private fun List<DynamicTest>.addFinalWipTestIfNeeded(wipData: WipData?): List<DynamicTest> =
-        if (wipData == null)
+    private fun List<DynamicTest>.addFinalWipTestIfNeeded(wipData: WipData?, protocol: DdtProtocol): List<DynamicTest> =
+        if (wipData == null || wipData.shouldWorkFor(protocol))
             this
         else {
             this + dynamicTest("WIP till ${wipData.dueDate} because <${wipData.reason}>") {
