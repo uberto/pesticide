@@ -5,24 +5,29 @@ import java.util.concurrent.atomic.AtomicInteger
 
 
 fun allCalculatorInterpreters() = setOf(
-    InMemoryCalculator(),
+    DomainOnlyCalculator(),
     FakeHttpCalculator()
 )
 
 interface CalculatorInterpreter : DomainInterpreter<DdtProtocol> {
     fun addNumber(num: Int)
+    fun subtractNumber(num: Int)
 
     fun getTotal(): Int
     fun startWithNumber(num: Int): CalculatorInterpreter
 }
 
 
-class InMemoryCalculator : CalculatorInterpreter {
+class DomainOnlyCalculator : CalculatorInterpreter {
 
     var tot = 0
 
     override fun addNumber(num: Int) {
         tot += num
+    }
+
+    override fun subtractNumber(num: Int) {
+        tot -= num
     }
 
     override fun getTotal(): Int = tot
@@ -40,13 +45,16 @@ class InMemoryCalculator : CalculatorInterpreter {
 }
 
 
-class FakeHttpCalculator :
-    CalculatorInterpreter {
+class FakeHttpCalculator : CalculatorInterpreter {
 
     val tot = AtomicInteger(0)
 
     override fun addNumber(num: Int) {
         tot.getAndUpdate { it + num }
+    }
+
+    override fun subtractNumber(num: Int) {
+        TODO("subtractNumber not implemented in HTTP yet")
     }
 
     override fun getTotal(): Int = tot.get()

@@ -2,6 +2,7 @@ package com.ubertob.pesticide.examples.calculator
 
 import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
+import com.ubertob.pesticide.core.DomainOnly
 import java.time.LocalDate
 import kotlin.random.Random
 
@@ -16,9 +17,9 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
         setting {
             startWithNumber(128)
         } atRise play(
-            bart.`add number $`(64),
-            bart.`add number $`(31),
-            bart.`add number $`(33),
+            bart.`adds number $`(64),
+            bart.`adds number $`(31),
+            bart.`adds number $`(33),
             bart.`verifies the total is $`(256)
         )
     }
@@ -30,7 +31,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
         setting {
             startWithNumber(100)
         } atRise play(
-            bart.`add number $`(rndNum),
+            bart.`adds number $`(rndNum),
             bart.`verifies the total is $`(100)
         ).wip(LocalDate.of(2100, 1, 1), "Waiting for new century")
 
@@ -45,9 +46,9 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
         setting {
             startWithNumber(128)
         } atRise play(
-            bart.`add number $`(n1),
-            bart.`add number $`(n2),
-            bart.`add number $`(n3),
+            bart.`adds number $`(n1),
+            bart.`adds number $`(n2),
+            bart.`adds number $`(n3),
 
             bart.`verifies the total is $`(256)
         )
@@ -59,9 +60,22 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
         val rndNum = Random.nextInt()
 
         withoutSetting atRise play(
-            bart.`add number $`(rndNum),
+            bart.`adds number $`(rndNum),
             bart.`verifies the total is $`(rndNum)
         )
+    }
+
+    @DDT
+    fun `with Work In Progress and exceptions`() = ddtScenario {
+        val rndNum = Random.nextInt(1, 100)
+
+        setting {
+            startWithNumber(200)
+        } atRise play(
+            bart.`subtracts number $`(rndNum),
+            bart.`verifies the total greater than $`(100)
+        ).wip(LocalDate.of(2100, 1, 1), "Working only in DomainOnly", setOf(DomainOnly::class))
+
     }
 
 }
