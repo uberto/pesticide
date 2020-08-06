@@ -90,7 +90,8 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
             bart.`verifies the total greater than $`(100),
             bart.`adds number $`(rndNum),
             bart.`verifies the total is $`(100)
-        )
+        ).wip(LocalDate.of(2100, 1, 1), "wrong test")
+
     }
 
 }
