@@ -78,6 +78,21 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
 
     }
 
+
+    @DDT
+    fun `first failed test stops the others`() = ddtScenario {
+        val rndNum = Random.nextInt(1, 100)
+
+        setting {
+            startWithNumber(100)
+        } atRise play(
+            bart.`subtracts number $`(rndNum),
+            bart.`verifies the total greater than $`(100),
+            bart.`adds number $`(rndNum),
+            bart.`verifies the total is $`(100)
+        )
+    }
+
 }
 
 

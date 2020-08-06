@@ -14,7 +14,7 @@ import kotlin.streams.asStream
  */
 data class DdtScenario<D : DomainInterpreter<*>>(
     val setting: Setting<D>,
-    val steps: Iterable<DdtStep<D, *>>,
+    val steps: List<DdtStep<D, *>>,
     val wipData: WipData? = null
 ) : (D) -> DynamicContainer {
 
