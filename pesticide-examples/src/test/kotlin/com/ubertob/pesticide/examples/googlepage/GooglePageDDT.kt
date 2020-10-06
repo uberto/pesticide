@@ -2,6 +2,7 @@ package com.ubertob.pesticide.examples.googlepage
 
 import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
+import java.time.LocalDate
 
 class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
     setOf(
@@ -20,6 +21,6 @@ class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
 
             googleUser.`can see among results`("uberto")
 
-        )
+        ).wip(LocalDate.of(2021, 12, 31), "Google Cookies popup")
     }
 }

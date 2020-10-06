@@ -32,7 +32,9 @@ class GooglePageInterpreter : DomainInterpreter<DdtProtocol> {
         }
 
     fun queryGoogle(search: String) {
+
         open("https://google.com/ncr") //no country redirect
+//        `$`(withText("I agree")).click() //privacy pop up
         `$`("input[name=q]").setValue(search).pressEnter()
     }
 
@@ -41,3 +43,4 @@ class GooglePageInterpreter : DomainInterpreter<DdtProtocol> {
     }
 
 }
+
