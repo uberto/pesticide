@@ -17,26 +17,14 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) 
     val adam by NamedActor(::ShopAssistant)
 
     @DDT
-    fun `shop assistance check the pets`() = ddtScenario {
-        val parrot = Pet("parrot", 100)
-        val bunny = Pet("bunny", 70)
-        setting {
-            populateShop(parrot, bunny)
-        } atRise play(
-            adam.`check that $ is in the shop`(parrot),
-            adam.`check that $ is in the shop`(bunny)
-        )
-    }
-
-    @DDT
     fun `mary buys a lamb`() = ddtScenario {
         val lamb = Pet("lamb", 64)
-        val hamster = Pet("hamster", 128)
+        val hamster = Pet("hamster", 12)
         setting {
             populateShop(lamb, hamster)
         } atRise play(
             mary.`check that the price of $ is $`("lamb", 64),
-            mary.`check that the price of $ is $`("hamster", 128),
+            mary.`check that the price of $ is $`("hamster", 12),
             mary.`put $ into the cart`("lamb"),
             mary.`check that there are no more $ for sale`("lamb"),
             mary.`checkout with pets $`("lamb")
@@ -46,7 +34,7 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) 
     @DDT
     fun `mary buys a lamb and bert buys a hamster`() = ddtScenario {
         val lamb = Pet("lamb", 64)
-        val hamster = Pet("hamster", 128)
+        val hamster = Pet("hamster", 12)
         setting {
             populateShop(lamb, hamster)
         } atRise play(
@@ -58,7 +46,33 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) 
         )
     }
 
+    @DDT
+    fun `shop assistance check the pets`() = ddtScenario {
+        val parrot = Pet("parrot", 100)
+        val bunny = Pet("bunny", 70)
+        setting {
+            populateShop(parrot, bunny)
+        } atRise play(
+            adam.`check that $ is in the shop`(parrot),
+            adam.`check that $ is in the shop`(bunny)
+        )
+    }
+
     //check that cannot add to cart after checkout
+    @DDT
+    fun `mary cannot put another pet in the cart after checkou`() = ddtScenario {
+        val lamb = Pet("lamb", 64)
+        val hamster = Pet("hamster", 12)
+        setting {
+            populateShop(lamb, hamster)
+        } atRise play(
+            mary.`put $ into the cart`("lamb"),
+            mary.`checkout with pets $`("lamb"),
+            mary.`cannot put $ into the cart`("hamster")
+        )
+    }
+
+
 }
 
 

@@ -4,10 +4,7 @@ import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import org.junit.jupiter.api.Assertions.fail
 import strikt.api.expectThat
-import strikt.assertions.containsExactly
-import strikt.assertions.doesNotContain
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNull
+import strikt.assertions.*
 
 typealias CartId = Int
 
@@ -25,6 +22,12 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
             val cartId = createNewCart() ?: fail("No CartId")
             addToCart(cartId, petName)
             cxt.store(cartId)
+        }
+
+
+    fun `cannot put $ into the cart`(petName: String) =
+        step(petName) { cxt ->
+            expectThat(cxt.getOrNull()).isNotNull()
         }
 
     fun `checkout with pets $`(vararg pets: String) =
