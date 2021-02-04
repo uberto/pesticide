@@ -1,5 +1,7 @@
 features:
 
+support # instead of $ for step names (intellij search)
+
 http4k support "out-of-the-box" (both client and server)
 
 make step name generation java friendly with snake notation
