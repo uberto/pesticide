@@ -60,7 +60,7 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) 
 
     //check that cannot add to cart after checkout
     @DDT
-    fun `mary cannot put another pet in the cart after checkou`() = ddtScenario {
+    fun `mary cannot put another pet in the cart after she checked out`() = ddtScenario {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
         setting {
@@ -74,7 +74,7 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) 
 
     //exercise for workshop
     @DDT
-    fun `you cannot put same pet twice in the cart`() = ddtScenario {
+    fun `Bert cannot buy same pet twice in the cart`() = ddtScenario {
         val parrot = Pet("parrot", 100)
         val bunny = Pet("bunny", 70)
         setting {
