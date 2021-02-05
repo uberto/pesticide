@@ -72,6 +72,20 @@ class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) 
         )
     }
 
+    //exercise for workshop
+    @DDT
+    fun `you cannot put same pet twice in the cart`() = ddtScenario {
+        val parrot = Pet("parrot", 100)
+        val bunny = Pet("bunny", 70)
+        setting {
+            populateShop(parrot, bunny)
+        } atRise play(
+            mary.`put $ into the cart`(parrot.name),
+            mary.`checkout with pets $`(parrot.name),
+            bert.`cannot put $ into the cart`(parrot.name)
+        )
+    }
+
 
 }
 

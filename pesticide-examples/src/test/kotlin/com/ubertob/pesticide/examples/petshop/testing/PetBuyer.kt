@@ -28,6 +28,8 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
     fun `cannot put $ into the cart`(petName: String) =
         step(petName) { cxt ->
             expectThat(cxt.getOrNull()).isNotNull()
+
+            //addToCart(cartId, petName)
         }
 
     fun `checkout with pets $`(vararg pets: String) =
