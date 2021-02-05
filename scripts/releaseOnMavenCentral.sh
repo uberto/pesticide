@@ -1,8 +1,8 @@
-
 # Steps:
 # verify it's all working with a ./gradlew clean build
 # remove snapshot from the version manually in build.gradle
 # update the README.md
+# check the CHANGELOG.md
 # launch:
 
 ./gradlew uploadArchives -p pesticide-core

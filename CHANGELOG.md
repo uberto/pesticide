@@ -1,12 +1,18 @@
 <h2 class="github">Changelog</h2>
 
-This list is not currently intended to be all-encompassing - it will document major and breaking API 
-changes with their rationale when appropriate:
+This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
+rationale when appropriate:
+
+### v1.4 - 5 Feb 2021
+
+- switched to Kotlin 1.4
 
 ### v1.3.1
+
 - fixing bug in WIP tests with exceptions
 
 ### v1.3
+
 - showing passing steps in WIP tests
 - making WIP tests failing if all steps succeeded (so you remember removing the marker)
 - better error message for startup failures
