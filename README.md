@@ -43,16 +43,19 @@ Maven
 <dependency>
   <groupId>com.ubertob.pesticide</groupId>
   <artifactId>pesticide-core</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
 </dependency>
 ```
 
 Gradle
 ```
-testImplementation 'com.ubertob.pesticide:pesticide-core:1.4.0'
+testImplementation 'com.ubertob.pesticide:pesticide-core:1.4.1'
 ```
 
 ## What's new?
+
+* 2021/03/09 v.1.4.1
+  - fix for a bug when running in Windows
 
 * 2021/02/04 v.1.4
   - switched to Kotlin 1.4
