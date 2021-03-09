@@ -15,19 +15,25 @@ data class DdtStep<D : DomainInterpreter<*>, C : Any>(
     val description: String,
     val action: StepBlock<D, C>
 ) {
-    val stackTraceElement = Thread.currentThread().stackTrace[5]
+    val stackTraceElement = Thread.currentThread().stackTrace[5]//TODO can we guess better the sourceRoot?
 
     fun testSourceURI(): URI? =
-        stackTraceElement?.toSourceReference(sourceRoot) //TODO can we guess better the sourceRoot?
+        try {
+            stackTraceElement?.toSourceReference(sourceRoot)
+        } catch (t: Throwable) {
+            println("Error while trying to get the source line: $t")
+            null
+        }
 
     fun StackTraceElement.toSourceReference(sourceRoot: File): URI? {
+
         val fileName = fileName ?: return null
         val type = Class.forName(className)
 
         val pathpesticide =
-            sourceRoot.toPath().resolve(type.`package`.name.replace(".", "/")).resolve(fileName).toFile().absolutePath
+            sourceRoot.toPath().resolve(type.`package`.name.replace(".", "/")).resolve(fileName).toFile().toURI()
 
-        return URI("file://$pathpesticide?line=$lineNumber")
+        return URI("$pathpesticide&line=$lineNumber")
 
     }
 
