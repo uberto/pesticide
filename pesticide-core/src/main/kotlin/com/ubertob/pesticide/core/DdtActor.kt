@@ -55,14 +55,18 @@ abstract class DdtActorWithContext<D : DomainInterpreter<*>, C : Any> {
         "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the method name
 
     private fun generateStepName(parameters: Array<out Any>) =
-        "$name ${getCurrentMethodName()}".replaceDollars(parameters.map { it.toString() })
+        "$name ${getCurrentMethodName()}".replaceParams(parameters.map { it.toString() })
 
 
     fun stepWithDesc(stepDesc: String, block: StepBlock<D, C>): DdtStep<D, C> =
         DdtStep(this, stepDesc, block)
 }
 
-private fun String.replaceDollars(parameters: List<String>): String = parameters
+private fun String.replaceWildcard(wildcard: String, parameters: List<String>): String = parameters
     .fold(this) { text, param ->
-        text.replaceFirst("$", param)
+        text.replaceFirst(wildcard, param)
     }
+
+private fun String.replaceParams(parameters: List<String>): String =
+    replaceWildcard("$", parameters)
+        .replaceWildcard("#", parameters)
