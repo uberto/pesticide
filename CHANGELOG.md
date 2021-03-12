@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.4.2 - 12 Mar 2021
+
+- added # as possible wildcard for steps since IntelliJ has problems looking for methods with $ inside
+
 ### v1.4.1 - 9 Mar 2021
 
 - fix for extracting line number in Windows
