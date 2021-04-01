@@ -30,7 +30,7 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
             ?.let(hub::getByName)
             ?.let(::toJson)
             ?.let(Response(Status.OK)::body)
-            ?: Response(Status.BAD_REQUEST)
+            ?: Response(Status.NOT_FOUND)
 
     private fun toJson(it: Pet) = klaxon.toJsonString(it)
 

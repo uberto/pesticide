@@ -17,9 +17,9 @@ class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
 
         withoutSetting atRise play(
 
-            googleUser.`search for`("pesticide github kotlin"),
+            googleUser.`search for #`("pesticide github kotlin"),
 
-            googleUser.`can see among results`("uberto")
+            googleUser.`can see '#' among results`("uberto")
 
         ).wip(LocalDate.of(2021, 12, 31), "Google Cookies popup")
     }

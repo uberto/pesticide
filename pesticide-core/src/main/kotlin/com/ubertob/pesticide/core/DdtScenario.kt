@@ -49,11 +49,11 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             decorateExecution(
                 domainInterpreter,
                 setting.asStep(),
-                StepContext(setting.asStep().actor.name, contextStore)
+                StepContext(setting.asStep().actorName, contextStore)
             )
         } prependTo steps.map { step ->
             createTest(step, domainInterpreter) {
-                decorateExecution(domainInterpreter, step, StepContext(step.actor.name, contextStore))
+                decorateExecution(domainInterpreter, step, StepContext(step.actorName, contextStore))
             }
         }.addFinalWipTestIfNeeded(wipData, domainInterpreter.protocol)
 
@@ -73,7 +73,7 @@ data class DdtScenario<D : DomainInterpreter<*>>(
             Assumptions.assumeFalse(
                 alreadyFailed(), "Skipped because of previous failures"
             )
-
+            Thread.currentThread().name = "DDT-${step.description}"
             try {
                 step.action(interpreter, stepContext)
             } catch (t: Throwable) {

@@ -4,17 +4,20 @@ import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.testing.PetBuyer
-import com.ubertob.pesticide.examples.petshop.testing.PetShopInterpreter
+import com.ubertob.pesticide.examples.petshop.testing.PetShopCrossInterpreter
 import com.ubertob.pesticide.examples.petshop.testing.ShopAssistant
 import com.ubertob.pesticide.examples.petshop.testing.allPetShopInterpreters
 
 
-class PetShopDDT : DomainDrivenTest<PetShopInterpreter>(allPetShopInterpreters) {
+class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpreters) {
 
-    val mary by NamedActor(::PetBuyer)
-    val bert by NamedActor(::PetBuyer)
-
-    val adam by NamedActor(::ShopAssistant)
+    val mary = PetBuyer("mary")
+    val bert = PetBuyer("bert")
+    val adam = ShopAssistant("adam")
+//    val mary by NamedActor(::PetBuyer)
+//    val bert by NamedActor(::PetBuyer)
+//
+//    val adam by NamedActor(::ShopAssistant)
 
     @DDT
     fun `mary buys a lamb`() = ddtScenario {

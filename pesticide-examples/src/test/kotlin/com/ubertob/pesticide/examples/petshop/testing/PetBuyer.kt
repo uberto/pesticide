@@ -29,7 +29,7 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
 
 
     fun `cannot put $ into the cart`(petName: String) =
-        step(petName) { cxt ->
+        step(petName) {
             val cartId = createNewCart() ?: fail("No CartId")
             addToCart(cartId, petName)
             val cart = askCartStatus(cartId)
@@ -49,8 +49,8 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
 
     fun `check that there are no more $ for sale`(petName: String) =
         step(petName) {
-            val pets = askPetList()
-            expectThat(pets.orEmpty()).doesNotContain(petName)
+            val price = askPetPrice(petName)
+//            expectThat(pets.orEmpty()).doesNotContain(petName)
         }
 
 }

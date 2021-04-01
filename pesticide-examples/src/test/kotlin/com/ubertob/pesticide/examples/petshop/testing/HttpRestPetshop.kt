@@ -15,13 +15,14 @@ import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
 import org.http4k.core.Request
 import org.http4k.core.Status.Companion.ACCEPTED
+import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
+class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, PetShopCrossInterpreter {
 
     override val protocol = Http("$host:$port")
 
@@ -67,6 +68,9 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter {
     override fun askPetPrice(petName: String): Int? {
         val req = Request(GET, uri("pets/${petName}"))
         val resp = client(req)
+
+        if (resp.status == NOT_FOUND)
+            return null
 
         expectThat(resp.status).isEqualTo(OK)
 

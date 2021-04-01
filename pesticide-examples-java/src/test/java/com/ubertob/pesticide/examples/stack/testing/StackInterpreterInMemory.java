@@ -36,4 +36,5 @@ public class StackInterpreterInMemory implements StackInterpreter {
     public DomainSetUp prepare() {
         return Ready.INSTANCE;
     }
+
 }

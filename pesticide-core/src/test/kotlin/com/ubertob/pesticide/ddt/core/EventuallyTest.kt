@@ -53,15 +53,15 @@ class EventuallyTest {
         var timeoutException: Exception? = null
         try {
             eventually(Duration.ofMillis(100)) {
-                expectThat(counter.incrementAndGet()).isEqualTo(10)
+                expectThat(counter.incrementAndGet()).isEqualTo(5)
             }
         } catch (e: Exception) {
             timeoutException = e
         }
 
         expectThat(timeoutException).isNull()
+        expectThat(counter.get()).isEqualTo(5)
         expectThat(c.elapsedMillis()).isLessThan(100)
-        expectThat(counter.get()).isEqualTo(10)
 
     }
 }

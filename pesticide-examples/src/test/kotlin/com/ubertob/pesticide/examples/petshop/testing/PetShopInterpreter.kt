@@ -5,12 +5,17 @@ import com.ubertob.pesticide.core.DomainInterpreter
 import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
 
+interface PetShopCrossInterpreter : PetShopInterpreter, PetShopSAInterpreter
+
+interface PetShopSAInterpreter : DomainInterpreter<DdtProtocol> {
+    fun askPetList(): List<String>?
+}
+
 interface PetShopInterpreter : DomainInterpreter<DdtProtocol> {
 
     fun populateShop(vararg pets: Pet)
-
     fun askPetPrice(petName: String): Int?
-    fun askPetList(): List<String>?
+
     fun askCartStatus(cartId: CartId): Cart?
 
     fun createNewCart(): CartId?

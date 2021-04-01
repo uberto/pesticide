@@ -12,11 +12,19 @@ package com.ubertob.pesticide.core
  * see also {@link DdtProtocol} and {@link DdtActorWithContext}
  *
  */
+
+
 interface DomainInterpreter<out P : DdtProtocol> {
 
     val protocol: P
 
     fun prepare(): DomainSetUp
+
+    @JvmDefault
+    fun onShutdown() {
+        println("shutdown")
+        //nothing to do
+    }
 
 }
 

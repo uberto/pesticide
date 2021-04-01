@@ -6,7 +6,7 @@ import com.ubertob.pesticide.core.Ready
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
 
-class DomainOnlyPetShop() : PetShopInterpreter {
+class DomainOnlyPetShop() : PetShopInterpreter, PetShopCrossInterpreter {
 
     private val hub = PetShopHub()
 

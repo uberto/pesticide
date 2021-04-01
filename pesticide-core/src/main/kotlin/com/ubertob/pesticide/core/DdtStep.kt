@@ -10,8 +10,8 @@ import java.net.URI
  * see {@link DdtActorWithContext} and {@link StepContext}
  *
  */
-data class DdtStep<D : DomainInterpreter<*>, C : Any>(
-    val actor: DdtActorWithContext<D, C>,
+data class DdtStep<in D : DomainInterpreter<*>, C : Any>(
+    val actorName: String,
     val description: String,
     val action: StepBlock<D, C>
 ) {

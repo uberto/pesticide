@@ -35,11 +35,11 @@ class DdtScenarioTest {
     var step2run = false
 
     val actor = TestActor("frank")
-    val step1 = DdtStep(actor, "step1") {
+    val step1 = DdtStep<MiniInterpreter, Unit>(actor.name, "step1") {
         step1run = true
         assertTrue(ask())
     }
-    val step2 = DdtStep(actor, "step2") {
+    val step2 = DdtStep<MiniInterpreter, Unit>(actor.name, "step2") {
         step2run = true
     }
     val scenario = DdtScenario(Setting(), listOf(step1, step2))

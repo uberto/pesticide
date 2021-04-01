@@ -103,6 +103,10 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
         override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
             actorConstructor(property.name.capitalize())
     }
+
+
+
+
 }
 
 
