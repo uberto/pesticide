@@ -11,13 +11,11 @@ import com.ubertob.pesticide.examples.petshop.testing.allPetShopInterpreters
 
 class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpreters) {
 
-    val mary = PetBuyer("mary")
-    val bert = PetBuyer("bert")
-    val adam = ShopAssistant("adam")
-//    val mary by NamedActor(::PetBuyer)
-//    val bert by NamedActor(::PetBuyer)
-//
-//    val adam by NamedActor(::ShopAssistant)
+    val mary by NamedActor(::PetBuyer)
+    val bert by NamedActor(::PetBuyer)
+
+    val adam by NamedActor(::ShopAssistant)
+
 
     @DDT
     fun `mary buys a lamb`() = ddtScenario {

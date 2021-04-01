@@ -98,7 +98,7 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
     infix fun Setting<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
         steps.copy(setting = this)
 
-    class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<D, *>>(val actorConstructor: (String) -> A) :
+    class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<in D, *>>(val actorConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {
         override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
             actorConstructor(property.name.capitalize())
