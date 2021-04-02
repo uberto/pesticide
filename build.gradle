@@ -5,7 +5,7 @@ plugins {
 allprojects {
 
     group 'com.ubertob.pesticide'
-    version '1.5.0'
+    version '1.5.1'
 
     repositories {
         mavenCentral()
@@ -23,7 +23,7 @@ subprojects {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = ['-Xjvm-default=all']
+//            freeCompilerArgs = ['-Xjvm-default=all']
         }
     }
 }

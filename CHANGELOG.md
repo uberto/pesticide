@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.5.1 - 2 Apr 2021
+
+- removing unnecessary onShutdown method on DomainInterpreter
+
 ### v1.5.0 - 2 Apr 2021
 
 - made Step contravariant on DomainInterpreter, so it's possible to use for cross domain tests (see PetShop example)

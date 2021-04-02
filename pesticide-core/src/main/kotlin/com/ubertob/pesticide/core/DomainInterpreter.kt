@@ -20,12 +20,6 @@ interface DomainInterpreter<out P : DdtProtocol> {
 
     fun prepare(): DomainSetUp
 
-    @JvmDefault
-    fun onShutdown() {
-        println("shutdown")
-        //nothing to do
-    }
-
 }
 
 
