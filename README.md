@@ -43,26 +43,15 @@ Maven
 <dependency>
   <groupId>com.ubertob.pesticide</groupId>
   <artifactId>pesticide-core</artifactId>
-  <version>1.4.3</version>
+  <version>1.5.0</version>
 </dependency>
 ```
 
 Gradle
 
 ```
-testImplementation 'com.ubertob.pesticide:pesticide-core:1.4.3'
+testImplementation 'com.ubertob.pesticide:pesticide-core:1.5.0'
 ```
-
-## What's new?
-
-* 12 Mar 2021 v.1.4.2
-  - added # as possible wildcard for steps since IntelliJ has problems looking for methods with $ inside
-
-* 2021/03/09 v.1.4.1
-  - fix for a bug when running in Windows
-
-* 2021/02/04 v.1.4
-  - switched to Kotlin 1.4
 
 ## FAQ
 
