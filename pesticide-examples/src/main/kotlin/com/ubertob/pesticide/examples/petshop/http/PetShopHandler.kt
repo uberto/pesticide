@@ -1,7 +1,6 @@
 package com.ubertob.pesticide.examples.petshop.http
 
-import com.beust.klaxon.Klaxon
-import com.ubertob.pesticide.examples.petshop.model.Pet
+import com.ubertob.kondor.outcome.recover
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
 import org.http4k.core.*
 import org.http4k.routing.bind
@@ -11,7 +10,6 @@ import org.http4k.routing.routes
 
 class PetShopHandler(val hub: PetShopHub) : HttpHandler {
 
-    val klaxon = Klaxon()
 
     override fun invoke(request: Request) = petShopRoutes(request)
 
@@ -28,11 +26,10 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
     fun petDetails(request: Request): Response =
         request.path("name")
             ?.let(hub::getByName)
-            ?.let(::toJson)
+            ?.let(JPet::toJson)
             ?.let(Response(Status.OK)::body)
             ?: Response(Status.NOT_FOUND)
 
-    private fun toJson(it: Pet) = klaxon.toJsonString(it)
 
     fun addPetToCart(request: Request): Response =
         request.path("cartId")
@@ -44,20 +41,21 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
             } ?: Response(Status.BAD_REQUEST)
 
     fun addPetToShop(request: Request): Response =
-        klaxon.parse<Pet>(request.bodyString())
-            ?.let {
-                hub.addPet(it)
-                Response(Status.ACCEPTED)
-            } ?: Response(Status.BAD_REQUEST)
+        JPet.fromJson(request.bodyString()).transform {
+            hub.addPet(it)
+            Response(Status.ACCEPTED)
+        }.recover {
+            Response(Status.BAD_REQUEST)
+        }
 
     fun createCart(request: Request): Response =
         Response(Status.ACCEPTED).body(
-            klaxon.toJsonString(hub.createCart())
+            JCart.toJson(hub.createCart())
         )
 
     fun listPets(request: Request): Response =
         Response(Status.OK).body(
-            klaxon.toJsonString(hub.getAll())
+            jPetNames.toJson(hub.getAll())
         )
 
     fun cartDetails(request: Request): Response =
@@ -65,16 +63,18 @@ class PetShopHandler(val hub: PetShopHub) : HttpHandler {
             ?.let { hub.getCart(it.asCartId()) }
             ?.let {
                 Response(Status.OK)
-                    .body(klaxon.toJsonString(it))
+                    .body(JCart.toJson(it))
             } ?: Response(Status.BAD_REQUEST)
 
     fun checkout(request: Request): Response =
         request.path("cartId")
             ?.let {
-                Response(Status.ACCEPTED).body(
-                    klaxon.toJsonString(hub.cartCheckout(it.asCartId()))
-                )
-            } ?: Response(Status.BAD_REQUEST)
+                hub.cartCheckout(it.asCartId())?.let { cart ->
+                    Response(Status.ACCEPTED).body(
+                        JCart.toJson(cart)
+                    )
+                }
+            } ?: Response(Status.NOT_FOUND)
 
 
     fun String.asCartId(): Int = toIntOrNull() ?: -1

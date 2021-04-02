@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.5.0 -
+
+- made Step contravariant on DomainInterpreter, so it's possible to use for cross domain tests (see PetShop example)
+
 ### v1.4.3 - 21 Mar 2021
 
 - added `eventually(within){expectation}` function to simplify testing of async operations

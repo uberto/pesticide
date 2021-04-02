@@ -7,7 +7,7 @@ dependencies {
 
     implementation "org.http4k:http4k-core:${http4kVersion}"
     implementation "org.http4k:http4k-server-jetty:${http4kVersion}"
-    implementation "com.beust:klaxon:${klaxonVersion}"
+    implementation "com.ubertob.kondor:kondor-core:${kondorVersion}"
 
     testImplementation project(":pesticide-core")
     testImplementation "com.codeborne:selenide:4.14.2"

@@ -50,7 +50,7 @@ data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInte
     fun `check that there are no more $ for sale`(petName: String) =
         step(petName) {
             val price = askPetPrice(petName)
-//            expectThat(pets.orEmpty()).doesNotContain(petName)
+            expectThat(price).isNull()
         }
 
 }

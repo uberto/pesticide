@@ -1,11 +1,16 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.beust.klaxon.Klaxon
+import com.ubertob.kondor.outcome.Failure
+import com.ubertob.kondor.outcome.Outcome
+import com.ubertob.kondor.outcome.Success
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Http
 import com.ubertob.pesticide.core.NotReady
 import com.ubertob.pesticide.core.Ready
+import com.ubertob.pesticide.examples.petshop.http.JCart
+import com.ubertob.pesticide.examples.petshop.http.JPet
 import com.ubertob.pesticide.examples.petshop.http.PetShopHandler
+import com.ubertob.pesticide.examples.petshop.http.jPetNames
 import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.model.PetShopHub
@@ -57,7 +62,7 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
 
     private fun uri(path: String) = "http://$host:$port/$path"
 
-    fun addPetRequest(pet: Pet) = Request(POST, uri("pets")).body(pet.toJson())
+    fun addPetRequest(pet: Pet) = Request(POST, uri("pets")).body(JPet.toJson(pet))
 
     override fun populateShop(vararg pets: Pet) =
         pets.forEach {
@@ -74,7 +79,7 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
 
         expectThat(resp.status).isEqualTo(OK)
 
-        val pet = klaxon.parse<Pet>(resp.bodyString())
+        val pet = JPet.fromJson(resp.bodyString()).orNull()
 
         return pet?.price
 
@@ -86,7 +91,7 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
 
         expectThat(resp.status).isEqualTo(OK)
 
-        val pets = klaxon.parseArray<String>(resp.bodyString())
+        val pets = jPetNames.fromJson(resp.bodyString()).orThrow()
 
         return (pets)
     }
@@ -97,14 +102,14 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
 
         expectThat(resp.status).isEqualTo(OK)
 
-        return klaxon.parse<Cart>(resp.bodyString())
+        return JCart.fromJson(resp.bodyString()).orThrow()
     }
 
     override fun createNewCart(): CartId? {
         val req = Request(POST, uri("cart"))
         val resp = client(req)
         expectThat(resp.status).isEqualTo(ACCEPTED)
-        return klaxon.parse<Cart>(resp.bodyString())?.id
+        return JCart.fromJson(resp.bodyString()).orThrow().id
     }
 
     override fun addToCart(cartId: CartId, petName: String) {
@@ -119,8 +124,10 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
         expectThat(resp.status).isEqualTo(ACCEPTED)
     }
 
-    val klaxon = Klaxon()
-
-    private fun Pet.toJson(): String = klaxon.toJsonString(this)
-
 }
+
+private fun <T> Outcome<*, T>.orNull(): T? =
+    when (this) {
+        is Success -> value
+        is Failure -> null
+    }
