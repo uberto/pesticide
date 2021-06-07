@@ -1,6 +1,10 @@
 features:
 
-support # instead of $ for step names (intellij search)
+write ddt test name and/or line number in the stacktrace!
+
+simplify atRise DSL...
+
+change name to Interpreter -> Stage, Script, Lines, Environment
 
 http4k support "out-of-the-box" (both client and server)
 
