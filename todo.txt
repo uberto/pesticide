@@ -1,7 +1,5 @@
 features:
 
-write ddt test name and/or line number in the stacktrace!
-
 simplify atRise DSL...
 
 change name to Interpreter -> Stage, Script, Lines, Environment

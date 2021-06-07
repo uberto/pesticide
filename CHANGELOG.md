@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.5.2 - 7 Jun 2021
+
+- Added ddt test name and line number on the exception stacktrace
+
 ### v1.5.1 - 2 Apr 2021
 
 - removing unnecessary onShutdown method on DomainInterpreter
