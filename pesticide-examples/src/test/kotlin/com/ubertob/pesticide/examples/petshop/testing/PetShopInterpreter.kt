@@ -7,6 +7,7 @@ import com.ubertob.pesticide.examples.petshop.model.Pet
 
 interface PetShopCrossInterpreter : PetShopInterpreter, PetShopSAInterpreter
 
+//to show
 interface PetShopSAInterpreter : DomainInterpreter<DdtProtocol> {
     fun askPetList(): List<String>?
 }

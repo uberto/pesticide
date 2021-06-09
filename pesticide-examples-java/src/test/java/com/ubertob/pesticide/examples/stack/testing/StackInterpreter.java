@@ -1,13 +1,13 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
 
+import com.ubertob.pesticide.core.DdtActions;
 import com.ubertob.pesticide.core.DdtProtocol;
-import com.ubertob.pesticide.core.DomainInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface StackInterpreter extends DomainInterpreter<DdtProtocol> {
+public interface StackInterpreter extends DdtActions<DdtProtocol> {
     void pushNumber(int num);
 
     int popNumber();

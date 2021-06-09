@@ -10,7 +10,7 @@ import java.util.function.Consumer
  * actors are generally created with the NamedActor delegate in the DomainDrivenTest
  *
  */
-abstract class DdtActor<D : DomainInterpreter<*>> : DdtActorWithContext<D, Unit>() {
+abstract class DdtActor<D : DdtActions<*>> : DdtActorWithContext<D, Unit>() {
 
     @JvmName("stepWithDesc")
     fun stepWithDescJava(
@@ -37,7 +37,7 @@ typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
  * see  {@link DdtActor} if you don't need a context
  *
  */
-abstract class DdtActorWithContext<D : DomainInterpreter<*>, C : Any> {
+abstract class DdtActorWithContext<D : DdtActions<*>, C : Any> {
 
     abstract val name: String
 

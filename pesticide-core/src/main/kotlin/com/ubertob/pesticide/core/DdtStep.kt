@@ -5,12 +5,12 @@ import java.net.URI
 
 
 /**
- * DdtStep is the class that should drive the {@link DomainInterpreter} and keep the Domain level assertions for all the {@link DdtProtocols}
+ * DdtStep is the class that should drive the {@link DdtActions} and keep the Domain level assertions for all the {@link DdtProtocols}
  *
  * see {@link DdtActorWithContext} and {@link StepContext}
  *
  */
-data class DdtStep<in D : DomainInterpreter<*>, C : Any>(
+data class DdtStep<in D : DdtActions<*>, C : Any>(
     val actorName: String,
     val description: String,
     val action: StepBlock<D, C>

@@ -25,6 +25,20 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
     }
 
     @DDT
+    fun `sum three numbers NG`() = ddtScenario {
+
+        setUp {
+            startWithNumber(128)
+        }.thenPlay(
+            bart.`adds number #`(64),
+            bart.`adds number #`(31),
+            bart.`adds number #`(33),
+            bart.`verifies the total is #`(256)
+        )
+    }
+
+
+    @DDT
     fun `with fixture and Work In Progress`() = ddtScenario {
         val rndNum = Random.nextInt(1, 100)
 
@@ -60,6 +74,17 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
         val rndNum = Random.nextInt()
 
         withoutSetting atRise play(
+            bart.`adds number #`(rndNum),
+            bart.`verifies the total is #`(rndNum)
+        )
+    }
+
+
+    @DDT
+    fun `without setting NG`() = ddtScenario {
+        val rndNum = Random.nextInt()
+
+        play(
             bart.`adds number #`(rndNum),
             bart.`verifies the total is #`(rndNum)
         )

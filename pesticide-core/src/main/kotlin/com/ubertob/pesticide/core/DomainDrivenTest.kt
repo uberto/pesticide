@@ -19,7 +19,7 @@ typealias DDT = TestFactory
  * A test should look something like:
  *
  * <pre>
- *    class MyDDT : DomainDrivenTest<MyInterpreter>(allInterpreters()) {
+ *    class MyDDT : DomainDrivenTest<MyActions>(allActions()) {
  *
  *   val adam by NamedActor(::MyActor)
  *
@@ -37,7 +37,8 @@ typealias DDT = TestFactory
  *
  * See also {@link DdtScenario}
  */
-abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: Iterable<D>) {
+
+abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
         DdtScenario(withoutSetting, stepsArray.toList())
@@ -84,27 +85,34 @@ abstract class DomainDrivenTest<D : DomainInterpreter<*>>(private val domains: I
             .stream()
 
     @JvmField
-    val withoutSetting: Setting<D> =
-        Setting()
+    val withoutSetting: DdtSetup<D> =
+        DdtSetup()
 
-    fun setting(block: D.() -> Unit): Setting<D> =
-        Setting {
+    fun setting(block: D.() -> Unit): DdtSetup<D> =
+        DdtSetup {
             block(this)
         }
 
+
+    fun setUp(block: D.() -> Unit): DdtSetup<D> =
+        DdtSetup {
+            block(this)
+        }
+
+    fun DdtSetup<D>.thenPlay(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
+        DdtScenario(this, stepsArray.toList())
+
     //useful for Java
-    fun onSetting(block: Consumer<D>): Setting<D> = setting { block.accept(this) }
+    fun onSetting(block: Consumer<D>): DdtSetup<D> = setting { block.accept(this) }
 
-    infix fun Setting<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
-        steps.copy(setting = this)
+    infix fun DdtSetup<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
+        steps.copy(ddtSetup = this)
 
-    class NamedActor<D : DomainInterpreter<*>, A : DdtActorWithContext<in D, *>>(val actorConstructor: (String) -> A) :
+    class NamedActor<D : DdtActions<*>, A : DdtActorWithContext<in D, *>>(val actorConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {
         override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
             actorConstructor(property.name.capitalize())
     }
-
-
 
 
 }
