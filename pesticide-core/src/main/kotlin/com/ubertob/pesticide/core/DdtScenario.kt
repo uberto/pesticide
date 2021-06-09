@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.opentest4j.AssertionFailedError
 import org.opentest4j.TestAbortedException
-import java.net.URI
 import java.time.LocalDate
 import kotlin.streams.asStream
 
@@ -92,25 +91,22 @@ data class DdtScenario<D : DdtActions<*>>(
         t: Throwable
     ): Throwable =
         when (t) {
-            is AssertionFailedError -> DDTAssertionFailedError(step.testSourceURI(), decorateTestName(actions, step), t)
-            is AssertionError -> DDTAssertionError(step.testSourceURI(), decorateTestName(actions, step), t)
-            else -> DDTError(
-                step.testSourceURI(),
-                decorateTestName(actions, step),
-                t
+            is AssertionFailedError -> DDTAssertionFailedError(
+                t,
+                step.testSourceString(),
+                decorateTestName(actions, step)
             )
-
+            is AssertionError -> DDTAssertionError(t, step.testSourceString(), decorateTestName(actions, step))
+            else -> DDTError(t, step.testSourceString(), decorateTestName(actions, step))
         }
 
 
-    data class DDTError(val sourceUri: URI?, val testName: String, val t: Throwable) : Throwable()
-    data class DDTAssertionError(val sourceUri: URI?, val testName: String, val t: AssertionError) :
+    data class DDTError(val t: Throwable, val sourceLine: String, val testName: String) : Throwable()
+    data class DDTAssertionError(val t: AssertionError, val sourceLine: String, val testName: String) :
         AssertionError(t.message)
 
-    data class DDTAssertionFailedError(val sourceUri: URI?, val testName: String, val t: AssertionFailedError) :
-        AssertionFailedError(
-            t.message, t.expected, t.actual, t.cause
-        )
+    data class DDTAssertionFailedError(val t: AssertionFailedError, val sourceLine: String, val testName: String) :
+        AssertionFailedError(t.message, t.expected, t.actual, t.cause)
 
     private fun alreadyFailed() = contextStore.get(ALREADY_FAILED) as Boolean
 

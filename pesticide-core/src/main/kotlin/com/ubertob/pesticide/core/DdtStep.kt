@@ -25,6 +25,15 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
             null
         }
 
+    fun testSourceString(): String =
+        try {
+            stackTraceElement?.toSource().orEmpty()
+        } catch (t: Throwable) {
+            "Error while trying to get the source line: $t"
+        }
+
+    fun StackTraceElement.toSource(): String = "${Class.forName(className)}:$lineNumber"
+
     fun StackTraceElement.toSourceReference(sourceRoot: File): URI? {
 
         val fileName = fileName ?: return null
