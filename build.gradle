@@ -5,7 +5,7 @@ plugins {
 allprojects {
 
     group 'com.ubertob.pesticide'
-    version '1.5.2'
+    version '1.5.3'
 
     repositories {
         mavenCentral()
@@ -19,7 +19,6 @@ allprojects {
 }
 
 subprojects {
-//    tasks.withType(KotlinCompile).all {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
             jvmTarget = "1.8"
