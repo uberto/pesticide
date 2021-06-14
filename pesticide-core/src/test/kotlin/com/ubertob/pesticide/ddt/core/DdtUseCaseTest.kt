@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.opentest4j.AssertionFailedError
 
 
-class DdtScenarioTest {
+class DdtUseCaseTest {
 
     interface MiniInterpreter : DomainInterpreter<DdtProtocol> {
         fun ask(): Boolean
@@ -29,25 +29,25 @@ class DdtScenarioTest {
         override fun ask(): Boolean = true
     }
 
-    data class TestActor(override val name: String) : DdtActor<MiniInterpreter>()
+    data class TestUser(override val name: String) : DdtUser<MiniInterpreter>()
 
     var step1run = false
     var step2run = false
 
-    val actor = TestActor("frank")
-    val step1 = DdtStep<MiniInterpreter, Unit>(actor.name, "step1") {
+    val user = TestUser("frank")
+    val step1 = DdtStep<MiniInterpreter, Unit>(user.name, "step1") {
         step1run = true
         assertTrue(ask())
     }
-    val step2 = DdtStep<MiniInterpreter, Unit>(actor.name, "step2") {
+    val step2 = DdtStep<MiniInterpreter, Unit>(user.name, "step2") {
         step2run = true
     }
-    val scenario = DdtScenario(DdtSetup(), listOf(step1, step2))
+    val useCase = DdtUseCase(DdtSetup(), listOf(step1, step2))
 
     @Test
-    fun `scenario skip tests after the first failure`() {
+    fun `DDT skips all steps after the first failure`() {
 
-        runScenario(scenario(MiniInterpreterFalse))
+        runUseCase(useCase(MiniInterpreterFalse))
 
         assertTrue(step1run)
         assertFalse(step2run)
@@ -56,18 +56,18 @@ class DdtScenarioTest {
 
     @Test
     fun `new protocol will run tests even if the previous one failed`() {
-        runScenario(scenario(MiniInterpreterFalse))
+        runUseCase(useCase(MiniInterpreterFalse))
         assertTrue(step1run)
         assertFalse(step2run)
 
-        runScenario(scenario(MiniInterpreterTrue))
+        runUseCase(useCase(MiniInterpreterTrue))
         assertTrue(step1run)
         assertTrue(step2run)
     }
 
-    private fun runScenario(scenario: DynamicContainer) {
+    private fun runUseCase(useCase: DynamicContainer) {
         try {
-            scenario.children.forEach { (it as DynamicTest).executable.execute() }
+            useCase.children.forEach { (it as DynamicTest).executable.execute() }
         } catch (e: AssertionFailedError) {
 
         }

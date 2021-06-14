@@ -8,12 +8,14 @@ import org.opentest4j.TestAbortedException
 import java.time.LocalDate
 import kotlin.streams.asStream
 
+typealias DdtScenario<T> = DdtUseCase<T> //for retro-compatibility
+
 /**
- * DdtScenario is the class that keeps together the information to create a scenario test. It can generate the {@code DynamicTest}
+ * DdtUseCase is the class that keeps together the information to create a test for a UseCase. It can generate the {@code DynamicTest}
  *
- * Normally it shouldn't be created directly but using the {@code ddtScenario} method of {@code DomainDrivenTest}
+ * Normally it shouldn't be created directly but using the {@code ddtUseCase} method of {@code DomainDrivenTest}
  */
-data class DdtScenario<D : DdtActions<*>>(
+data class DdtUseCase<D : DdtActions<*>>(
     val ddtSetup: DdtSetup<D>,
     val steps: List<DdtStep<D, *>>,
     val wipData: WipData? = null

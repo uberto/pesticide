@@ -4,11 +4,11 @@ import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
 
 class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())) {
-    val littleRedRidingHood by NamedActor(::Human)
-    val bigBadWolf by NamedActor(::Wolf)
+    val littleRedRidingHood by NamedUser(::Human)
+    val bigBadWolf by NamedUser(::Wolf)
 
     @DDT
-    fun `little red riding hood goes into the forest`() = ddtScenario {
+    fun `little red riding hood goes into the forest`() = useCase {
 
         setting {
             aGrandMaLivingAloneIntoTheForest()
@@ -26,7 +26,7 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
     }
 
     @DDT
-    fun `smart girl scenario`() = ddtScenario {
+    fun `smart girl scenario`() = useCase {
 
         setting {
             aGrandMaLivingAloneIntoTheForest()
@@ -41,7 +41,7 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
     }
 
     @DDT
-    fun `wolf wins scenario`() = ddtScenario {
+    fun `wolf wins scenario`() = useCase {
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(

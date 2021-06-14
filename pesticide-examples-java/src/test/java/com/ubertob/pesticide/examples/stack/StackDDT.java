@@ -21,7 +21,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     @TestFactory
     public Stream<DynamicContainer> push3Numbers() {
-        return ddtScenario(protocol -> atRise(
+        return useCase(protocol -> atRise(
                 withoutSetting,
                 play(
                         sabine.pushANumber(4),
@@ -34,7 +34,7 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     @TestFactory
     public Stream<DynamicContainer> pushAndPull() {
-        return ddtScenario(protocol -> atRise(
+        return useCase(protocol -> atRise(
                 withoutSetting,
                 play(
                         sabine.pushANumber(4),
@@ -51,8 +51,8 @@ public class StackDDT extends DomainDrivenTest<StackInterpreter> {
 
     @TestFactory
     public Stream<DynamicContainer> testWorkInProgress() {
-        return ddtScenario(protocol -> atRise(
-                onSetting(d -> d.pushNumber(5)),
+        return useCase(protocol -> atRise(
+                onSetUp(d -> d.pushNumber(5)),
                 wip(
                         play(sabine.popANumber(4)),
                         LocalDate.of(2100, 1, 1), "Impossible Stack", new HashSet<>()

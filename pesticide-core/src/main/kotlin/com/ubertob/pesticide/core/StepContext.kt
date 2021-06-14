@@ -1,8 +1,8 @@
 package com.ubertob.pesticide.core
 
 /**
- * StepContext is the class to get and store the context for a specific actor.
- * It uses the actor.name as reference, since the actor instance and fields can be different between steps.
+ * StepContext is the class to get and store the context for a specific user.
+ * It uses the user.name as reference, since the user instance and fields can be different between steps.
  *
  * <pre>
  *     fun `loggin in`() = step(foodName){ ctx ->
@@ -20,45 +20,45 @@ package com.ubertob.pesticide.core
  *
  */
 
-data class StepContext<C : Any>(val actorName: String, private val contextStore: ContextStore) {
+data class StepContext<C : Any>(val userName: String, private val contextStore: ContextStore) {
 
     /**
      * get
      *
      * returns the context or throw exception if not present.
      */
-    fun get(): C = contextStore.get(actorName)
+    fun get(): C = contextStore.get(userName)
 
     /**
      * getFrom
      *
-     * allow to retrieve information from the context of another actor and store it in the current context.
+     * allow to retrieve information from the context of another user and store it in the current context.
      */
-    fun <K : Any> getFrom(anotherActor: DdtActorWithContext<*, K>, block: (K) -> C) =
-        (contextStore.get(anotherActor.name) as? K)
+    fun <K : Any> getFrom(anotherUser: DdtUserWithContext<*, K>, block: (K) -> C) =
+        (contextStore.get(anotherUser.name) as? K)
             ?.let(block)
-            ?.let { contextStore.store(actorName, it) }
+            ?.let { contextStore.store(userName, it) }
 
     /**
      * getOrNull
      *
      * returns the context or null if not present.
      */
-    fun getOrNull(): C? = contextStore.getOrNull(actorName)
+    fun getOrNull(): C? = contextStore.getOrNull(userName)
 
     /**
      * store
      *
      * store the context. if a context was already present it will overwrite it.
      */
-    fun store(newContext: C) = contextStore.store(actorName, newContext)
+    fun store(newContext: C) = contextStore.store(userName, newContext)
 
     /**
      * delete
      *
-     * delete the context for the actor.
+     * delete the context for the user.
      */
-    fun delete() = contextStore.delete(actorName)
+    fun delete() = contextStore.delete(userName)
 }
 
 

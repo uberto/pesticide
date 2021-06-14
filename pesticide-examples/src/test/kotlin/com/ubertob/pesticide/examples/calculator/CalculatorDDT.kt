@@ -9,10 +9,10 @@ import kotlin.random.Random
 
 class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInterpreters()) {
 
-    val bart by NamedActor(::Student)
+    val bart by NamedUser(::Student)
 
     @DDT
-    fun `sum three numbers`() = ddtScenario {
+    fun `sum three numbers`() = useCase {
 
         setting {
             startWithNumber(128)
@@ -25,7 +25,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
     }
 
     @DDT
-    fun `sum three numbers NG`() = ddtScenario {
+    fun `sum three numbers NG`() = useCase {
 
         setUp {
             startWithNumber(128)
@@ -39,7 +39,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
 
 
     @DDT
-    fun `with fixture and Work In Progress`() = ddtScenario {
+    fun `with fixture and Work In Progress`() = useCase {
         val rndNum = Random.nextInt(1, 100)
 
         setting {
@@ -52,7 +52,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
     }
 
     @DDT
-    fun `with fixture`() = ddtScenario {
+    fun `with fixture`() = useCase {
         val n1 = 64
         val n2 = 31
         val n3 = 33
@@ -70,7 +70,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
 
 
     @DDT
-    fun `without setting`() = ddtScenario {
+    fun `without setting`() = useCase {
         val rndNum = Random.nextInt()
 
         withoutSetting atRise play(
@@ -81,7 +81,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
 
 
     @DDT
-    fun `without setting NG`() = ddtScenario {
+    fun `without setting NG`() = useCase {
         val rndNum = Random.nextInt()
 
         play(
@@ -91,7 +91,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
     }
 
     @DDT
-    fun `with Work In Progress and exceptions`() = ddtScenario {
+    fun `with Work In Progress and exceptions`() = useCase {
         val rndNum = Random.nextInt(1, 100)
 
         setting {
@@ -105,7 +105,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInter
 
 
     @DDT
-    fun `first failed test stops the others`() = ddtScenario {
+    fun `first failed test stops the others`() = useCase {
         val rndNum = Random.nextInt(1, 100)
 
         setting {

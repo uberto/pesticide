@@ -1,12 +1,12 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
-import com.ubertob.pesticide.core.DdtActor;
 import com.ubertob.pesticide.core.DdtStep;
+import com.ubertob.pesticide.core.DdtUser;
 import kotlin.Unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StackUser extends DdtActor<StackInterpreter> {
+public class StackUser extends DdtUser<StackInterpreter> {
 
     private final String name;
 
