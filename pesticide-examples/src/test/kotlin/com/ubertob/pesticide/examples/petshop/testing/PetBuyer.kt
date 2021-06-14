@@ -13,13 +13,13 @@ typealias CartId = Int
 
 data class PetBuyer(override val name: String) : DdtUserWithContext<PetShopInterpreter, CartId>() {
 
-    fun `check that the price of $ is $`(petName: String, expectedPrice: Int) =
+    fun `check that the price of # is #`(petName: String, expectedPrice: Int) =
         step(petName, expectedPrice) {
             val price = askPetPrice(petName)
             expectThat(price).isEqualTo(expectedPrice)
         }
 
-    fun `put $ into the cart`(petName: String) =
+    fun `put # into the cart`(petName: String) =
         step(petName) { cxt ->
             expectThat(cxt.getOrNull()).isNull()
             val cartId = createNewCart() ?: fail("No CartId")
@@ -28,7 +28,7 @@ data class PetBuyer(override val name: String) : DdtUserWithContext<PetShopInter
         }
 
 
-    fun `cannot put $ into the cart`(petName: String) =
+    fun `cannot put # into the cart`(petName: String) =
         step(petName) {
             val cartId = createNewCart() ?: fail("No CartId")
             addToCart(cartId, petName)
@@ -38,7 +38,7 @@ data class PetBuyer(override val name: String) : DdtUserWithContext<PetShopInter
 
         }
 
-    fun `checkout with pets $`(vararg pets: String) =
+    fun `checkout with pets #`(vararg pets: String) =
         step(pets.asList().joinToString(",")) { ctx ->
             val cartId = ctx.get()
             val cart = askCartStatus(cartId)
@@ -47,7 +47,7 @@ data class PetBuyer(override val name: String) : DdtUserWithContext<PetShopInter
             checkOut(cartId)
         }
 
-    fun `check that there are no more $ for sale`(petName: String) =
+    fun `check that there are no more # for sale`(petName: String) =
         step(petName) {
             val price = askPetPrice(petName)
             expectThat(price).isNull()

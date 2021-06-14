@@ -8,7 +8,7 @@ import strikt.assertions.isNotNull
 
 data class ShopAssistant(override val name: String) : DdtUser<PetShopSAInterpreter>() {
 
-    fun `check that $ is in the shop`(pet: Pet) = step(pet.name) {
+    fun `check that # is in the shop`(pet: Pet) = step(pet.name) {
         val pets = askPetList()
         expectThat(pets).isNotNull().contains(pet.name)
     }

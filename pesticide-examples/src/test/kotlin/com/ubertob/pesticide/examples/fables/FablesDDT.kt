@@ -13,15 +13,15 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
-            littleRedRidingHood.`gets basket with goods worth $`(100),
+            littleRedRidingHood.`gets basket with goods worth #`(100),
             littleRedRidingHood.`goes into the forest`(),
-            bigBadWolf.`get GrandMa location from $`(littleRedRidingHood),
+            bigBadWolf.`get GrandMa location from #`(littleRedRidingHood),
             bigBadWolf.`goes to GrandMa's house`(),
             littleRedRidingHood.`goes to GrandMa's house`(),
             bigBadWolf.`meets and eats the girl`(),
             bigBadWolf.`got killed by hunter`(),
             littleRedRidingHood.`jumps out from the belly of Wolf`(),
-            littleRedRidingHood.`gives to GrandMa the goods worth $`(100)
+            littleRedRidingHood.`gives to GrandMa the goods worth #`(100)
         )
     }
 
@@ -31,12 +31,12 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
-            littleRedRidingHood.`gets basket with goods worth $`(50),
+            littleRedRidingHood.`gets basket with goods worth #`(50),
             littleRedRidingHood.`goes into the forest`(),
             //skip revealing the location to the wolf
             littleRedRidingHood.`goes to GrandMa's house`(),
             bigBadWolf.`cannot go to GrandMa's house`(),
-            littleRedRidingHood.`gives to GrandMa the goods worth $`(50)
+            littleRedRidingHood.`gives to GrandMa the goods worth #`(50)
         )
     }
 
@@ -45,9 +45,9 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
         setting {
             aGrandMaLivingAloneIntoTheForest()
         } atRise play(
-            littleRedRidingHood.`gets basket with goods worth $`(100),
+            littleRedRidingHood.`gets basket with goods worth #`(100),
             littleRedRidingHood.`goes into the forest`(),
-            bigBadWolf.`get GrandMa location from $`(littleRedRidingHood),
+            bigBadWolf.`get GrandMa location from #`(littleRedRidingHood),
             bigBadWolf.`goes to GrandMa's house`(),
             littleRedRidingHood.`goes to GrandMa's house`(),
             bigBadWolf.`meets and eats the girl`(),
