@@ -3,6 +3,12 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.6.0 - 17 Jun 2021
+
+- renamed Interpreter to DdtActions, Actor to DdtUser, Scenario to DdtUseCase
+- allow for named parameters in step method name
+- updated to Kotlin 1.5.10
+
 ### v1.5.3 - 9 Jun 2021
 
 - renamed Interceptor and other classes
