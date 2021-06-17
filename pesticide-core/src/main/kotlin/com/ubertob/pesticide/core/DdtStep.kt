@@ -1,6 +1,5 @@
 package com.ubertob.pesticide.core
 
-import java.io.File
 import java.net.URI
 
 
@@ -16,16 +15,13 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
     val action: StepBlock<D, C>
 ) {
 
-
     val stackTraceElement = run {
-        println(Thread.currentThread())
-        //TODO can we guess better the sourceRoot?
-        Thread.currentThread().stackTrace[5]//TODO can we guess better the sourceRoot?
+        Thread.currentThread().stackTrace[5]//TODO can we guess better the DDT file from the stacktrace?
     }
 
     fun testSourceURI(): URI? =
         try {
-            stackTraceElement?.toSourceReference(sourceRoot)
+            stackTraceElement?.toSourceReference()
         } catch (t: Throwable) {
             println("Error while trying to get the source line: $t")
             null
@@ -38,23 +34,24 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
             "Error while trying to get the source line: $t"
         }
 
-    fun StackTraceElement.toSource(): String = "${Class.forName(className)}:$lineNumber"
+    fun StackTraceElement.toSource(): String = "${testClass(className)}:$lineNumber"
 
-    fun StackTraceElement.toSourceReference(sourceRoot: File): URI? {
+    fun StackTraceElement.toSourceReference(): URI? {
 
         val fileName = fileName ?: return null
-        val type = Class.forName(className)
+        val type = testClass(className)
 
-        val pathpesticide =
-            sourceRoot.toPath().resolve(type.`package`.name.replace(".", "/")).resolve(fileName).toFile().toURI()
+        val pathpesticide = "classpath:/${type.`package`.name.replace(".", "/")}/$fileName"
 
-        return URI("$pathpesticide&line=$lineNumber")
+        return URI("$pathpesticide&line=$lineNumber").also { println(it) }
 
     }
 
-}
+    fun testClass(className: String): Class<*> {
+        val dollar = className.indexOf('$')
+        return if (dollar > 0)
+            Class.forName(className.substring(0, dollar))
+        else Class.forName(className)
+    }
 
-private val sourceRoot = listOf(
-    File("src/test/kotlin"),
-    File("src/test/java")
-).find { it.isDirectory } ?: File(".")  //TODO make sure it works for others as well
+}
