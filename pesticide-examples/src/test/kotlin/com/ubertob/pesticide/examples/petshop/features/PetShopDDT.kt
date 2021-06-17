@@ -24,8 +24,8 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
         setting {
             populateShop(lamb, hamster)
         } atRise play(
-            mary.`check that the price of # is #`("lamb", 64),
-            mary.`check that the price of # is #`("hamster", 12),
+            mary.`check that the price of #pet is #price`(pet = "lamb", price = 64),
+            mary.`check that the price of #pet is #price`(pet = "hamster", price = 12),
             mary.`put # into the cart`("lamb"),
             mary.`check that there are no more # for sale`("lamb"),
             mary.`checkout with pets #`("lamb")

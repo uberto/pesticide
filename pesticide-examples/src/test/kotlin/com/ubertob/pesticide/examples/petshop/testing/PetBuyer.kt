@@ -13,10 +13,10 @@ typealias CartId = Int
 
 data class PetBuyer(override val name: String) : DdtUserWithContext<PetShopInterpreter, CartId>() {
 
-    fun `check that the price of # is #`(petName: String, expectedPrice: Int) =
-        step(petName, expectedPrice) {
-            val price = askPetPrice(petName)
-            expectThat(price).isEqualTo(expectedPrice)
+    fun `check that the price of #pet is #price`(pet: String, price: Int) =
+        step(pet, price) {
+            val realPrice = askPetPrice(pet)
+            expectThat(realPrice).isEqualTo(price)
         }
 
     fun `put # into the cart`(petName: String) =

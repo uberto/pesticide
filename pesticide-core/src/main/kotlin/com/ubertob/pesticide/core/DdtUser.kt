@@ -45,7 +45,7 @@ abstract class DdtUserWithContext<D : DdtActions<*>, C : Any> {
     abstract val name: String
 
     private fun getCurrentMethodName() =
-        Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace relevant instead of just 3...
+        Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace...
 
     internal fun generateStepName() =
         "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the method name
@@ -66,11 +66,14 @@ abstract class DdtUserWithContext<D : DdtActions<*>, C : Any> {
 }
 
 
-
-private fun String.replaceWildcard(wildcard: String, parameters: List<String>): String = parameters
-    .fold(this) { text, param ->
-        text.replaceFirst(wildcard, param)
-    }
+private fun String.replaceWildcard(wildcard: String, parameters: List<String>): String =
+    split("\\s+".toRegex()).map { word ->
+        word.replace("""^[,\.]|[,\.]$""".toRegex(), "")
+    }.filter { it.startsWith("#") }
+        .zip(parameters)
+        .fold(this) { text, pp ->
+            text.replaceFirst(pp.first, pp.second)
+        }
 
 private fun String.replaceParams(parameters: List<String>): String =
     replaceWildcard("$", parameters)
