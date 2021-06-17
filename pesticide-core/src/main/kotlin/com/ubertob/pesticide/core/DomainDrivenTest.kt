@@ -108,10 +108,10 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
     infix fun DdtSetup<D>.atRise(steps: DdtUseCase<D>): DdtUseCase<D> =
         steps.copy(ddtSetup = this)
 
-    class NamedUser<D : DdtActions<*>, A : DdtUserWithContext<in D, *>>(val actorConstructor: (String) -> A) :
+    class NamedUser<D : DdtActions<*>, A : DdtUserWithContext<in D, *>>(val userConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {
         override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
-            actorConstructor(property.name.capitalize())
+            userConstructor(property.name.capitalize())
     }
 
 }

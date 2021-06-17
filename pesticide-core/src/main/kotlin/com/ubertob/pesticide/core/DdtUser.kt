@@ -10,7 +10,7 @@ typealias DdtActorWithContext<T> = DdtUseCase<T> //for retro-compatibility
  *
  * see  {@link DdtUserWithContext} if you need a context
  *
- * actors are generally created with the NamedUser delegate in the DomainDrivenTest
+ * users are generally created with the NamedUser delegate in the DomainDrivenTest
  *
  */
 abstract class DdtUser<D : DdtActions<*>> : DdtUserWithContext<D, Unit>() {

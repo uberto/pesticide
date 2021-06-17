@@ -6,10 +6,10 @@ package com.ubertob.pesticide.core
  * The domain specific interface must be implemented for each of the protocols.
  *
  * DdtActions should work as a Facade to abstract the specific protocol details,
- * It should not contain domain related assertions, those should be used in the actors only.
+ * It should not contain domain related assertions, those should be used only inside the Steps.
  * It can contain assertions related to technical layers of the specific protocols.
  *
- * see also {@link DdtProtocol} and {@link DdtActorWithContext}
+ * see also {@link DdtProtocol} and {@link DdtUserWithContext}
  *
  */
 

@@ -16,7 +16,7 @@ package com.ubertob.pesticide.core
  *     }
  * </pre>
  *
- * see also {@link DdtActorWithContext} and {@link DdtStep}
+ * see also {@link DdtUserWithContext} and {@link DdtStep}
  *
  */
 

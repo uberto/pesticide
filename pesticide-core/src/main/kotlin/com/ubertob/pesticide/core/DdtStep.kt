@@ -7,15 +7,21 @@ import java.net.URI
 /**
  * DdtStep is the class that should drive the {@link DdtActions} and keep the Domain level assertions for all the {@link DdtProtocols}
  *
- * see {@link DdtActorWithContext} and {@link StepContext}
+ * see {@link DdtUserWithContext} and {@link StepContext}
  *
  */
 data class DdtStep<in D : DdtActions<*>, C : Any>(
-    val actorName: String,
+    val userName: String,
     val description: String,
     val action: StepBlock<D, C>
 ) {
-    val stackTraceElement = Thread.currentThread().stackTrace[5]//TODO can we guess better the sourceRoot?
+
+
+    val stackTraceElement = run {
+        println(Thread.currentThread())
+        //TODO can we guess better the sourceRoot?
+        Thread.currentThread().stackTrace[5]//TODO can we guess better the sourceRoot?
+    }
 
     fun testSourceURI(): URI? =
         try {

@@ -52,11 +52,11 @@ data class DdtUseCase<D : DdtActions<*>>(
             decorateExecution(
                 actions,
                 ddtSetup.asStep(),
-                StepContext(ddtSetup.asStep().actorName, contextStore)
+                StepContext(ddtSetup.asStep().userName, contextStore)
             )
         } prependTo steps.map { step ->
             createTest(step, actions) {
-                decorateExecution(actions, step, StepContext(step.actorName, contextStore))
+                decorateExecution(actions, step, StepContext(step.userName, contextStore))
             }
         }.addFinalWipTestIfNeeded(wipData, actions.protocol)
 
