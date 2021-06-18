@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.6.1 - 18 Jun 2021
+
+- fixing compatibility aliases
+
 ### v1.6.0 - 17 Jun 2021
 
 - renamed Interpreter to DdtActions, Actor to DdtUser, Scenario to DdtUseCase
