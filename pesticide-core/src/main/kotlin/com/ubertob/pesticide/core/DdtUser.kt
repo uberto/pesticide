@@ -2,8 +2,9 @@ package com.ubertob.pesticide.core
 
 import java.util.function.Consumer
 
-typealias DdtActor<T> = DdtUser<T> //for retro-compatibility
-typealias DdtActorWithContext<T> = DdtUseCase<T> //for retro-compatibility
+typealias DdtActor<A> = DdtUser<A> //for retro-compatibility
+typealias DdtActorWithContext<A, C> = DdtUserWithContext<A, C> //for retro-compatibility
+
 
 /**
  * DdtUser is the base class to inherit from if we don't need a context.
@@ -13,13 +14,13 @@ typealias DdtActorWithContext<T> = DdtUseCase<T> //for retro-compatibility
  * users are generally created with the NamedUser delegate in the DomainDrivenTest
  *
  */
-abstract class DdtUser<D : DdtActions<*>> : DdtUserWithContext<D, Unit>() {
+abstract class DdtUser<ACTIONS : DdtActions<*>> : DdtUserWithContext<ACTIONS, Unit>() {
 
     @JvmName("stepWithDesc")
     fun stepWithDescJava(
         stepDesc: String,
-        block: Consumer<D>
-    ): DdtStep<D, Unit> =
+        block: Consumer<ACTIONS>
+    ): DdtStep<ACTIONS, Unit> =
         stepWithDesc(stepDesc) {
             block.accept(this)
         }
@@ -40,7 +41,7 @@ typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
  * see  {@link DdtUser} if you don't need a context
  *
  */
-abstract class DdtUserWithContext<D : DdtActions<*>, C : Any> {
+abstract class DdtUserWithContext<ACTIONS : DdtActions<*>, CTX : Any> {
 
     abstract val name: String
 
@@ -54,13 +55,13 @@ abstract class DdtUserWithContext<D : DdtActions<*>, C : Any> {
         "$name ${getCurrentMethodName()}".replaceParams(parameters.map { it.toString() })
 
 
-    fun step(vararg parameters: Any, block: StepBlock<D, C>): DdtStep<D, C> =
+    fun step(vararg parameters: Any, block: StepBlock<ACTIONS, CTX>): DdtStep<ACTIONS, CTX> =
         stepWithDesc(generateStepName(parameters), block)
 
-    fun step(block: StepBlock<D, C>): DdtStep<D, C> =
+    fun step(block: StepBlock<ACTIONS, CTX>): DdtStep<ACTIONS, CTX> =
         stepWithDesc(generateStepName(), block)
 
-    protected fun stepWithDesc(stepDesc: String, block: StepBlock<D, C>): DdtStep<D, C> =
+    protected fun stepWithDesc(stepDesc: String, block: StepBlock<ACTIONS, CTX>): DdtStep<ACTIONS, CTX> =
         DdtStep(name, stepDesc, block)
 
 }

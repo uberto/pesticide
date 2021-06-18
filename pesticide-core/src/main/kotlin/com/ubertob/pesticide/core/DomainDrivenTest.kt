@@ -84,6 +84,12 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
             .ifEmpty { fail("No protocols selected!") }
             .stream()
 
+    //for retro-compatibility
+    fun ddtScenario(
+        useCaseBuilder: (DdtProtocol) -> DdtUseCase<D>
+    ): Stream<DynamicContainer> = useCase(useCaseBuilder)
+
+
     @JvmField
     val withoutSetting: DdtSetup<D> =
         DdtSetup()
@@ -108,6 +114,7 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
     infix fun DdtSetup<D>.atRise(steps: DdtUseCase<D>): DdtUseCase<D> =
         steps.copy(ddtSetup = this)
 
+
     class NamedUser<D : DdtActions<*>, A : DdtUserWithContext<in D, *>>(val userConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {
         override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
@@ -117,3 +124,4 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
 }
 
 
+typealias NamedActor<D, A> = DomainDrivenTest.NamedUser<D, A>
