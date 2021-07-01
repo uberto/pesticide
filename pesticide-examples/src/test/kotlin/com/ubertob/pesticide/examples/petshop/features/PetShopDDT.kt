@@ -21,9 +21,9 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     fun `mary buys a lamb`() = useCase {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
-        setting {
+        setUp {
             populateShop(lamb, hamster)
-        } atRise play(
+        }.thenPlay(
             mary.`check that the price of #pet is #price`(pet = "lamb", price = 64),
             mary.`check that the price of #pet is #price`(pet = "hamster", price = 12),
             mary.`put # into the cart`("lamb"),
@@ -36,9 +36,9 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     fun `mary buys a lamb and bert buys a hamster`() = useCase {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
-        setting {
+        setUp {
             populateShop(lamb, hamster)
-        } atRise play(
+        }.thenPlay(
             mary.`put # into the cart`("lamb"),
             bert.`check that there are no more # for sale`("lamb"),
             bert.`put # into the cart`("hamster"),
@@ -51,9 +51,9 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     fun `shop assistance check the pets`() = useCase {
         val parrot = Pet("parrot", 100)
         val bunny = Pet("bunny", 70)
-        setting {
+        setUp {
             populateShop(parrot, bunny)
-        } atRise play(
+        }.thenPlay(
             adam.`check that # is in the shop`(parrot),
             adam.`check that # is in the shop`(bunny)
         )
@@ -64,9 +64,9 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     fun `mary cannot put another pet in the cart after she checked out`() = useCase {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
-        setting {
+        setUp {
             populateShop(lamb, hamster)
-        } atRise play(
+        }.thenPlay(
             mary.`put # into the cart`("lamb"),
             mary.`checkout with pets #`("lamb"),
             mary.`cannot put # into the cart`("hamster")
@@ -78,9 +78,9 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     fun `Bert cannot buy same pet twice in the cart`() = useCase {
         val parrot = Pet("parrot", 100)
         val bunny = Pet("bunny", 70)
-        setting {
+        setUp {
             populateShop(parrot, bunny)
-        } atRise play(
+        }.thenPlay(
             mary.`put # into the cart`(parrot.name),
             mary.`checkout with pets #`(parrot.name),
             bert.`cannot put # into the cart`(parrot.name)

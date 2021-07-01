@@ -15,7 +15,7 @@ class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
     @DDT
     fun `user can search for a word`() = useCase {
 
-        withoutSetting atRise play(
+        play(
 
             googleUser.`search for #`("pesticide github kotlin"),
 

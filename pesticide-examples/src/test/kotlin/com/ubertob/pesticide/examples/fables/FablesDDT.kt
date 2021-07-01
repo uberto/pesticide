@@ -10,9 +10,9 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
     @DDT
     fun `little red riding hood goes into the forest`() = useCase {
 
-        setting {
+        setUp {
             aGrandMaLivingAloneIntoTheForest()
-        } atRise play(
+        }.thenPlay(
             littleRedRidingHood.`gets basket with goods worth #`(100),
             littleRedRidingHood.`goes into the forest`(),
             bigBadWolf.`get GrandMa location from #`(littleRedRidingHood),
@@ -28,9 +28,9 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
     @DDT
     fun `smart girl scenario`() = useCase {
 
-        setting {
+        setUp {
             aGrandMaLivingAloneIntoTheForest()
-        } atRise play(
+        }.thenPlay(
             littleRedRidingHood.`gets basket with goods worth #`(50),
             littleRedRidingHood.`goes into the forest`(),
             //skip revealing the location to the wolf
@@ -42,9 +42,9 @@ class FablesDDT : DomainDrivenTest<FablesInterpreter>(setOf(FablesInterpreter())
 
     @DDT
     fun `wolf wins scenario`() = useCase {
-        setting {
+        setUp {
             aGrandMaLivingAloneIntoTheForest()
-        } atRise play(
+        }.thenPlay(
             littleRedRidingHood.`gets basket with goods worth #`(100),
             littleRedRidingHood.`goes into the forest`(),
             bigBadWolf.`get GrandMa location from #`(littleRedRidingHood),
