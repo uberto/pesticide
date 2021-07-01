@@ -94,13 +94,12 @@ data class DdtUseCase<D : DdtActions<*>>(
     ): Throwable =
         when (t) {
             is AssertionFailedError -> DDTAssertionFailedError(
-                t,
-                step.testSourceString(),
+                t, step.testSourceString(),
                 decorateTestName(actions, step)
             )
             is AssertionError -> DDTAssertionError(t, step.testSourceString(), decorateTestName(actions, step))
             else -> DDTError(t, step.testSourceString(), decorateTestName(actions, step))
-        }
+        }.also { it.stackTrace = t.stackTrace }
 
 
     data class DDTError(val t: Throwable, val sourceLine: String, val testName: String) : Throwable()

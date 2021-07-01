@@ -122,6 +122,3 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
     }
 
 }
-
-
-typealias NamedActor<D, A> = DomainDrivenTest.NamedUser<D, A>
