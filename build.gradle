@@ -1,11 +1,11 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.20'
 }
 
 allprojects {
 
     group 'com.ubertob.pesticide'
-    version '1.6.1'
+    version '1.6.2'
 
     repositories {
         mavenCentral()

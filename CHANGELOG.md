@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.6.2 - 1 Jul 2021
+
+- fixing stacktrace issue
+
 ### v1.6.1 - 18 Jun 2021
 
 - fixing compatibility aliases
