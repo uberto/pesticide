@@ -5,11 +5,11 @@ import strikt.api.expectThat
 import strikt.assertions.isGreaterThanOrEqualTo
 
 data class GoogleUser(override val name: String) : DdtActor<GooglePageInterpreter>() {
-    fun `search for #`(searchText: String) = step(searchText) {
+    fun `search for #keyword`(searchText: String) = step(searchText) {
         queryGoogle(searchText)
     }
 
-    fun `can see '#' among results`(expectedText: String) = step(expectedText) {
+    fun `can see #keyword among results`(expectedText: String) = step(expectedText) {
 
         val occurrences = getSearchResults().filter { it.contains(expectedText, true) }
 

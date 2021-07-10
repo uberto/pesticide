@@ -66,7 +66,7 @@ abstract class DdtActorWithContext<ACTIONS : DdtActions<*>, CTX : Any> {
 private fun String.replaceWildcard(wildcard: String, parameters: List<String>): String =
     split("\\s+".toRegex()).map { word ->
         word.replace("""^[,\.]|[,\.]$""".toRegex(), "")
-    }.filter { it.startsWith("#") }
+    }.filter { it.startsWith(wildcard) }
         .zip(parameters)
         .fold(this) { text, pp ->
             text.replaceFirst(pp.first, pp.second)
