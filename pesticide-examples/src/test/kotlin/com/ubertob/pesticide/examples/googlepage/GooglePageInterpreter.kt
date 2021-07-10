@@ -1,5 +1,6 @@
 package com.ubertob.pesticide.examples.googlepage
 
+import com.codeborne.selenide.CollectionCondition.size
 import com.codeborne.selenide.Selenide.*
 import com.ubertob.pesticide.core.*
 import java.net.URL
@@ -39,7 +40,7 @@ class GooglePageInterpreter : DomainInterpreter<DdtProtocol> {
     }
 
     fun getSearchResults(): List<String> {
-        return `$$`(".r").shouldHaveSize(10).map { it.text() }
+        return `$$`(".r").shouldHave(size(10)).map { it.text() }
     }
 
 }

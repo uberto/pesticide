@@ -11,14 +11,14 @@ import com.ubertob.pesticide.examples.petshop.testing.allPetShopInterpreters
 
 class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpreters) {
 
-    val mary by NamedUser(::PetBuyer)
-    val bert by NamedUser(::PetBuyer)
+    val mary by NamedActor(::PetBuyer)
+    val bert by NamedActor(::PetBuyer)
 
-    val adam by NamedUser(::ShopAssistant)
+    val adam by NamedActor(::ShopAssistant)
 
 
     @DDT
-    fun `mary buys a lamb`() = useCase {
+    fun `mary buys a lamb`() = ddtScenario {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
         setUp {
@@ -33,7 +33,7 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     }
 
     @DDT
-    fun `mary buys a lamb and bert buys a hamster`() = useCase {
+    fun `mary buys a lamb and bert buys a hamster`() = ddtScenario {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
         setUp {
@@ -48,7 +48,7 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
     }
 
     @DDT
-    fun `shop assistance check the pets`() = useCase {
+    fun `shop assistance check the pets`() = ddtScenario {
         val parrot = Pet("parrot", 100)
         val bunny = Pet("bunny", 70)
         setUp {
@@ -61,7 +61,7 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
 
     //check that cannot add to cart after checkout
     @DDT
-    fun `mary cannot put another pet in the cart after she checked out`() = useCase {
+    fun `mary cannot put another pet in the cart after she checked out`() = ddtScenario {
         val lamb = Pet("lamb", 64)
         val hamster = Pet("hamster", 12)
         setUp {
@@ -75,7 +75,7 @@ class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpret
 
     //exercise for workshop
     @DDT
-    fun `Bert cannot buy same pet twice in the cart`() = useCase {
+    fun `Bert cannot buy same pet twice in the cart`() = ddtScenario {
         val parrot = Pet("parrot", 100)
         val bunny = Pet("bunny", 70)
         setUp {

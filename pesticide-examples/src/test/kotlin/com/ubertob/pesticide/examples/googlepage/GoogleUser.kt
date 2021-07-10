@@ -1,10 +1,10 @@
 package com.ubertob.pesticide.examples.googlepage
 
-import com.ubertob.pesticide.core.DdtUser
+import com.ubertob.pesticide.core.DdtActor
 import strikt.api.expectThat
 import strikt.assertions.isGreaterThanOrEqualTo
 
-data class GoogleUser(override val name: String) : DdtUser<GooglePageInterpreter>() {
+data class GoogleUser(override val name: String) : DdtActor<GooglePageInterpreter>() {
     fun `search for #`(searchText: String) = step(searchText) {
         queryGoogle(searchText)
     }

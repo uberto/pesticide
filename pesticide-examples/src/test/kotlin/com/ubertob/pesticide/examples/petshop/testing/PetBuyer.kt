@@ -1,6 +1,6 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
-import com.ubertob.pesticide.core.DdtUserWithContext
+import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import org.junit.jupiter.api.Assertions.fail
 import strikt.api.expectThat
@@ -11,7 +11,7 @@ import strikt.assertions.isNull
 
 typealias CartId = Int
 
-data class PetBuyer(override val name: String) : DdtUserWithContext<PetShopInterpreter, CartId>() {
+data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInterpreter, CartId>() {
 
     fun `check that the price of #pet is #price`(pet: String, price: Int) =
         step(pet, price) {

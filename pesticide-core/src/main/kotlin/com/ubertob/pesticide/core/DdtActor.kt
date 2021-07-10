@@ -2,19 +2,15 @@ package com.ubertob.pesticide.core
 
 import java.util.function.Consumer
 
-typealias DdtActor<A> = DdtUser<A> //for retro-compatibility
-typealias DdtActorWithContext<A, C> = DdtUserWithContext<A, C> //for retro-compatibility
-
-
 /**
- * DdtUser is the base class to inherit from if we don't need a context.
+ * DdtActor is the base class to inherit from if we don't need a context.
  *
- * see  {@link DdtUserWithContext} if you need a context
+ * see  {@link DdtActorWithContext} if you need a context
  *
- * users are generally created with the NamedUser delegate in the DomainDrivenTest
+ * users are generally created with the NamedActor delegate in the DomainDrivenTest
  *
  */
-abstract class DdtUser<ACTIONS : DdtActions<*>> : DdtUserWithContext<ACTIONS, Unit>() {
+abstract class DdtActor<ACTIONS : DdtActions<*>> : DdtActorWithContext<ACTIONS, Unit>() {
 
     @JvmName("stepWithDesc")
     fun stepWithDescJava(
@@ -30,7 +26,7 @@ abstract class DdtUser<ACTIONS : DdtActions<*>> : DdtUserWithContext<ACTIONS, Un
 typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
 
 /**
- * DdtUserWithContext is the base class to inherit from we need a context to store and retrieve information during our tests.
+ * DdtActorWithContext is the base class to inherit from we need a context to store and retrieve information during our tests.
  *
  * An User should have a list of methods calling step in order to be used inside a DDT.
  *
@@ -38,10 +34,10 @@ typealias StepBlock<D, C> = D.(StepContext<C>) -> Unit
  *     fun `eating $ now`(foodName: String) = step(foodName){ ... }
  * </pre>
  *
- * see  {@link DdtUser} if you don't need a context
+ * see  {@link DdtActor} if you don't need a context
  *
  */
-abstract class DdtUserWithContext<ACTIONS : DdtActions<*>, CTX : Any> {
+abstract class DdtActorWithContext<ACTIONS : DdtActions<*>, CTX : Any> {
 
     abstract val name: String
 

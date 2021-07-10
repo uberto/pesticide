@@ -4,7 +4,7 @@ data class DdtSetup<D : DdtActions<*>>(private val block: StepBlock<D, Unit>? = 
 
     fun asStep() =
         if (block != null)
-            DdtStep("settings", "Setting up the UseCase", block)
+            DdtStep("settings", "Setting up the scenario", block)
         else
             DdtStep("settings", "No SetUp", {})
 

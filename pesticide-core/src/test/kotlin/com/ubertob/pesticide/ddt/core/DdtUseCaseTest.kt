@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.opentest4j.AssertionFailedError
 
 
-class DdtUseCaseTest {
+class DdtScenarioTest {
 
     interface MiniInterpreter : DomainInterpreter<DdtProtocol> {
         fun ask(): Boolean
@@ -29,7 +29,7 @@ class DdtUseCaseTest {
         override fun ask(): Boolean = true
     }
 
-    data class TestUser(override val name: String) : DdtUser<MiniInterpreter>()
+    data class TestUser(override val name: String) : DdtActor<MiniInterpreter>()
 
     var step1run = false
     var step2run = false
@@ -42,12 +42,12 @@ class DdtUseCaseTest {
     val step2 = DdtStep<MiniInterpreter, Unit>(user.name, "step2") {
         step2run = true
     }
-    val useCase = DdtUseCase(DdtSetup(), listOf(step1, step2))
+    val useCase = DdtScenario(DdtSetup(), listOf(step1, step2))
 
     @Test
     fun `DDT skips all steps after the first failure`() {
 
-        runUseCase(useCase(MiniInterpreterFalse))
+        runScenario(useCase(MiniInterpreterFalse))
 
         assertTrue(step1run)
         assertFalse(step2run)
@@ -56,18 +56,18 @@ class DdtUseCaseTest {
 
     @Test
     fun `new protocol will run tests even if the previous one failed`() {
-        runUseCase(useCase(MiniInterpreterFalse))
+        runScenario(useCase(MiniInterpreterFalse))
         assertTrue(step1run)
         assertFalse(step2run)
 
-        runUseCase(useCase(MiniInterpreterTrue))
+        runScenario(useCase(MiniInterpreterTrue))
         assertTrue(step1run)
         assertTrue(step2run)
     }
 
-    private fun runUseCase(useCase: DynamicContainer) {
+    private fun runScenario(scenario: DynamicContainer) {
         try {
-            useCase.children.forEach { (it as DynamicTest).executable.execute() }
+            scenario.children.forEach { (it as DynamicTest).executable.execute() }
         } catch (e: AssertionFailedError) {
 
         }

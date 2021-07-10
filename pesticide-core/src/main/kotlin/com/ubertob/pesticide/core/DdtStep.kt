@@ -6,7 +6,7 @@ import java.net.URI
 /**
  * DdtStep is the class that should drive the {@link DdtActions} and keep the Domain level assertions for all the {@link DdtProtocols}
  *
- * see {@link DdtUserWithContext} and {@link StepContext}
+ * see {@link DdtActorWithContext} and {@link StepContext}
  *
  */
 data class DdtStep<in D : DdtActions<*>, C : Any>(

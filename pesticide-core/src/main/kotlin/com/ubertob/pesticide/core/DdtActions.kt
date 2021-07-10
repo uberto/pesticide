@@ -9,7 +9,7 @@ package com.ubertob.pesticide.core
  * It should not contain domain related assertions, those should be used only inside the Steps.
  * It can contain assertions related to technical layers of the specific protocols.
  *
- * see also {@link DdtProtocol} and {@link DdtUserWithContext}
+ * see also {@link DdtProtocol} and {@link DdtActorWithContext}
  *
  */
 

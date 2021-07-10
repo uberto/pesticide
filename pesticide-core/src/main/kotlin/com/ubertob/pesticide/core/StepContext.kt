@@ -16,7 +16,7 @@ package com.ubertob.pesticide.core
  *     }
  * </pre>
  *
- * see also {@link DdtUserWithContext} and {@link DdtStep}
+ * see also {@link DdtActorWithContext} and {@link DdtStep}
  *
  */
 
@@ -34,7 +34,7 @@ data class StepContext<C : Any>(val userName: String, private val contextStore: 
      *
      * allow to retrieve information from the context of another user and store it in the current context.
      */
-    fun <K : Any> getFrom(anotherUser: DdtUserWithContext<*, K>, block: (K) -> C) =
+    fun <K : Any> getFrom(anotherUser: DdtActorWithContext<*, K>, block: (K) -> C) =
         (contextStore.get(anotherUser.name) as? K)
             ?.let(block)
             ?.let { contextStore.store(userName, it) }

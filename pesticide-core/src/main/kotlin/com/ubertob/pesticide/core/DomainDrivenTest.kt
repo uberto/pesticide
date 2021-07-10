@@ -21,10 +21,10 @@ typealias DDT = TestFactory
  * <pre>
  *    class MyDDT : DomainDrivenTest<MyActions>(actionsForAllProtocols()) {
  *
- *   val adam by NamedUser(::MyAUser)
+ *   val adam by NamedActor(::MyAUser)
  *
  *   @DDT
- *   fun `do something`() = useCase {
+ *   fun `do something`() = ddtScenario {
  *       setup {
  *         preparation()
  *       }.thenPlay(
@@ -40,19 +40,19 @@ typealias DDT = TestFactory
 
 abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable<D>) {
 
-    fun play(vararg stepsArray: DdtStep<D, *>): DdtUseCase<D> =
-        DdtUseCase(withoutSetting, stepsArray.toList())
+    fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
+        DdtScenario(withoutSetting, stepsArray.toList())
 
     /**
      * wip
      *
      * Mark a test as Work In Progress until a given date. It's possible to specify that some protocols are not in WIP (that is the test should work)
      */
-    fun DdtUseCase<D>.wip(
+    fun DdtScenario<D>.wip(
         dueDate: LocalDate,
         reason: String = "Work In Progress",
         except: Set<KClass<out DdtProtocol>> = emptySet()
-    ): DdtUseCase<D> =
+    ): DdtScenario<D> =
         this.copy(wipData = WipData(dueDate, except, reason))
 
     /**
@@ -63,7 +63,7 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
      *
      *  <pre>
      *   @DDT
-     *   fun `do something`() = useCase { protocol ->
+     *   fun `do something`() = ddtScenario { protocol ->
      *
      *       val secret = getCredentials(protocol)
      *
@@ -77,18 +77,14 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
      *
      * </pre>
      */
-    fun useCase(
-        useCaseBuilder: (DdtProtocol) -> DdtUseCase<D>
+
+
+    fun ddtScenario(
+        scenarioBuilder: (DdtProtocol) -> DdtScenario<D>
     ): Stream<DynamicContainer> =
-        domains.map { useCaseBuilder(it.protocol)(it) }
+        domains.map { scenarioBuilder(it.protocol)(it) }
             .ifEmpty { fail("No protocols selected!") }
             .stream()
-
-    //for retro-compatibility
-    fun ddtScenario(
-        useCaseBuilder: (DdtProtocol) -> DdtUseCase<D>
-    ): Stream<DynamicContainer> = useCase(useCaseBuilder)
-
 
     @JvmField
     val withoutSetting: DdtSetup<D> =
@@ -105,20 +101,20 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
             block(this)
         }
 
-    fun DdtSetup<D>.thenPlay(vararg stepsArray: DdtStep<D, *>): DdtUseCase<D> =
-        DdtUseCase(this, stepsArray.toList())
+    fun DdtSetup<D>.thenPlay(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
+        DdtScenario(this, stepsArray.toList())
 
     //useful for Java
     fun onSetUp(block: Consumer<D>): DdtSetup<D> = setUp { block.accept(this) }
 
-    infix fun DdtSetup<D>.atRise(steps: DdtUseCase<D>): DdtUseCase<D> =
+    infix fun DdtSetup<D>.atRise(steps: DdtScenario<D>): DdtScenario<D> =
         steps.copy(ddtSetup = this)
 
 
-    class NamedUser<D : DdtActions<*>, A : DdtUserWithContext<in D, *>>(val userConstructor: (String) -> A) :
+    class NamedActor<D : DdtActions<*>, A : DdtActorWithContext<in D, *>>(val userConstructor: (String) -> A) :
         ReadOnlyProperty<DomainDrivenTest<D>, A> {
         override operator fun getValue(thisRef: DomainDrivenTest<D>, property: KProperty<*>): A =
-            userConstructor(property.name.capitalize())
+            userConstructor(property.name.replaceFirstChar { it.titlecase() })
     }
 
 }

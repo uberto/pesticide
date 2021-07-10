@@ -10,10 +10,10 @@ class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
     )
 ) {
 
-    val googleUser by NamedUser(::GoogleUser)
+    val googleUser by NamedActor(::GoogleUser)
 
     @DDT
-    fun `user can search for a word`() = useCase {
+    fun `user can search for a word`() = ddtScenario {
 
         play(
 

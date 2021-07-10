@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 
 /**
  * WipData is the class to keep together the information for WorkInProgress test.
- * Normally it shouldn't be created directly but using the {@code wip()} extension of the UseCase inside the DDT.
+ * Normally it shouldn't be created directly but using the {@code wip()} extension of the DdtScenario inside the DDT.
  *
  * See also {@link DdtScenario} and {@link DomainDrivenTest}
  */
