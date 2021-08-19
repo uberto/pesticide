@@ -7,7 +7,7 @@ import java.time.LocalDate
 import kotlin.random.Random
 
 
-class CalculatorDDT : DomainDrivenTest<CalculatorInterpreter>(allCalculatorInterpreters()) {
+class CalculatorDDT : DomainDrivenTest<CalculatorActions>(allCalculatorActionss()) {
 
     val bart by NamedActor(::Student)
 

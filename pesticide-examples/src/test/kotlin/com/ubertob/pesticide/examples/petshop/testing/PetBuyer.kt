@@ -11,7 +11,7 @@ import strikt.assertions.isNull
 
 typealias CartId = Int
 
-data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopInterpreter, CartId>() {
+data class PetBuyer(override val name: String) : DdtActorWithContext<PetShopActions, CartId>() {
 
     fun `check that the price of #pet is #price`(pet: String, price: Int) =
         step(pet, price) {

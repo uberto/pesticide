@@ -6,7 +6,7 @@ import com.ubertob.pesticide.core.*
 import java.net.URL
 
 
-class GooglePageInterpreter : DomainInterpreter<DdtProtocol> {
+class GooglePageActions : DomainActions<DdtProtocol> {
     override val protocol: DdtProtocol =
         HtmlUIUsingJS("web")
 

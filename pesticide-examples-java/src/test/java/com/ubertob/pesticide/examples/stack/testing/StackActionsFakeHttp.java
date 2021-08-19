@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Stack;
 
-public class StackInterpreterFakeHttp implements StackInterpreter {
+public class StackActionsFakeHttp implements StackActions {
 
     Stack<Integer> stack = new Stack<>(); //a call to a http server
 

@@ -1,18 +1,18 @@
 package com.ubertob.pesticide.examples.petshop.testing
 
 import com.ubertob.pesticide.core.DdtProtocol
-import com.ubertob.pesticide.core.DomainInterpreter
+import com.ubertob.pesticide.core.DomainActions
 import com.ubertob.pesticide.examples.petshop.model.Cart
 import com.ubertob.pesticide.examples.petshop.model.Pet
 
-interface PetShopCrossInterpreter : PetShopInterpreter, PetShopSAInterpreter
+interface PetShopCrossActions : PetShopActions, PetShopSAActions
 
 //to show
-interface PetShopSAInterpreter : DomainInterpreter<DdtProtocol> {
+interface PetShopSAActions : DomainActions<DdtProtocol> {
     fun askPetList(): List<String>?
 }
 
-interface PetShopInterpreter : DomainInterpreter<DdtProtocol> {
+interface PetShopActions : DomainActions<DdtProtocol> {
 
     fun populateShop(vararg pets: Pet)
     fun askPetPrice(petName: String): Int?
@@ -24,7 +24,7 @@ interface PetShopInterpreter : DomainInterpreter<DdtProtocol> {
     fun checkOut(cartId: CartId)
 }
 
-val allPetShopInterpreters = setOf(
+val allPetShopActionss = setOf(
     DomainOnlyPetShop(),
     HttpRestPetshop("localhost", 8082)
 )

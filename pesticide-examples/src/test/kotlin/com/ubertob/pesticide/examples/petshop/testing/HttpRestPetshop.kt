@@ -27,7 +27,7 @@ import org.http4k.server.asServer
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, PetShopCrossInterpreter {
+class HttpRestPetshop(val host: String, val port: Int) : PetShopActions, PetShopCrossActions {
 
     override val protocol = Http("$host:$port")
 

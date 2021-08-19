@@ -7,17 +7,17 @@ import com.ubertob.pesticide.core.DdtProtocol;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface StackInterpreter extends DdtActions<DdtProtocol> {
+public interface StackActions extends DdtActions<DdtProtocol> {
     void pushNumber(int num);
 
     int popNumber();
 
     int size();
 
-    static Iterable<StackInterpreter> allProtocols() {
-        List<StackInterpreter> domains = new ArrayList<>();
-        domains.add(new StackInterpreterFakeHttp());
-        domains.add(new StackInterpreterInMemory());
+    static Iterable<StackActions> allProtocols() {
+        List<StackActions> domains = new ArrayList<>();
+        domains.add(new StackActionsFakeHttp());
+        domains.add(new StackActionsInMemory());
         return domains;
     }
 }

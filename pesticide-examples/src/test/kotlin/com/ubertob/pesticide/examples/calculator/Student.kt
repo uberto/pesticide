@@ -5,7 +5,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isGreaterThan
 
-data class Student(override val name: String) : DdtActor<CalculatorInterpreter>() {
+data class Student(override val name: String) : DdtActor<CalculatorActions>() {
 
     fun `adds number #`(num: Int) = step(num) { addNumber(num) }
 

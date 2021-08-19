@@ -4,7 +4,7 @@ import com.ubertob.pesticide.core.*;
 import com.ubertob.pesticide.examples.stack.MyStack;
 import org.jetbrains.annotations.NotNull;
 
-public class StackInterpreterInMemory implements StackInterpreter {
+public class StackActionsInMemory implements StackActions {
 
     MyStack<Integer> stack = new MyStack<Integer>();
 

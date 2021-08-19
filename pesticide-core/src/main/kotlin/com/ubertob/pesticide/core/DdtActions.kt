@@ -13,7 +13,7 @@ package com.ubertob.pesticide.core
  *
  */
 
-typealias DomainInterpreter<P> = DdtActions<P>
+typealias DomainActions<P> = DdtActions<P>
 
 
 interface DdtActions<out P : DdtProtocol> {

@@ -6,7 +6,7 @@ import strikt.api.expectThat
 import strikt.assertions.contains
 import strikt.assertions.isNotNull
 
-data class ShopAssistant(override val name: String) : DdtActor<PetShopSAInterpreter>() {
+data class ShopAssistant(override val name: String) : DdtActor<PetShopSAActions>() {
 
     fun `check that # is in the shop`(pet: Pet) = step(pet.name) {
         val pets = askPetList()

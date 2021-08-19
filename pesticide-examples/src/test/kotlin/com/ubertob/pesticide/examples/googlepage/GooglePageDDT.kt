@@ -4,9 +4,9 @@ import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
 import java.time.LocalDate
 
-class GooglePageDDT : DomainDrivenTest<GooglePageInterpreter>(
+class GooglePageDDT : DomainDrivenTest<GooglePageActions>(
     setOf(
-        GooglePageInterpreter()
+        GooglePageActions()
     )
 ) {
 

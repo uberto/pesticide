@@ -4,12 +4,12 @@ import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
 import com.ubertob.pesticide.examples.petshop.model.Pet
 import com.ubertob.pesticide.examples.petshop.testing.PetBuyer
-import com.ubertob.pesticide.examples.petshop.testing.PetShopCrossInterpreter
+import com.ubertob.pesticide.examples.petshop.testing.PetShopCrossActions
 import com.ubertob.pesticide.examples.petshop.testing.ShopAssistant
-import com.ubertob.pesticide.examples.petshop.testing.allPetShopInterpreters
+import com.ubertob.pesticide.examples.petshop.testing.allPetShopActionss
 
 
-class PetShopDDT : DomainDrivenTest<PetShopCrossInterpreter>(allPetShopInterpreters) {
+class PetShopDDT : DomainDrivenTest<PetShopCrossActions>(allPetShopActionss) {
 
     val mary by NamedActor(::PetBuyer)
     val bert by NamedActor(::PetBuyer)

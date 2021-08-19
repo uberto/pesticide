@@ -2,7 +2,7 @@ package com.ubertob.pesticide.examples.fables
 
 import com.ubertob.pesticide.core.*
 
-class FablesInterpreter : DomainInterpreter<DdtProtocol> {
+class FablesActions : DomainActions<DdtProtocol> {
     override val protocol: DdtProtocol =
         DomainOnly
 
@@ -16,7 +16,7 @@ class FablesInterpreter : DomainInterpreter<DdtProtocol> {
     override fun prepare(): DomainSetUp =
         Ready
 
-    fun aGrandMaLivingAloneIntoTheForest(): FablesInterpreter =
+    fun aGrandMaLivingAloneIntoTheForest(): FablesActions =
         apply {
             grandMaLocation = Location.grandMaHouse
         }

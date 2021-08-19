@@ -11,35 +11,35 @@ import org.opentest4j.AssertionFailedError
 
 class DdtScenarioTest {
 
-    interface MiniInterpreter : DomainInterpreter<DdtProtocol> {
+    interface MiniActions : DomainActions<DdtProtocol> {
         fun ask(): Boolean
     }
 
-    object MiniInterpreterFalse : MiniInterpreter {
+    object MiniActionsFalse : MiniActions {
         override val protocol = DomainOnly
         override fun prepare() = Ready
 
         override fun ask(): Boolean = false
     }
 
-    object MiniInterpreterTrue : MiniInterpreter {
+    object MiniActionsTrue : MiniActions {
         override val protocol = DomainOnly
         override fun prepare() = Ready
 
         override fun ask(): Boolean = true
     }
 
-    data class TestUser(override val name: String) : DdtActor<MiniInterpreter>()
+    data class TestUser(override val name: String) : DdtActor<MiniActions>()
 
     var step1run = false
     var step2run = false
 
     val user = TestUser("frank")
-    val step1 = DdtStep<MiniInterpreter, Unit>(user.name, "step1") {
+    val step1 = DdtStep<MiniActions, Unit>(user.name, "step1") {
         step1run = true
         assertTrue(ask())
     }
-    val step2 = DdtStep<MiniInterpreter, Unit>(user.name, "step2") {
+    val step2 = DdtStep<MiniActions, Unit>(user.name, "step2") {
         step2run = true
     }
     val useCase = DdtScenario(DdtSetup(), listOf(step1, step2))
@@ -47,7 +47,7 @@ class DdtScenarioTest {
     @Test
     fun `DDT skips all steps after the first failure`() {
 
-        runScenario(useCase(MiniInterpreterFalse))
+        runScenario(useCase(MiniActionsFalse))
 
         assertTrue(step1run)
         assertFalse(step2run)
@@ -56,11 +56,11 @@ class DdtScenarioTest {
 
     @Test
     fun `new protocol will run tests even if the previous one failed`() {
-        runScenario(useCase(MiniInterpreterFalse))
+        runScenario(useCase(MiniActionsFalse))
         assertTrue(step1run)
         assertFalse(step2run)
 
-        runScenario(useCase(MiniInterpreterTrue))
+        runScenario(useCase(MiniActionsTrue))
         assertTrue(step1run)
         assertTrue(step2run)
     }
