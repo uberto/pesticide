@@ -31,13 +31,12 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
 
     override val protocol = Http("$host:$port")
 
-    var started = false
+    private val server = PetShopHandler(PetShopHub()).asServer(Jetty(port))
 
     override fun prepare(): DomainSetUp = try {
-        if (host == "localhost" && !started) {
-            started = true
+        if (host == "localhost") {
             println("Pets example started listening on port $port")
-            val server = PetShopHandler(PetShopHub()).asServer(Jetty(port)).start()
+            server.start()
             registerShutdownHook {
                 server.stop()
             }
@@ -45,6 +44,12 @@ class HttpRestPetshop(val host: String, val port: Int) : PetShopInterpreter, Pet
         Ready
     } catch (t: Throwable) {
         NotReady(t.toString())
+    }
+
+    override fun tearDown(): HttpRestPetshop {
+        server.stop()
+        println("Pets example server stopped")
+        return this
     }
 
     private fun registerShutdownHook(hookToExecute: () -> Unit) {

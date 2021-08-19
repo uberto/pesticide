@@ -1,5 +1,6 @@
 package com.ubertob.pesticide.core
 
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DynamicContainer
 import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.fail
@@ -38,7 +39,7 @@ typealias DDT = TestFactory
  * See also {@link DdtScenario}
  */
 
-abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable<D>) {
+abstract class DomainDrivenTest<D : DdtActions<*>>(private val actionsSet: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
         DdtScenario(withoutSetting, stepsArray.toList())
@@ -78,18 +79,24 @@ abstract class DomainDrivenTest<D : DdtActions<*>>(private val domains: Iterable
      * </pre>
      */
 
-
     fun ddtScenario(
         scenarioBuilder: (DdtProtocol) -> DdtScenario<D>
     ): Stream<DynamicContainer> =
-        domains.map { scenarioBuilder(it.protocol)(it) }
+        actionsSet.map { actions -> scenarioBuilder(actions.protocol)(actions) }
             .ifEmpty { fail("No protocols selected!") }
             .stream()
 
+    @AfterEach
+    fun pullDownActions() {
+        actionsSet.onEach { it.tearDown() }
+    }
+
+    @Deprecated("Use play() directly")
     @JvmField
     val withoutSetting: DdtSetup<D> =
         DdtSetup()
 
+    @Deprecated("Use setUp() method instead")
     fun setting(block: D.() -> Unit): DdtSetup<D> =
         DdtSetup {
             block(this)

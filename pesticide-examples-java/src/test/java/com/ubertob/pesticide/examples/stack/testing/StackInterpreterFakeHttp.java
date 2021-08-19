@@ -1,9 +1,6 @@
 package com.ubertob.pesticide.examples.stack.testing;
 
-import com.ubertob.pesticide.core.DdtProtocol;
-import com.ubertob.pesticide.core.DomainSetUp;
-import com.ubertob.pesticide.core.Http;
-import com.ubertob.pesticide.core.Ready;
+import com.ubertob.pesticide.core.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Stack;
@@ -36,5 +33,10 @@ public class StackInterpreterFakeHttp implements StackInterpreter {
     @Override
     public DomainSetUp prepare() {
         return Ready.INSTANCE; //it should check the rest server is up
+    }
+
+    @Override
+    public DdtActions<DdtProtocol> tearDown() {
+        return this; //it should stop anything that it started
     }
 }

@@ -22,6 +22,8 @@ interface DdtActions<out P : DdtProtocol> {
 
     fun prepare(): DomainSetUp
 
+    fun tearDown(): DdtActions<P> = this
+
 }
 
 
