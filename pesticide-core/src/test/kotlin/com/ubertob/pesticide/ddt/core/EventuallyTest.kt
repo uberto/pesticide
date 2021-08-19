@@ -25,7 +25,6 @@ class EventuallyTest {
         expectThat(timeoutException?.message).isNotNull().contains("is equal to 2")
         expectThat(c.elapsedMillis()).isGreaterThan(100)
 
-
     }
 
     @Test
