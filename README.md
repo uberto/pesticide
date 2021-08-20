@@ -43,14 +43,14 @@ Maven
 <dependency>
   <groupId>com.ubertob.pesticide</groupId>
   <artifactId>pesticide-core</artifactId>
-  <version>1.6.3</version>
+  <version>1.6.4</version>
 </dependency>
 ```
 
 Gradle
 
 ```
-testImplementation 'com.ubertob.pesticide:pesticide-core:1.6.3'
+testImplementation 'com.ubertob.pesticide:pesticide-core:1.6.4'
 ```
 
 ## FAQ

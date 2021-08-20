@@ -5,7 +5,7 @@ plugins {
 allprojects {
 
     group 'com.ubertob.pesticide'
-    version '1.6.3'
+    version '1.6.4'
 
     repositories {
         mavenCentral()
@@ -23,5 +23,11 @@ subprojects {
             jvmTarget = "1.8"
 //            freeCompilerArgs = ['-Xjvm-default=all']
         }
+    }
+}
+
+task printVersion {
+    doLast {
+        println project.version
     }
 }
