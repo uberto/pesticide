@@ -43,7 +43,7 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
 
         val pathpesticide = "classpath:/${type.`package`.name.replace(".", "/")}/$fileName"
 
-        return URI("$pathpesticide&line=$lineNumber").also { println(it) }
+        return URI("$pathpesticide&line=$lineNumber")
 
     }
 
