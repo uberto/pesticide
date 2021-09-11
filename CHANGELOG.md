@@ -3,6 +3,10 @@
 This list is not currently intended to be all-encompassing - it will document major and breaking API changes with their
 rationale when appropriate:
 
+### v1.6.5 - 11 Sep 2021
+
+- IntelliJ doesn't work with classpath as line source anymore. Reverted to using file path
+
 ### v1.6.4 - 19 Aug 2021
 
 - added tearDown method to DdtActions.

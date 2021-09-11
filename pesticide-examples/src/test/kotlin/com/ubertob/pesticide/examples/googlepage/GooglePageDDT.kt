@@ -21,6 +21,6 @@ class GooglePageDDT : DomainDrivenTest<GooglePageActions>(
 
             googleUser.`can see #keyword among results`("uberto")
 
-        ).wip(LocalDate.of(2021, 12, 31), "Google Cookies popup")
+        ).wip(LocalDate.of(2100, 12, 31), "Google Cookies popup")
     }
 }

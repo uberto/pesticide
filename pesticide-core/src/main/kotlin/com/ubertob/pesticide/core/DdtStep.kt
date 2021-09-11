@@ -1,5 +1,6 @@
 package com.ubertob.pesticide.core
 
+import java.io.File
 import java.net.URI
 
 
@@ -15,13 +16,14 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
     val action: StepBlock<D, C>
 ) {
 
-    val stackTraceElement = run {
-        Thread.currentThread().stackTrace[5]//TODO can we guess better the DDT file from the stacktrace?
+    val stepSourceLine = run {
+        val stackTrace = Thread.currentThread().stackTrace
+        stackTrace[5]
     }
 
     fun testSourceURI(): URI? =
         try {
-            stackTraceElement?.toSourceReference()
+            stepSourceLine?.toSourceReference()
         } catch (t: Throwable) {
             println("Error while trying to get the source line: $t")
             null
@@ -29,21 +31,41 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
 
     fun testSourceString(): String =
         try {
-            stackTraceElement?.toSource().orEmpty()
+            stepSourceLine?.toSource().orEmpty()
         } catch (t: Throwable) {
             "Error while trying to get the source line: $t"
         }
 
     fun StackTraceElement.toSource(): String = "${testClass(className)}:$lineNumber"
 
+    private val sourceRoot = listOf(
+        File("src/test/kotlin"),
+        File("src/test/java")
+    ).find { it.isDirectory } ?: File(".")  //TODO make sure it works for others as well
+
+
     fun StackTraceElement.toSourceReference(): URI? {
 
-        val fileName = fileName ?: return null
         val type = testClass(className)
+        val fileName = fileName ?: return null
 
-        val pathpesticide = "classpath:/${type.`package`.name.replace(".", "/")}/$fileName"
-
-        return URI("$pathpesticide&line=$lineNumber")
+        val uri = sourceRoot
+            .toPath()
+            .resolve(type.`package`.name.replace(".", "/"))
+            .resolve(fileName)
+            .toFile().toURI()
+            .let { fileUri ->
+                URI(
+                    fileUri.scheme,
+                    fileUri.userInfo,
+                    fileUri.host,
+                    fileUri.port,
+                    "//" + fileUri.path,
+                    "line=$lineNumber",
+                    fileUri.fragment
+                )
+            }
+        return uri
 
     }
 
