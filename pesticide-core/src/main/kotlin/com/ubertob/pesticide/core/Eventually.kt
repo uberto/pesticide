@@ -5,9 +5,12 @@ import java.time.Duration
 
 
 //Note expectation should be an operation that takes less then the within duration
-inline fun <T> eventually(within: Duration, expectation: () -> T): T {
+inline fun <T> eventually(within: Duration, expectation: () -> T): T =
+    eventually(within, ::increasing, expectation)
 
-    val intervals: Iterator<Long> = fibonacci().iterator()
+inline fun <T> eventually(within: Duration, increasingFn: () -> Sequence<Long>, expectation: () -> T): T {
+
+    val intervals: Iterator<Long> = increasingFn().iterator()
     val chrono = Chrono()
     while (true) {
         try {
@@ -20,7 +23,13 @@ inline fun <T> eventually(within: Duration, expectation: () -> T): T {
     }
 }
 
-fun fibonacci(): Sequence<Long> = generateSequence(1L to 1L, { it.second to (it.second + it.first) }).map { it.first }
+fun increasing(): Sequence<Long> = generateSequence(5L)
+{ x ->
+    if (x >= 1000)
+        1000L
+    else
+        Math.ceil(x * 1.4).toLong()
+}
 
 
 data class Chrono(val startedMillis: Long = System.currentTimeMillis(), val clock: Clock = Clock.systemUTC()) {

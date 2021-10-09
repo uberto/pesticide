@@ -2,6 +2,7 @@ package com.ubertob.pesticide.ddt.core
 
 import com.ubertob.pesticide.core.Chrono
 import com.ubertob.pesticide.core.eventually
+import com.ubertob.pesticide.core.increasing
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.*
@@ -9,6 +10,15 @@ import java.time.Duration
 import java.util.concurrent.atomic.AtomicInteger
 
 class EventuallyTest {
+
+    @Test
+    fun `increasing function`() {
+        val seq = increasing().take(20).toList()
+
+        expectThat(seq).isEqualTo(
+            listOf(5, 7, 10, 14, 20, 28, 40, 56, 79, 111, 156, 219, 307, 430, 602, 843, 1181, 1000, 1000, 1000)
+        )
+    }
 
     @Test
     fun `eventually fails if the condition is not met`() {
