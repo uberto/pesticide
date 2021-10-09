@@ -4,17 +4,24 @@
 
 A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java projects as well).
 
-I wrote a blog post about DDT and Pesticide:
-[Here](https://medium.com/javarevisited/beyond-traditional-acceptance-tests-79cbcee63eda)
+For the full story about DDT and Pesticide, read
+this [blog post](https://medium.com/javarevisited/beyond-traditional-acceptance-tests-79cbcee63eda).
 
-My presentation about Pesticide:
+Also my
+book [![From Objects to Functions](https://pragprog.com/titles/uboop/from-objects-to-functions/uboop.jpg)](https://pragprog.com/titles/uboop/from-objects-to-functions/)
+is now out in Beta, I explain how to DDT and Pesticide in a real project there.
+
+If you prefer videos, this is my talk about Pesticide:
 [![Watch the video](https://secure.meetupstatic.com/photos/event/2/2/c/0/highres_490268896.jpeg)](https://youtu.be/cUNVTXf6LxY)
 
 ## TLDR; Short version
 
-The name come from the concern that acceptance tests should be written using business domain terms. DDT is also an apt name since they are quite efficient in killing bugs (like the pesticide)
+The name come from the concern that acceptance tests should be written using business domain terms. DDT is also an apt
+name since they are quite efficient in killing bugs (like the pesticide)
 
-The goal is to describe our stories as interactions between actors [see why here](https://www.infoq.com/presentations/pragmatic-personas/) and as an abstraction of our system. Using different system implementations we can reach these benefits:
+The goal is to describe our stories as interactions between
+actors [see why here](https://www.infoq.com/presentations/pragmatic-personas/) and as an abstraction of our system.
+Using different system implementations we can reach these benefits:
 
 - Test the functionality works both end-to-end and in the in-memory domain
 - Document the story using a language close to the business
