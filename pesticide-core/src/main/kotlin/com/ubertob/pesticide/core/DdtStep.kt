@@ -40,8 +40,10 @@ data class DdtStep<in D : DdtActions<*>, C : Any>(
 
     private val sourceRoot = listOf(
         File("src/test/kotlin"),
-        File("src/test/java")
-    ).find { it.isDirectory } ?: File(".")  //TODO make sure it works for others as well
+        File("src/test/java"),
+        File("src/main/kotlin"),
+        File("src/main/java")
+    ).firstOrNull() { it.isDirectory } ?: File(".")  //TODO make sure it works for others as well
 
 
     fun StackTraceElement.toSourceReference(): URI? {

@@ -42,7 +42,7 @@ typealias DDT = TestFactory
 abstract class DomainDrivenTest<D : DdtActions<*>>(private val actionsSet: Iterable<D>) {
 
     fun play(vararg stepsArray: DdtStep<D, *>): DdtScenario<D> =
-        DdtScenario(withoutSetting, stepsArray.toList())
+        DdtScenario(DdtSetup(), stepsArray.toList())
 
     /**
      * wip
