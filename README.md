@@ -7,9 +7,10 @@ A Library To Write Domain-Driven Tests, written in Kotlin (but it works in Java 
 For the full story about DDT and Pesticide, read
 this [blog post](https://medium.com/javarevisited/beyond-traditional-acceptance-tests-79cbcee63eda).
 
+If you are interested how to use DDT and Pesticide in a real project, and learning Functional Programming in the meanwhile, my book is now out in Beta:
+
 [![From Objects to Functions](https://pragprog.com/titles/uboop/from-objects-to-functions/uboop-beta-375.jpg)](https://pragprog.com/titles/uboop/from-objects-to-functions/)
 
-My book is now out in Beta, I explain how to DDT and Pesticide in a real project there.
 
 If you prefer videos, this is my talk about Pesticide:
 [![Watch the video](https://secure.meetupstatic.com/photos/event/2/2/c/0/highres_490268896.jpeg)](https://youtu.be/cUNVTXf6LxY)
