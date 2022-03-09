@@ -32,7 +32,7 @@ class CalculatorDDT : DomainDrivenTest<CalculatorActions>(allCalculatorActionss(
         }.thenPlay(
             bart.`adds number #`(64),
             bart.`adds number #`(31),
-            bart.`adds number #`(33),
+            bart.`adds number #`(34),
             bart.`verifies the total is #`(256)
         )
     }

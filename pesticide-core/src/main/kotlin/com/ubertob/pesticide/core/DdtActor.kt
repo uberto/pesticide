@@ -41,13 +41,13 @@ abstract class DdtActorWithContext<ACTIONS : DdtActions<*>, CTX : Any> {
 
     abstract val name: String
 
-    private fun getCurrentMethodName() =
+    private fun getCurrentMethodName(): String =
         Thread.currentThread().stackTrace[4].methodName //TODO needs a better way to find the exact stack trace...
 
-    internal fun generateStepName() =
+    private fun generateStepName() =
         "$name ${getCurrentMethodName()}" //TODO in case of camel notation or snake notation decode the method name
 
-    internal fun generateStepName(parameters: Array<out Any>) =
+    private fun generateStepName(parameters: Array<out Any>) =
         "$name ${getCurrentMethodName()}".replaceParams(parameters.map { it.toString() })
 
 
